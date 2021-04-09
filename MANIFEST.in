@@ -1,2 +1,4 @@
 include versioneer.py
 include datalad_deprecated/_version.py
+
+graft datalad_deprecated/resources

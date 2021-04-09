@@ -88,6 +88,14 @@ matrix:
     - KNOWN2FAIL: 1
 
 
+# tests need specific hostnames to be available
+# note, this is insufficient on MacOS, and needs to be reflected
+# in the SSH config too (tools/ci/appveyor_ssh_config)
+hosts:
+  datalad-test: 127.0.0.1
+  datalad-test2: 127.0.0.1
+
+
 # it is OK to specify paths that may not exist for a particular test run
 cache:
   # pip cache
@@ -131,11 +139,17 @@ init:
   - cmd: "set TMP=C:\\DLTMP"
   - cmd: "set TEMP=C:\\DLTMP"
   - sh: export TMPDIR=~/DLTMP
+  # Temporary keys for localhost access in default place
+  - cmd: ssh-keygen -f C:\Users\appveyor\.ssh\id_rsa -N ""
+  - sh: ssh-keygen -f ~/.ssh/id_rsa -N ""
 
 
 install:
   # place a debug setup helper at a convenient location
   - cmd: copy tools\ci\appveyor_env_setup.bat C:\\datalad_debug.bat
+  # deploy standard SSH config for localhost access on Windows
+  - cmd: tools\ci\appveyor_ssh2localhost.bat
+  - sh: sh tools/ci/appveyor_ssh2localhost.sh
   # If a particular Python version is requested, use env setup (using the
   # appveyor provided environments/installation). Note, these are broken
   # on the ubuntu images
@@ -174,6 +188,10 @@ build_script:
 
 
 before_test:
+  # test SSH login
+  - ssh -v localhost exit
+  - ssh datalad-test exit
+  - ssh datalad-test2 exit
   # simple call to see if datalad and git-annex are installed properly
   - datalad wtf
 
