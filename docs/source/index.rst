@@ -1,30 +1,27 @@
-DataLad extension template
-**************************
-
-This is a template for creating a `DataLad <http://datalad.org>`__ extension
-that equips DataLad with additional functionality.
-
+DataLad extension for functionality that was phased out of the core package
+***************************************************************************
 
 API
 ===
 
-High-level API commands
------------------------
+..
+  High-level API commands
+  -----------------------
 
-.. currentmodule:: datalad.api
-.. autosummary::
-   :toctree: generated
+  .. currentmodule:: datalad.api
+  .. autosummary::
+     :toctree: generated
 
-   hello_cmd
+     hello_cmd
 
 
-Command line reference
-----------------------
+  Command line reference
+  ----------------------
 
-.. toctree::
-   :maxdepth: 1
+  .. toctree::
+     :maxdepth: 1
 
-   generated/man/datalad-hello-cmd
+     generated/man/datalad-hello-cmd
 
 
 Indices and tables

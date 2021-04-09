@@ -1,8 +1,6 @@
 # DataLad extension template
 
-[![Build status](https://ci.appveyor.com/api/projects/status/ulbsyym6ih102gm2/branch/master?svg=true)](https://ci.appveyor.com/project/mih/datalad-deprecated/branch/master)
-
-[![codecov.io](https://codecov.io/github/datalad/datalad-deprecated/coverage.svg?branch=master)](https://codecov.io/github/datalad/datalad-deprecated?branch=master) [![crippled-filesystems](https://github.com/datalad/datalad-deprecated/workflows/crippled-filesystems/badge.svg)](https://github.com/datalad/datalad-deprecated/actions?query=workflow%3Acrippled-filesystems) [![docs](https://github.com/datalad/datalad-deprecated/workflows/docs/badge.svg)](https://github.com/datalad/datalad-deprecated/actions?query=workflow%3Adocs)
+[![Build status](https://ci.appveyor.com/api/projects/status/ulbsyym6ih102gm2/branch/master?svg=true)](https://ci.appveyor.com/project/mih/datalad-deprecated/branch/master) [![codecov.io](https://codecov.io/github/datalad/datalad-deprecated/coverage.svg?branch=master)](https://codecov.io/github/datalad/datalad-deprecated?branch=master) [![crippled-filesystems](https://github.com/datalad/datalad-deprecated/workflows/crippled-filesystems/badge.svg)](https://github.com/datalad/datalad-deprecated/actions?query=workflow%3Acrippled-filesystems) [![docs](https://github.com/datalad/datalad-deprecated/workflows/docs/badge.svg)](https://github.com/datalad/datalad-deprecated/actions?query=workflow%3Adocs)
 
 
 This repository contains an extension template that can serve as a starting point
