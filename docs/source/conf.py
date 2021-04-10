@@ -58,8 +58,9 @@ for setup_py_path in (opj(pardir, 'setup.py'),  # travis
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
+    # we don't have API to document ATM
+    #'sphinx.ext.autodoc',
+    #'sphinx.ext.autosummary',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
