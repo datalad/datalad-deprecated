@@ -26,7 +26,7 @@ from datalad.tests.utils import (
 from os.path import join as opj
 
 from datalad.distribution.dataset import Dataset
-from datalad.interface.ls_webui import (
+from datalad_deprecated.ls_webui import (
     machinesize,
     ignored,
     fs_traverse,

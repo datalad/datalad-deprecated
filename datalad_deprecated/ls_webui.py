@@ -22,7 +22,7 @@ from os.path import join as opj, relpath, \
 
 from datalad.consts import OLDMETADATA_DIR, OLDMETADATA_FILENAME
 from datalad.distribution.dataset import Dataset
-from datalad.interface.ls import FsModel, lgr, GitModel
+from datalad_deprecated.ls import FsModel, lgr, GitModel
 from datalad.support.network import is_datalad_compat_ri
 from datalad.utils import safe_print, with_pathsep
 from datalad.utils import Path

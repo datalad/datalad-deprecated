@@ -23,17 +23,17 @@ from os import lstat
 from urllib.request import urlopen, Request
 from urllib.error import HTTPError
 
-from ..utils import auto_repr
-from .base import Interface
+from datalad.utils import auto_repr
+from datalad.interface.base import Interface
 from datalad.interface.base import build_doc
-from ..ui import ui
-from ..utils import Path
-from ..utils import safe_print
-from ..dochelpers import exc_str
-from ..support.param import Parameter
-from ..support import ansi_colors
-from ..support.constraints import EnsureStr, EnsureNone
-from ..distribution.dataset import Dataset
+from datalad.ui import ui
+from datalad.utils import Path
+from datalad.utils import safe_print
+from datalad.dochelpers import exc_str
+from datalad.support.param import Parameter
+from datalad.support import ansi_colors
+from datalad.support.constraints import EnsureStr, EnsureNone
+from datalad.distribution.dataset import Dataset
 
 from datalad.support.annexrepo import AnnexRepo
 from datalad.support.annexrepo import GitRepo
@@ -119,7 +119,7 @@ class Ls(Interface):
     def __call__(loc, recursive=False, fast=False, all_=False, long_=False,
                  config_file=None, list_content=False, json=None):
         if json:
-            from datalad.interface.ls_webui import _ls_json
+            from datalad_deprecated.ls_webui import _ls_json
 
         if isinstance(loc, list) and not len(loc):
             # nothing given, CWD assumed -- just like regular ls
@@ -631,7 +631,7 @@ def _ls_s3(loc, fast=False, recursive=False, all_=False, long_=False,
                 continue
             ui.message(base_msg + " %%%dd" % max_size_length % e.size, cr=' ')
             # OPT: delayed import
-            from ..support.s3 import get_key_url
+            from datalad.support.s3 import get_key_url
             url = get_key_url(e, schema='http')
             try:
                 _ = urlopen(Request(url))
