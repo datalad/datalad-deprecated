@@ -24,7 +24,8 @@ from datalad.consts import OLDMETADATA_DIR, OLDMETADATA_FILENAME
 from datalad.distribution.dataset import Dataset
 from datalad_deprecated.ls import FsModel, lgr, GitModel
 from datalad.support.network import is_datalad_compat_ri
-from datalad.utils import safe_print, with_pathsep
+from datalad_deprecated.utils import safe_print
+from datalad.utils import with_pathsep
 from datalad.utils import Path
 
 # A string to use to depict unknown size of the annexed dataset, e.g.

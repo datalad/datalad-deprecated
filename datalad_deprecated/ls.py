@@ -28,7 +28,7 @@ from datalad.interface.base import Interface
 from datalad.interface.base import build_doc
 from datalad.ui import ui
 from datalad.utils import Path
-from datalad.utils import safe_print
+from datalad_deprecated.utils import safe_print
 from datalad.dochelpers import exc_str
 from datalad.support.param import Parameter
 from datalad.support import ansi_colors
