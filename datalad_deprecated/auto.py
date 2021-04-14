@@ -25,11 +25,11 @@ from os.path import isabs
 from os.path import join as opj
 from datalad.support.exceptions import InvalidGitRepositoryError
 
-from .utils import getpwd
-from .dochelpers import exc_str
-from .support.annexrepo import AnnexRepo
-from .cmdline.helpers import get_repo_instance
-from .consts import DATALAD_DOTDIR
+from datalad.utils import getpwd
+from datalad.dochelpers import exc_str
+from datalad.support.annexrepo import AnnexRepo
+from datalad.cmdline.helpers import get_repo_instance
+from datalad.consts import DATALAD_DOTDIR
 
 # To be used for a quick detection of path being under .git/
 _DOT_GIT_DIR = pathsep + '.git' + pathsep
