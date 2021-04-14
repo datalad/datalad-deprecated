@@ -4,24 +4,23 @@ DataLad extension for functionality that was phased out of the core package
 API
 ===
 
-..
-  High-level API commands
-  -----------------------
+High-level API commands
+-----------------------
 
-  .. currentmodule:: datalad.api
-  .. autosummary::
-     :toctree: generated
+.. currentmodule:: datalad.api
+.. autosummary::
+   :toctree: generated
 
-     hello_cmd
+   ls
 
 
-  Command line reference
-  ----------------------
+Command line reference
+----------------------
 
-  .. toctree::
-     :maxdepth: 1
+.. toctree::
+   :maxdepth: 1
 
-     generated/man/datalad-hello-cmd
+   generated/man/datalad-ls
 
 
 Indices and tables
