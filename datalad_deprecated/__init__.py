@@ -10,7 +10,10 @@ command_suite = (
     # description of the command suite, displayed in cmdline help
     "Deprecated functionality",
     [
-        # no commands ATM
+        (
+            'datalad_deprecated.ls',
+            'Ls',
+        ),
     ]
 )
 
