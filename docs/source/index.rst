@@ -23,11 +23,20 @@ Command line reference
    generated/man/datalad-ls
 
 
+Miscellaneous functionality
+---------------------------
+
+.. currentmodule:: datalad_deprecated
+.. autosummary::
+   :toctree: generated
+
+   auto.AutomagicIO
+
+
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
 
 .. |---| unicode:: U+02014 .. em dash
