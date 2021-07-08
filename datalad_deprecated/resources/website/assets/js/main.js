@@ -515,7 +515,8 @@ function directory(jQuery, md5) {
       // if row is a directory append '/' to name cell
       if (data.type === 'dir' || data.type === 'git' || data.type === 'annex' || data.type === 'uninitialized') {
         var orig = jQuery('td', row).eq(0).html();
-        orig = '<a>' + orig + '/</a>';
+        var traverse = clickHandler(data); 
+        orig = "<a href='"+traverse.next+"'>"+orig+"/</a>";
         if (data.tags) {
           orig = orig + "&nbsp;<span class='gittag'>@" + data.tags + "</span>";
         }
@@ -524,6 +525,13 @@ function directory(jQuery, md5) {
         }
         jQuery('td', row).eq(0).html(orig);
       }
+      else{
+        var orig = jQuery('td', row).eq(0).html();
+        var traverse = clickHandler(data); 
+        orig = "<a href='"+traverse.next+"'>"+orig+"</a>";
+        jQuery('td', row).eq(0).html(orig);
+      }
+
       if (data.name === '..')
         jQuery('td', row).eq(2).html('');
       for (var i = 0; i < 4; i++)  // attach css based on node-type to visible columns of each row
