@@ -516,7 +516,7 @@ function directory(jQuery, md5) {
       if (data.type === 'dir' || data.type === 'git' || data.type === 'annex' || data.type === 'uninitialized') {
         var orig = jQuery('td', row).eq(0).html();
         var traverse = clickHandler(data); 
-        orig = "<a href='"+traverse.next+"'>"+orig+"/</a>";
+        orig = "<a href='" + traverse.next + "'>" + orig + "/</a>";
         if (data.tags) {
           orig = orig + "&nbsp;<span class='gittag'>@" + data.tags + "</span>";
         }
@@ -525,10 +525,10 @@ function directory(jQuery, md5) {
         }
         jQuery('td', row).eq(0).html(orig);
       }
-      else{
+      else {
         var orig = jQuery('td', row).eq(0).html();
         var traverse = clickHandler(data); 
-        orig = "<a href='"+traverse.next+"'>"+orig+"</a>";
+        orig = "<a href='" + traverse.next + "'>" + orig + "</a>";
         jQuery('td', row).eq(0).html(orig);
       }
 
