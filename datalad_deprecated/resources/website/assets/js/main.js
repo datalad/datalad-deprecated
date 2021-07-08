@@ -567,9 +567,19 @@ function directory(jQuery, md5) {
         else if (traverse.type === 'search')
           window.location.search = traverse.next;
       });
+      // add visit folder button
+      var crumbs = bread2crumbs(jQuery, md5)
+      var curdir = jQuery(jQuery.parseHTML(crumbs[crumbs.length-1])).attr("href");
+      if (curdir.indexOf("/?dir=")>-1){
+        curdir = (curdir.slice(0,curdir.indexOf("/?dir=")) + curdir.slice(curdir.indexOf("/?dir=")+6));
+      }
+      jQuery('#directory_filter').prepend('<a id="folder-link" href="'+curdir+'">'+
+                                          '<button id="folder-button">Visit Folder</button>'+
+                                          '</a>');
+
       // add breadcrumbs
       jQuery('#directory_filter').prepend('<span class="breadcrumb">' +
-                                          bread2crumbs(jQuery, md5).join(' / ') +
+                                          crumbs.join(' / ') +
                                           '</span>');
     }
   });
