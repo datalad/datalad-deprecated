@@ -512,10 +512,11 @@ function directory(jQuery, md5) {
       // size rendering logic
       jQuery('td', row).eq(2).html(sizeRenderer(data.size));
 
+      var orig = jQuery('td', row).eq(0).html();
+      var traverse = clickHandler(data); 
+
       // if row is a directory append '/' to name cell
       if (data.type === 'dir' || data.type === 'git' || data.type === 'annex' || data.type === 'uninitialized') {
-        var orig = jQuery('td', row).eq(0).html();
-        var traverse = clickHandler(data); 
         orig = "<a href='" + traverse.next + "'>" + orig + "/</a>";
         if (data.tags) {
           orig = orig + "&nbsp;<span class='gittag'>@" + data.tags + "</span>";
@@ -523,14 +524,11 @@ function directory(jQuery, md5) {
         if (data.url) {
           orig = orig + "&nbsp;<a href='" + data.url + "'><div id='img_external_link'/></a>";
         }
-        jQuery('td', row).eq(0).html(orig);
       }
       else {
-        var orig = jQuery('td', row).eq(0).html();
-        var traverse = clickHandler(data); 
         orig = "<a href='" + traverse.next + "'>" + orig + "</a>";
-        jQuery('td', row).eq(0).html(orig);
       }
+      jQuery('td', row).eq(0).html(orig);
 
       if (data.name === '..')
         jQuery('td', row).eq(2).html('');
