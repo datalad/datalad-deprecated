@@ -572,7 +572,7 @@ function directory(jQuery, md5) {
         curdir = (curdir.slice(0, curdir.indexOf("/?dir=")) + curdir.slice(curdir.indexOf("/?dir=") + 6));
       }
       jQuery('#directory_filter').prepend('<a id="folder-link" href="'+curdir+'">'+
-                                          '[Visit folder]'+
+                                          '<span class="visit-folder">[Visit folder]</span>'+
                                           '</a>');
 
       // add breadcrumbs
