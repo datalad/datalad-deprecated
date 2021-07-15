@@ -568,11 +568,11 @@ function directory(jQuery, md5) {
       // add visit folder button
       var crumbs = bread2crumbs(jQuery, md5)
       var curdir = jQuery(jQuery.parseHTML(crumbs[crumbs.length-1])).attr("href");
-      if (curdir.indexOf("/?dir=")>-1){
-        curdir = (curdir.slice(0,curdir.indexOf("/?dir=")) + curdir.slice(curdir.indexOf("/?dir=")+6));
+      if (curdir.indexOf("/?dir=") > -1){
+        curdir = (curdir.slice(0, curdir.indexOf("/?dir=")) + curdir.slice(curdir.indexOf("/?dir=") + 6));
       }
       jQuery('#directory_filter').prepend('<a id="folder-link" href="'+curdir+'">'+
-                                          '<button id="folder-button">Visit Folder</button>'+
+                                          '[Visit folder]'+
                                           '</a>');
 
       // add breadcrumbs
