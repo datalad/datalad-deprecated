@@ -512,18 +512,24 @@ function directory(jQuery, md5) {
       // size rendering logic
       jQuery('td', row).eq(2).html(sizeRenderer(data.size));
 
+      var orig = jQuery('td', row).eq(0).html();
+      var traverse = clickHandler(data); 
+
       // if row is a directory append '/' to name cell
       if (data.type === 'dir' || data.type === 'git' || data.type === 'annex' || data.type === 'uninitialized') {
-        var orig = jQuery('td', row).eq(0).html();
-        orig = '<a>' + orig + '/</a>';
+        orig = "<a href='" + traverse.next + "'>" + orig + "/</a>";
         if (data.tags) {
           orig = orig + "&nbsp;<span class='gittag'>@" + data.tags + "</span>";
         }
         if (data.url) {
           orig = orig + "&nbsp;<a href='" + data.url + "'><div id='img_external_link'/></a>";
         }
-        jQuery('td', row).eq(0).html(orig);
       }
+      else {
+        orig = "<a href='" + traverse.next + "'>" + orig + "</a>";
+      }
+      jQuery('td', row).eq(0).html(orig);
+
       if (data.name === '..')
         jQuery('td', row).eq(2).html('');
       for (var i = 0; i < 4; i++)  // attach css based on node-type to visible columns of each row
@@ -559,9 +565,19 @@ function directory(jQuery, md5) {
         else if (traverse.type === 'search')
           window.location.search = traverse.next;
       });
+      // add visit folder button
+      var crumbs = bread2crumbs(jQuery, md5)
+      var curdir = jQuery(jQuery.parseHTML(crumbs[crumbs.length-1])).attr("href");
+      if (curdir.indexOf("/?dir=") > -1){
+        curdir = (curdir.slice(0, curdir.indexOf("/?dir=")) + curdir.slice(curdir.indexOf("/?dir=") + 6));
+      }
+      jQuery('#directory_filter').prepend('<a id="folder-link" href="'+curdir+'">'+
+                                          '<span class="visit-folder">[Visit folder]</span>'+
+                                          '</a>');
+
       // add breadcrumbs
       jQuery('#directory_filter').prepend('<span class="breadcrumb">' +
-                                          bread2crumbs(jQuery, md5).join(' / ') +
+                                          crumbs.join(' / ') +
                                           '</span>');
     }
   });

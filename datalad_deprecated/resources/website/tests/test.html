@@ -251,6 +251,17 @@
         assert.deepEqual(getNodeType(jQuery, md5, 'http://a/ds1/?dir=', testJson), "git", "returns cached type of root_ds when empty dir param");
         assert.deepEqual(getNodeType(jQuery, md5, 'http://a/ds1/?dir=/', testJson), "git", "returns cached type of root_ds when dir='/'");
       });
+
+      QUnit.test("Hyperlinks", function(assert) {
+          loc = sinon.stub().returns({pathname: '/', href: '/?dir=/firstdir/prevdir/curdir/'});
+          assert.deepEqual(clickHandler({name: 'brokenlink', type: 'link-broken'}), {next: '', type: "none"}, 'if the link is broken, set the relative path of the link (the "next" item) as the current directory (an empty path)');
+          assert.deepEqual(clickHandler({name: '..', type: 'dir'}), {next: '?dir=/firstdir/prevdir/', type: 'search'}, 'get search terms for parent directory');
+          assert.deepEqual(clickHandler({name: '.', type: 'dir'}), {next: '?dir=/firstdir/prevdir/curdir/', type: 'search'}, 'get search terms for current directory');
+          assert.deepEqual(clickHandler({name: 'childdir', type: 'dir'}), {next: '?dir=/firstdir/prevdir/curdir/childdir', type: 'search'}, 'get search terms for child directory');
+          assert.deepEqual(clickHandler({name: 'childfile', type: 'file'}), {next: '/firstdir/prevdir/curdir/childfile', type: 'assign'}, 'get link to child file');  
+      });
+
+
     </script>
   </body>
 </html>
