@@ -550,7 +550,7 @@ function directory(jQuery, md5) {
     // add click handlers to each row(cell) once table initialised
     initComplete: function() {
       // Prevent double opening on middle/ctrl click
-      jQuery("table a").click(function(event){
+      jQuery('table a').click(function(event) {
         event.stopPropagation();
       });
       var api = this.api();
@@ -572,25 +572,25 @@ function directory(jQuery, md5) {
 
       jQuery.contextMenu({
         selector: 'tr', 
-        callback: function(key, options, rootMenu) {
+        callback: function(key, options) {
           if (key === 'copy'){
-            copyToClipboard(options.$trigger.find("a").prop("href"));
+            copyToClipboard(options.$trigger.find('a').prop('href'));
           }
-          else if(key === 'open'){
-            window.location.href = options.$trigger.find("a").prop("href");
+          else if (key === 'open'){
+            window.location.href = options.$trigger.find('a').prop('href');
           }
-          else if(key === 'tab'){
-            window.open(options.$trigger.find("a").prop("href"), '_blank');
+          else if (key === 'tab'){
+            window.open(options.$trigger.find('a').prop('href'));
           }
           else if (key === 'view'){
             console.log('view render');
           }
         },
         items: {
-          "copy": {name: "Copy Link"},
-          "open": {name: "Open Link"},
-          "tab": {name: "Open in a New Tab"},
-          "view": {name: "View in Renderer"},
+          'copy': {name: 'Copy Link'},
+          'open': {name: 'Open Link'},
+          'tab': {name: 'Open in a New Tab'},
+          'view': {name: 'View in Renderer'},
         }
       });
 
@@ -616,10 +616,10 @@ function directory(jQuery, md5) {
 
 // https://stackoverflow.com/questions/47207355/copy-to-clipboard-using-jquery/47207504
 function copyToClipboard(text) {
-  var $temp = $("<input>");
-  $("body").append($temp);
+  var $temp = $('<input>');
+  $('body').append($temp);
   $temp.val(text).select();
-  document.execCommand("copy");
+  document.execCommand('copy');
   $temp.remove();
 }
 
