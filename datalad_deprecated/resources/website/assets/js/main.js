@@ -549,6 +549,10 @@ function directory(jQuery, md5) {
     },
     // add click handlers to each row(cell) once table initialised
     initComplete: function() {
+      // Prevent double opening on middle/ctrl click
+      jQuery("table a").click(function(event){
+        event.stopPropagation();
+      });
       var api = this.api();
       // all tables should have ../ parent path except webinterface root
       if (!parent) {
@@ -565,6 +569,31 @@ function directory(jQuery, md5) {
         else if (traverse.type === 'search')
           window.location.search = traverse.next;
       });
+
+      jQuery.contextMenu({
+        selector: 'tr', 
+        callback: function(key, options, rootMenu) {
+          if (key === 'copy'){
+            copyToClipboard(options.$trigger.find("a").prop("href"));
+          }
+          else if(key === 'open'){
+            window.location.href = options.$trigger.find("a").prop("href");
+          }
+          else if(key === 'tab'){
+            window.open(options.$trigger.find("a").prop("href"), '_blank');
+          }
+          else if (key === 'view'){
+            console.log('view render');
+          }
+        },
+        items: {
+          "copy": {name: "Copy Link"},
+          "open": {name: "Open Link"},
+          "tab": {name: "Open in a New Tab"},
+          "view": {name: "View in Renderer"},
+        }
+      });
+
       // add visit folder button
       var crumbs = bread2crumbs(jQuery, md5)
       var curdir = jQuery(jQuery.parseHTML(crumbs[crumbs.length-1])).attr("href");
@@ -583,6 +612,15 @@ function directory(jQuery, md5) {
   });
   localStorage['ntCache'] = JSON.stringify(ntCache);
   return table;
+}
+
+// https://stackoverflow.com/questions/47207355/copy-to-clipboard-using-jquery/47207504
+function copyToClipboard(text) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val(text).select();
+  document.execCommand("copy");
+  $temp.remove();
 }
 
 /* triggers also when just opening a page... wanted to clear it upon forced
