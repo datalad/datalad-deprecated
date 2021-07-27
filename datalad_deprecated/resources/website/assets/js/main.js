@@ -530,6 +530,30 @@ function directory(jQuery, md5) {
       }
       jQuery('td', row).eq(0).html(orig);
 
+      var menu = '<div class="context-menu">' +
+                  '<button class="context-button">&#10247;</button>' +
+                  '<ul class="context-content">'+
+                    '<li class="context-option copy">Copy Link</li>';
+      if (data.url) {
+        menu +=  '<li class="context-option external"><a href="' + data.url + '">Open External Link</a></li>';
+      }
+
+      if (data.type === 'dir' || data.type === 'git' || data.type === 'annex') {
+        var folderUrl = traverse.next
+        if (folderUrl.indexOf("?dir=") > -1){
+          folderUrl = (folderUrl.slice(0, folderUrl.indexOf("?dir=")) + folderUrl.slice(folderUrl.indexOf("?dir=") + 5));
+        }
+        menu +=  '<li class="context-option open"><a href="' + folderUrl + '">Open folder</a></li>';
+      }
+
+      // TODO: Implement renderers
+      // if (!(data.type === 'dir' || data.type === 'git' || data.type === 'annex')) {
+      //   menu +=  '<li class="context-option render">View in Renderer</li>';
+      // }
+      menu += '</ul></div>';
+
+      jQuery('td', row).eq(0).prepend(jQuery(menu));
+
       if (data.name === '..')
         jQuery('td', row).eq(2).html('');
       for (var i = 0; i < 4; i++)  // attach css based on node-type to visible columns of each row
@@ -549,10 +573,7 @@ function directory(jQuery, md5) {
     },
     // add click handlers to each row(cell) once table initialised
     initComplete: function() {
-      // Prevent double opening on middle/ctrl click
-      jQuery('table a').click(function(event) {
-        event.stopPropagation();
-      });
+      
       var api = this.api();
       // all tables should have ../ parent path except webinterface root
       if (!parent) {
@@ -570,29 +591,35 @@ function directory(jQuery, md5) {
           window.location.search = traverse.next;
       });
 
-      jQuery.contextMenu({
-        selector: 'tr', 
-        callback: function(key, options) {
-          if (key === 'copy'){
-            copyToClipboard(options.$trigger.find('a').prop('href'));
-          }
-          else if (key === 'open'){
-            window.location.href = options.$trigger.find('a').prop('href');
-          }
-          else if (key === 'tab'){
-            window.open(options.$trigger.find('a').prop('href'));
-          }
-          else if (key === 'view'){
-            console.log('view render');
-          }
-        },
-        items: {
-          'copy': {name: 'Copy Link'},
-          'open': {name: 'Open Link'},
-          'tab': {name: 'Open in a New Tab'},
-          'view': {name: 'View in Renderer'},
+      jQuery('table button').click(function(event) {
+        event.stopPropagation();
+        if (!jQuery(this).next().is(":visible")){
+          jQuery('.context-content:visible').hide();
+          jQuery(this).next().show();
         }
+        else {
+          jQuery('.context-content:visible').hide();
+        }
+        
       });
+      // Prevent double opening on middle/ctrl click
+      jQuery('table a').click(function(event) {
+        event.stopPropagation();
+      });
+      jQuery('.copy').click(function(event) {
+        event.stopPropagation();
+        copyToClipboard(jQuery(this).parent().parent().next().prop('href'));
+        jQuery('.context-content:visible').hide();
+      });
+      jQuery(window).click(function(event) {
+        jQuery('.context-content:visible').hide();
+      });
+      // jQuery('.external').click(function(event) {
+      //   event.stopPropagation();
+      //   console.log(jQuery(this).parent().parent().next().next().prop('href'));
+      //   copyToClipboard(jQuery(this).parent().parent().next().next().prop('href'));
+      //   jQuery('.context-content:visible').hide();
+      // });
 
       // add visit folder button
       var crumbs = bread2crumbs(jQuery, md5)
@@ -601,7 +628,7 @@ function directory(jQuery, md5) {
         curdir = (curdir.slice(0, curdir.indexOf("/?dir=")) + curdir.slice(curdir.indexOf("/?dir=") + 6));
       }
       jQuery('#directory_filter').prepend('<a id="folder-link" href="'+curdir+'">'+
-                                          '<span class="visit-folder">[Visit folder]</span>'+
+                                          '<span class="visit-folder">[Open folder]</span>'+
                                           '</a>');
 
       // add breadcrumbs
