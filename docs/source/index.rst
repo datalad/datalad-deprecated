@@ -12,6 +12,7 @@ High-level API commands
    :toctree: generated
 
    ls
+   publish
 
 
 Command line reference
@@ -21,6 +22,7 @@ Command line reference
    :maxdepth: 1
 
    generated/man/datalad-ls
+   generated/man/datalad-publish
 
 
 Miscellaneous functionality
