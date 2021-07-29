@@ -15,12 +15,16 @@ from os.path import (
     join as opj,
     lexists,
 )
-from ..dataset import Dataset
+from datalad.distribution.dataset import Dataset
 from datalad.api import (
     create,
     install,
-    publish,
 )
+from datalad_deprecated.publish import Publish
+# emulate API provided function interface to make sure
+# we are testing the implementation in deprecated and
+# not a potentially existing one in a -core installation
+publish = Publish()
 from datalad.support.gitrepo import GitRepo
 from datalad.support.annexrepo import AnnexRepo
 from datalad.support.exceptions import (

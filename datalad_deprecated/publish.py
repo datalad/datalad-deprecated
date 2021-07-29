@@ -48,10 +48,12 @@ from datalad.support.network import (
 
 from datalad.utils import ensure_list
 
-from .dataset import EnsureDataset
-from .dataset import Dataset
-from .dataset import datasetmethod
-from .dataset import require_dataset
+from datalad.distribution.dataset import (
+    EnsureDataset,
+    Dataset,
+    datasetmethod,
+    require_dataset,
+)
 
 __docformat__ = 'restructuredtext'
 
