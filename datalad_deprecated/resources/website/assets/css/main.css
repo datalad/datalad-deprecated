@@ -37,18 +37,17 @@ td.sorting_2 {
     padding: 10px;
     cursor: pointer;
     font-weight: normal;
-    color: black;
+    color: #575757;
 }
-.context-option.open, .context-option.external {
+.context-option.open, .context-option.external, .context-option.render {
     padding: 0;
     cursor: pointer;
     font-weight: normal;
-    color: black;
 }
 .context-option > a {
     padding: 10px;
     display: inline-block;
-    color: #0707ed;
+    color: #575757;
     box-sizing: border-box;
     width: 100%;
     height: 100%;
@@ -63,10 +62,7 @@ td.sorting_2 {
 .show {display:block; transition-duration: 200ms;} 
 
 table a { color: inherit; text-decoration: inherit; }
-#folder-link { float: left; margin: 0.3em 1.3em .3em .3em; }
-#folder-button { width: 80px; height: 30px; }
-.visit-folder { box-sizing: border-box; background-color: lightgray; border-radius: 5px; padding: 5px}
-.visit-folder a { text-decoration: none; }
+#folder-link { float: left; margin: 0.3em 1.3em .3em .3em; text-decoration: none; }
 body{ max-width: 1200px; margin: 2em auto; }
 .dataTables_filter { position: relative; clear: both; float: unset !important; }
 #directory_filter > label { float: right; }

@@ -534,6 +534,20 @@ function directory(jQuery, md5) {
                   '<button class="context-button">&#10247;</button>' +
                   '<ul class="context-content">'+
                     '<li class="context-option copy">Copy Link</li>';
+      
+      // add rendering option
+      // https://stackoverflow.com/questions/14780350/convert-relative-path-to-absolute-using-javascript
+      var link = document.createElement("a");
+      link.href = traverse.next;
+      link.protocol = "https";
+
+      if (/.nii(.gz)?$/.test(traverse.next)) {
+        menu +=  '<li class="context-option render"><a href="https://bioimagesuiteweb.github.io/webapp/viewer.html?image=' + link.href + '">View in Renderer</a></li>';
+      }
+      else if (/.nwb$/.test(traverse.next)) {
+        menu +=  '<li class="context-option render"><a href="http://nwbexplorer.opensourcebrain.org/nwbfile=' + link.href + '">View in Renderer</a></li>';
+      }
+
       if (data.url) {
         menu +=  '<li class="context-option external"><a href="' + data.url + '">Open External Link</a></li>';
       }
@@ -543,13 +557,9 @@ function directory(jQuery, md5) {
         if (folderUrl.indexOf("?dir=") > -1){
           folderUrl = (folderUrl.slice(0, folderUrl.indexOf("?dir=")) + folderUrl.slice(folderUrl.indexOf("?dir=") + 5));
         }
-        menu +=  '<li class="context-option open"><a href="' + folderUrl + '">Open folder</a></li>';
+        menu +=  '<li class="context-option open"><a href="' + folderUrl + '">Open Folder</a></li>';
       }
 
-      // TODO: Implement renderers
-      // if (!(data.type === 'dir' || data.type === 'git' || data.type === 'annex')) {
-      //   menu +=  '<li class="context-option render">View in Renderer</li>';
-      // }
       menu += '</ul></div>';
 
       jQuery('td', row).eq(0).prepend(jQuery(menu));
@@ -627,8 +637,11 @@ function directory(jQuery, md5) {
       if (curdir.indexOf("/?dir=") > -1){
         curdir = (curdir.slice(0, curdir.indexOf("/?dir=")) + curdir.slice(curdir.indexOf("/?dir=") + 6));
       }
+
+      var rawCrumbs = loc().href.replace(/#.*/, '').replace(/\/$/, '').split('/');
+      
       jQuery('#directory_filter').prepend('<a id="folder-link" href="'+curdir+'">'+
-                                          '<span class="visit-folder">[Open folder]</span>'+
+                                          '<span class="visit-folder ' + getNodeType(jQuery, md5, rawCrumbs.join('/')) + '">[Open Folder]</span>'+
                                           '</a>');
 
       // add breadcrumbs
