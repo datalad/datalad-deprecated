@@ -14,6 +14,10 @@ command_suite = (
             'datalad_deprecated.ls',
             'Ls',
         ),
+        (
+            'datalad_deprecated.publish',
+            'Publish',
+        ),
     ]
 )
 
