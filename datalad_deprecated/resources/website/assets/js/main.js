@@ -603,14 +603,10 @@ function directory(jQuery, md5) {
 
       jQuery('table button').click(function(event) {
         event.stopPropagation();
+        jQuery('.context-content:visible').hide();
         if (!jQuery(this).next().is(":visible")){
-          jQuery('.context-content:visible').hide();
           jQuery(this).next().show();
-        }
-        else {
-          jQuery('.context-content:visible').hide();
-        }
-        
+        }        
       });
       // Prevent double opening on middle/ctrl click
       jQuery('table a').click(function(event) {
@@ -624,12 +620,6 @@ function directory(jQuery, md5) {
       jQuery(window).click(function(event) {
         jQuery('.context-content:visible').hide();
       });
-      // jQuery('.external').click(function(event) {
-      //   event.stopPropagation();
-      //   console.log(jQuery(this).parent().parent().next().next().prop('href'));
-      //   copyToClipboard(jQuery(this).parent().parent().next().next().prop('href'));
-      //   jQuery('.context-content:visible').hide();
-      // });
 
       // add visit folder button
       var crumbs = bread2crumbs(jQuery, md5)
