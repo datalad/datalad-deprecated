@@ -16,6 +16,62 @@ showdown.setOption('ghCodeBlocks', true);
 showdown.setOption('ghCompatibleHeaderId', true);
 var converter = new showdown.Converter();
 
+/* Renderers */
+var EXTERNAL_RENDERERS = [
+  {
+    "name": "Bioimagesuite/Viewer",
+    "regex": ".nii(.gz)?$",
+    "extensions": [
+      ".nii",
+      ".nii.gz",
+    ],
+    "endpoints": {
+      "file":"https://bioimagesuiteweb.github.io/webapp/viewer.html?image=",
+      "link":"https://bioimagesuiteweb.github.io/webapp/viewer.html?image=",
+    },
+  },
+
+  {
+    "name": "Bioimagesuite/DualViewer",
+    "regex": ".nii(.gz)?$",
+    "extensions": [
+      ".nii",
+      ".nii.gz",
+    ],
+    "endpoints": {
+      "file":"https://bioimagesuiteweb.github.io/webapp/dualviewer.html?image=",
+      "link":"https://bioimagesuiteweb.github.io/webapp/dualviewer.html?image=",
+    },
+  },
+
+  {
+    "name": "MetaCell/NWBExplorer",
+    "regex": ".nwb$",
+    "extensions": [
+      ".nwb",
+    ],
+    "endpoints": {
+      "file":"http://nwbexplorer.opensourcebrain.org/nwbfile=",
+      "link":"http://nwbexplorer.opensourcebrain.org/nwbfile=",
+    },
+  },
+]
+
+/* Make the map of extensions to renderers */
+var extensionMap = new Map();
+EXTERNAL_RENDERERS.forEach(function(renderer) { 
+  renderer.extensions.forEach(function(extension) {
+    var renderList = extensionMap.get(extension);
+    if (renderList) {
+      renderList.push(renderer);
+    }
+    else {
+      extensionMap.set(extension, [renderer]);
+    }
+  });
+});
+
+
 /**
  * check if url exists
  * @param {string} url url to test for existence
@@ -541,12 +597,13 @@ function directory(jQuery, md5) {
       link.href = traverse.next;
       link.protocol = "https";
 
-      if (/.nii(.gz)?$/.test(traverse.next)) {
-        menu +=  '<li class="context-option render"><a href="https://bioimagesuiteweb.github.io/webapp/viewer.html?image=' + link.href + '">View in Renderer</a></li>';
-      }
-      else if (/.nwb$/.test(traverse.next)) {
-        menu +=  '<li class="context-option render"><a href="http://nwbexplorer.opensourcebrain.org/nwbfile=' + link.href + '">View in Renderer</a></li>';
-      }
+      EXTERNAL_RENDERERS.forEach(function(renderer) {
+        var regex = new RegExp(renderer.regex);
+        if (regex.test(traverse.next)) {
+          console.log(data.type);
+          menu +=  '<li class="context-option render"><a href="' + renderer.endpoints[data.type] + link.href + '">' + renderer.name + '</a></li>';
+        }
+      });
 
       if (data.url) {
         menu +=  '<li class="context-option external"><a href="' + data.url + '">Open External Link</a></li>';
@@ -603,10 +660,13 @@ function directory(jQuery, md5) {
 
       jQuery('table button').click(function(event) {
         event.stopPropagation();
-        jQuery('.context-content:visible').hide();
-        if (!jQuery(this).next().is(":visible")){
+        if (!jQuery(this).next().is(":visible")) {
+          jQuery('.context-content:visible').hide();
           jQuery(this).next().show();
-        }        
+        }
+        else {
+          jQuery('.context-content:visible').hide();
+        }
       });
       // Prevent double opening on middle/ctrl click
       jQuery('table a').click(function(event) {
