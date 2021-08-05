@@ -25,10 +25,7 @@ var EXTERNAL_RENDERERS = [
       ".nii",
       ".nii.gz",
     ],
-    "endpoints": {
-      "file":"https://bioimagesuiteweb.github.io/webapp/viewer.html?image=",
-      "link":"https://bioimagesuiteweb.github.io/webapp/viewer.html?image=",
-    },
+    "endpoint": "https://bioimagesuiteweb.github.io/webapp/viewer.html?image=",
   },
 
   {
@@ -38,10 +35,7 @@ var EXTERNAL_RENDERERS = [
       ".nii",
       ".nii.gz",
     ],
-    "endpoints": {
-      "file":"https://bioimagesuiteweb.github.io/webapp/dualviewer.html?image=",
-      "link":"https://bioimagesuiteweb.github.io/webapp/dualviewer.html?image=",
-    },
+    "endpoint": "https://bioimagesuiteweb.github.io/webapp/dualviewer.html?image=",
   },
 
   {
@@ -50,10 +44,7 @@ var EXTERNAL_RENDERERS = [
     "extensions": [
       ".nwb",
     ],
-    "endpoints": {
-      "file":"http://nwbexplorer.opensourcebrain.org/nwbfile=",
-      "link":"http://nwbexplorer.opensourcebrain.org/nwbfile=",
-    },
+    "endpoint": "http://nwbexplorer.opensourcebrain.org/nwbfile=",
   },
 ]
 
@@ -584,26 +575,22 @@ function directory(jQuery, md5) {
       else {
         orig = "<a href='" + traverse.next + "'>" + orig + "</a>";
       }
-      jQuery('td', row).eq(0).html(orig);
 
       var menu = '<div class="context-menu">' +
                   '<button class="context-button">&#10247;</button>' +
                   '<ul class="context-content">'+
                     '<li class="context-option copy">Copy Link</li>';
-      
-      // add rendering option
-      // https://stackoverflow.com/questions/14780350/convert-relative-path-to-absolute-using-javascript
-      var link = document.createElement("a");
-      link.href = traverse.next;
-      link.protocol = "https";
 
-      EXTERNAL_RENDERERS.forEach(function(renderer) {
-        var regex = new RegExp(renderer.regex);
-        if (regex.test(traverse.next)) {
-          console.log(data.type);
-          menu +=  '<li class="context-option render"><a href="' + renderer.endpoints[data.type] + link.href + '">' + renderer.name + '</a></li>';
+      // if the file is not a directory, check for renderers
+      if (!(data.type === 'dir' || data.type === 'git' || data.type === 'annex' || data.type === 'uninitialized')) {
+        var renderers = getRenderers(traverse.next);
+        if (renderers.length > 0) {
+          menu +=  '<li class="context-option separator">External Services</li>';
+          renderers.forEach(function(renderer) {
+            menu +=  '<li class="context-option render"><a href="' + renderer.url + '">' + renderer.name + '</a></li>';
+          });
         }
-      });
+      }
 
       if (data.url) {
         menu +=  '<li class="context-option external"><a href="' + data.url + '">Open External Link</a></li>';
@@ -619,7 +606,7 @@ function directory(jQuery, md5) {
 
       menu += '</ul></div>';
 
-      jQuery('td', row).eq(0).prepend(jQuery(menu));
+      jQuery('td', row).eq(0).html(jQuery('<div>', {"class":"item-name"}).html(menu+orig));
 
       if (data.name === '..')
         jQuery('td', row).eq(2).html('');
@@ -669,7 +656,7 @@ function directory(jQuery, md5) {
         }
       });
       // Prevent double opening on middle/ctrl click
-      jQuery('table a').click(function(event) {
+      jQuery('table a, .separator').click(function(event) {
         event.stopPropagation();
       });
       jQuery('.copy').click(function(event) {
@@ -711,6 +698,29 @@ function copyToClipboard(text) {
   $temp.val(text).select();
   document.execCommand('copy');
   $temp.remove();
+}
+
+function getRenderers(filename) {
+  validRenderers = []
+
+  EXTERNAL_RENDERERS.forEach(function(renderer) {
+    var regex = new RegExp(renderer.regex);
+    if (regex.test(filename)) {
+      // add rendering option
+      // https://stackoverflow.com/questions/14780350/convert-relative-path-to-absolute-using-javascript
+      var link = document.createElement("a");
+      link.href = filename;
+      link.protocol = "https";
+
+      validRenderers.push({
+        "name": renderer.name,
+        "url": renderer.endpoint + link.href,
+      });
+      
+    }
+  });
+
+  return validRenderers;
 }
 
 /* triggers also when just opening a page... wanted to clear it upon forced

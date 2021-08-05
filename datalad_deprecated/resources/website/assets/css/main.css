@@ -44,6 +44,17 @@ td.sorting_2 {
     cursor: pointer;
     font-weight: normal;
 }
+.context-option.separator {
+    cursor: default;
+    padding: 0;
+    padding-left: 5px;
+    padding-bottom: 2px;
+    padding-top: 5px;
+    color: #858585
+}
+.context-option.separator:hover, .context-option.separator:focus {
+    background-color: inherit;
+}
 .context-option > a {
     padding: 10px;
     display: inline-block;
@@ -59,7 +70,10 @@ td.sorting_2 {
     position: relative;
     display: inline-block;
 }
-.show {display:block; transition-duration: 200ms;} 
+.item-name {
+    display: flex;
+    align-items: center;
+}
 
 table a { color: inherit; text-decoration: inherit; }
 #folder-link { float: left; margin: 0.3em 1.3em .3em .3em; text-decoration: none; }
