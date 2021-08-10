@@ -579,7 +579,8 @@ function directory(jQuery, md5) {
       var menu = '<div class="context-menu">' +
                   '<button class="context-button">&#10247;</button>' +
                   '<ul class="context-content">'+
-                    '<li class="context-option copy">Copy Link</li>';
+                                        '<li class="context-option separator">Operations</li>';
+                                        '<li class="context-option copy">Copy Link</li>';
 
       // if the file is not a directory, check for renderers
       if (!(data.type === 'dir' || data.type === 'git' || data.type === 'annex' || data.type === 'uninitialized')) {
