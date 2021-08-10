@@ -13,13 +13,16 @@
     padding: 0;
     margin: 0;
 }
+
 tr:hover .context-button {
     visibility: visible;
 }
+
 tr:hover .context-button:hover {
     visibility: visible;
     color: black;
 }
+
 .context-button {
     visibility: hidden;
     background-color: transparent;
@@ -30,31 +33,44 @@ tr:hover .context-button:hover {
     color: rgb(138, 138, 138);
     padding-right: 3px;
 }
+
+.context-content + .context-button {
+    visibility: visible;
+}
+
 td.sorting_2 {
     padding-left: 0 !important;
 }
+
 .context-option {
     padding: 10px;
     cursor: pointer;
     font-weight: normal;
     color: #575757;
 }
+
 .context-option.open, .context-option.external, .context-option.render {
     padding: 0;
     cursor: pointer;
     font-weight: normal;
 }
+
+.context-option.render > a {
+    padding-left: 15px;
+}
+
 .context-option.separator {
-    cursor: default;
-    padding: 0;
-    padding-left: 5px;
+    cursor: default;    
+    padding: 10px;
     padding-bottom: 2px;
     padding-top: 5px;
     color: #858585
 }
+
 .context-option.separator:hover, .context-option.separator:focus {
     background-color: inherit;
 }
+
 .context-option > a {
     padding: 10px;
     display: inline-block;
@@ -63,13 +79,16 @@ td.sorting_2 {
     min-width: 100%;
     min-height: 100%;
 }
+
 .context-option:hover, .context-option:focus {
     background-color: #e2e2e2;
 }
+
 .context-menu {
     position: relative;
     display: inline-block;
 }
+
 .item-name {
     display: flex;
     align-items: center;
