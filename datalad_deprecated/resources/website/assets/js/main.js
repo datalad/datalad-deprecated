@@ -17,6 +17,7 @@ showdown.setOption('ghCompatibleHeaderId', true);
 var converter = new showdown.Converter();
 
 /* Renderers */
+/* Could be converted to a map of file extensions to renderers if ever needed in the future to optimize runtime */
 var EXTERNAL_RENDERERS = [
   {
     "name": "Bioimagesuite/Viewer",
@@ -47,20 +48,6 @@ var EXTERNAL_RENDERERS = [
     "endpoint": "http://nwbexplorer.opensourcebrain.org/nwbfile=",
   },
 ]
-
-/* Make the map of extensions to renderers */
-var extensionMap = new Map();
-EXTERNAL_RENDERERS.forEach(function(renderer) { 
-  renderer.extensions.forEach(function(extension) {
-    var renderList = extensionMap.get(extension);
-    if (renderList) {
-      renderList.push(renderer);
-    }
-    else {
-      extensionMap.set(extension, [renderer]);
-    }
-  });
-});
 
 
 /**
