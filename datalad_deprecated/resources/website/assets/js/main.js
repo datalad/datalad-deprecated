@@ -16,9 +16,9 @@ showdown.setOption('ghCodeBlocks', true);
 showdown.setOption('ghCompatibleHeaderId', true);
 var converter = new showdown.Converter();
 
-/* Renderers */
-/* Could be converted to a map of file extensions to renderers if ever needed in the future to optimize runtime */
-var EXTERNAL_RENDERERS = [
+/* External Services */
+/* Could be converted to a map of file extensions to external services if ever needed in the future to optimize runtime */
+var EXTERNAL_SERVICES = [
   {
     "name": "Bioimagesuite/Viewer",
     "regex": ".nii(.gz)?$",
@@ -568,13 +568,13 @@ function directory(jQuery, md5) {
                   '<ul class="context-content">'+
                   '<li class="context-option copy">Copy Link</li>';
 
-      // if the file is not a directory, check for renderers
+      // if the file is not a directory, check for external services
       if (!(data.type === 'dir' || data.type === 'git' || data.type === 'annex' || data.type === 'uninitialized')) {
-        var renderers = getRenderers(traverse.next);
-        if (renderers.length > 0) {
+        var externalServices = getExternalServices(traverse.next);
+        if (externalServices.length > 0) {
           menu +=  '<li class="context-option separator">External Services</li>';
-          renderers.forEach(function(renderer) {
-            menu +=  '<li class="context-option render"><a href="' + renderer.url + '">' + renderer.name + '</a></li>';
+          externalServices.forEach(function(service) {
+            menu +=  '<li class="context-option service"><a href="' + service.url + '">' + service.name + '</a></li>';
           });
         }
       }
@@ -687,27 +687,27 @@ function copyToClipboard(text) {
   $temp.remove();
 }
 
-function getRenderers(filename) {
-  validRenderers = []
+function getExternalServices(filename) {
+  validServices = []
 
-  EXTERNAL_RENDERERS.forEach(function(renderer) {
-    var regex = new RegExp(renderer.regex);
+  EXTERNAL_SERVICES.forEach(function(service) {
+    var regex = new RegExp(service.regex);
     if (regex.test(filename)) {
-      // add rendering option
+      // add external service
       // https://stackoverflow.com/questions/14780350/convert-relative-path-to-absolute-using-javascript
       var link = document.createElement("a");
       link.href = filename;
       link.protocol = "https";
 
-      validRenderers.push({
-        "name": renderer.name,
-        "url": renderer.endpoint + link.href,
+      validServices.push({
+        "name": service.name,
+        "url": service.endpoint + link.href,
       });
       
     }
   });
 
-  return validRenderers;
+  return validServices;
 }
 
 /* triggers also when just opening a page... wanted to clear it upon forced

@@ -49,13 +49,13 @@ td.sorting_2 {
     color: #575757;
 }
 
-.context-option.open, .context-option.external, .context-option.render {
+.context-option.open, .context-option.external, .context-option.service {
     padding: 0;
     cursor: pointer;
     font-weight: normal;
 }
 
-.context-option.render > a {
+.context-option.service > a {
     padding-left: 15px;
 }
 
