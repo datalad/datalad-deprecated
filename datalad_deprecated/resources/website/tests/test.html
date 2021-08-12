@@ -263,22 +263,22 @@
       });
 
       
-      QUnit.test("Context Menu Renderers", function(assert) {
+      QUnit.test("Context Menu External Services", function(assert) {
         var filename = "testnwb.nwb";
         var link = document.createElement("a");
         link.href = filename;
         link.protocol = "https";
-        assert.deepEqual(getRenderers(filename), [{"name": "MetaCell/NWBExplorer", "url": "http://nwbexplorer.opensourcebrain.org/nwbfile="+link.href}])
+        assert.deepEqual(getExternalServices(filename), [{"name": "MetaCell/NWBExplorer", "url": "http://nwbexplorer.opensourcebrain.org/nwbfile="+link.href}])
         
         filename = "testnii.nii";
         link.href = filename;
         link.protocol = "https";
-        assert.deepEqual(getRenderers(filename), [{"name": "Bioimagesuite/Viewer", "url": "https://bioimagesuiteweb.github.io/webapp/viewer.html?image="+link.href}, {"name": "Bioimagesuite/DualViewer", "url": "https://bioimagesuiteweb.github.io/webapp/dualviewer.html?image="+link.href}])
+        assert.deepEqual(getExternalServices(filename), [{"name": "Bioimagesuite/Viewer", "url": "https://bioimagesuiteweb.github.io/webapp/viewer.html?image="+link.href}, {"name": "Bioimagesuite/DualViewer", "url": "https://bioimagesuiteweb.github.io/webapp/dualviewer.html?image="+link.href}])
 
         filename = "testniigz.nii.gz";
         link.href = filename;
         link.protocol = "https";
-        assert.deepEqual(getRenderers(filename), [{"name": "Bioimagesuite/Viewer", "url": "https://bioimagesuiteweb.github.io/webapp/viewer.html?image="+link.href}, {"name": "Bioimagesuite/DualViewer", "url": "https://bioimagesuiteweb.github.io/webapp/dualviewer.html?image="+link.href}])
+        assert.deepEqual(getExternalServices(filename), [{"name": "Bioimagesuite/Viewer", "url": "https://bioimagesuiteweb.github.io/webapp/viewer.html?image="+link.href}, {"name": "Bioimagesuite/DualViewer", "url": "https://bioimagesuiteweb.github.io/webapp/dualviewer.html?image="+link.href}])
       });      
 
     </script>
