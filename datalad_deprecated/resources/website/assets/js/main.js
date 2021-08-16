@@ -16,6 +16,40 @@ showdown.setOption('ghCodeBlocks', true);
 showdown.setOption('ghCompatibleHeaderId', true);
 var converter = new showdown.Converter();
 
+/* External Services */
+/* Could be converted to a map of file extensions to external services if ever needed in the future to optimize runtime */
+var EXTERNAL_SERVICES = [
+  {
+    "name": "Bioimagesuite/Viewer",
+    "regex": ".nii(.gz)?$",
+    "extensions": [
+      ".nii",
+      ".nii.gz",
+    ],
+    "endpoint": "https://bioimagesuiteweb.github.io/webapp/viewer.html?image=",
+  },
+
+  {
+    "name": "Bioimagesuite/DualViewer",
+    "regex": ".nii(.gz)?$",
+    "extensions": [
+      ".nii",
+      ".nii.gz",
+    ],
+    "endpoint": "https://bioimagesuiteweb.github.io/webapp/dualviewer.html?image=",
+  },
+
+  {
+    "name": "MetaCell/NWBExplorer",
+    "regex": ".nwb$",
+    "extensions": [
+      ".nwb",
+    ],
+    "endpoint": "http://nwbexplorer.opensourcebrain.org/nwbfile=",
+  },
+]
+
+
 /**
  * check if url exists
  * @param {string} url url to test for existence
@@ -528,7 +562,38 @@ function directory(jQuery, md5) {
       else {
         orig = "<a href='" + traverse.next + "'>" + orig + "</a>";
       }
-      jQuery('td', row).eq(0).html(orig);
+
+      var menu = '<div class="context-menu">' +
+                  '<button class="context-button">&#10247;</button>' +
+                  '<ul class="context-content">'+
+                  '<li class="context-option copy">Copy Link</li>';
+
+      // if the file is not a directory, check for external services
+      if (!(data.type === 'dir' || data.type === 'git' || data.type === 'annex' || data.type === 'uninitialized')) {
+        var externalServices = getExternalServices(traverse.next);
+        if (externalServices.length > 0) {
+          menu +=  '<li class="context-option separator">External Services</li>';
+          externalServices.forEach(function(service) {
+            menu +=  '<li class="context-option service"><a href="' + service.url + '">' + service.name + '</a></li>';
+          });
+        }
+      }
+
+      if (data.url) {
+        menu +=  '<li class="context-option external"><a href="' + data.url + '">Open External Link</a></li>';
+      }
+
+      if (data.type === 'dir' || data.type === 'git' || data.type === 'annex') {
+        var folderUrl = traverse.next
+        if (folderUrl.indexOf("?dir=") > -1){
+          folderUrl = (folderUrl.slice(0, folderUrl.indexOf("?dir=")) + folderUrl.slice(folderUrl.indexOf("?dir=") + 5));
+        }
+        menu +=  '<li class="context-option open"><a href="' + folderUrl + '">Open Folder</a></li>';
+      }
+
+      menu += '</ul></div>';
+
+      jQuery('td', row).eq(0).html(jQuery('<div>', {"class":"item-name"}).html(menu+orig));
 
       if (data.name === '..')
         jQuery('td', row).eq(2).html('');
@@ -549,6 +614,7 @@ function directory(jQuery, md5) {
     },
     // add click handlers to each row(cell) once table initialised
     initComplete: function() {
+      
       var api = this.api();
       // all tables should have ../ parent path except webinterface root
       if (!parent) {
@@ -565,14 +631,41 @@ function directory(jQuery, md5) {
         else if (traverse.type === 'search')
           window.location.search = traverse.next;
       });
+
+      jQuery('table button').click(function(event) {
+        event.stopPropagation();
+        if (!jQuery(this).next().is(":visible")) {
+          jQuery('.context-content:visible').hide();
+          jQuery(this).next().show();
+        }
+        else {
+          jQuery('.context-content:visible').hide();
+        }
+      });
+      // Prevent double opening on middle/ctrl click
+      jQuery('table a, .separator').click(function(event) {
+        event.stopPropagation();
+      });
+      jQuery('.copy').click(function(event) {
+        event.stopPropagation();
+        copyToClipboard(jQuery(this).parent().parent().next().prop('href'));
+        jQuery('.context-content:visible').hide();
+      });
+      jQuery(window).click(function(event) {
+        jQuery('.context-content:visible').hide();
+      });
+
       // add visit folder button
       var crumbs = bread2crumbs(jQuery, md5)
       var curdir = jQuery(jQuery.parseHTML(crumbs[crumbs.length-1])).attr("href");
       if (curdir.indexOf("/?dir=") > -1){
         curdir = (curdir.slice(0, curdir.indexOf("/?dir=")) + curdir.slice(curdir.indexOf("/?dir=") + 6));
       }
+
+      var rawCrumbs = loc().href.replace(/#.*/, '').replace(/\/$/, '').split('/');
+      
       jQuery('#directory_filter').prepend('<a id="folder-link" href="'+curdir+'">'+
-                                          '<span class="visit-folder">[Visit folder]</span>'+
+                                          '<span class="visit-folder ' + getNodeType(jQuery, md5, rawCrumbs.join('/')) + '">[Open Folder]</span>'+
                                           '</a>');
 
       // add breadcrumbs
@@ -583,6 +676,38 @@ function directory(jQuery, md5) {
   });
   localStorage['ntCache'] = JSON.stringify(ntCache);
   return table;
+}
+
+// https://stackoverflow.com/questions/47207355/copy-to-clipboard-using-jquery/47207504
+function copyToClipboard(text) {
+  var $temp = $('<input>');
+  $('body').append($temp);
+  $temp.val(text).select();
+  document.execCommand('copy');
+  $temp.remove();
+}
+
+function getExternalServices(filename) {
+  validServices = []
+
+  EXTERNAL_SERVICES.forEach(function(service) {
+    var regex = new RegExp(service.regex);
+    if (regex.test(filename)) {
+      // add external service
+      // https://stackoverflow.com/questions/14780350/convert-relative-path-to-absolute-using-javascript
+      var link = document.createElement("a");
+      link.href = filename;
+      link.protocol = "https";
+
+      validServices.push({
+        "name": service.name,
+        "url": service.endpoint + link.href,
+      });
+      
+    }
+  });
+
+  return validServices;
 }
 
 /* triggers also when just opening a page... wanted to clear it upon forced

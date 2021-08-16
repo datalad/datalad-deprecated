@@ -1,9 +1,101 @@
 /*
  * DataLad Static Index styles
  */
+ .context-content {
+    display: none;
+    position: absolute;
+    background-color: #fafafa;
+    list-style: none outside none;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    transition-duration: 200ms;
+    padding: 0;
+    margin: 0;
+}
+
+tr:hover .context-button {
+    visibility: visible;
+}
+
+tr:hover .context-button:hover {
+    visibility: visible;
+    color: black;
+}
+
+.context-button {
+    visibility: hidden;
+    background-color: transparent;
+    border: none;
+    font-size: 1.3em;
+    margin-right: 3px;
+    cursor: pointer;
+    color: rgb(138, 138, 138);
+    padding-right: 3px;
+}
+
+.context-content + .context-button {
+    visibility: visible;
+}
+
+td.sorting_2 {
+    padding-left: 0 !important;
+}
+
+.context-option {
+    padding: 10px;
+    cursor: pointer;
+    font-weight: normal;
+    color: #575757;
+}
+
+.context-option.open, .context-option.external, .context-option.service {
+    padding: 0;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.context-option.service > a {
+    padding-left: 15px;
+}
+
+.context-option.separator {
+    cursor: default;    
+    padding: 10px;
+    padding-bottom: 2px;
+    padding-top: 5px;
+    color: #858585
+}
+
+.context-option.separator:hover, .context-option.separator:focus {
+    background-color: inherit;
+}
+
+.context-option > a {
+    padding: 10px;
+    display: inline-block;
+    color: #575757;
+    box-sizing: border-box;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.context-option:hover, .context-option:focus {
+    background-color: #e2e2e2;
+}
+
+.context-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.item-name {
+    display: flex;
+    align-items: center;
+}
+
 table a { color: inherit; text-decoration: inherit; }
-#folder-link { float: left; margin: 0.3em 1.3em .3em .3em; }
-.visit-folder { box-sizing: border-box; background-color: lightgray; border-radius: 5px; padding: 5px; }
+#folder-link { float: left; margin: 0.3em 1.3em .3em .3em; text-decoration: none; }
 body{ max-width: 1200px; margin: 2em auto; }
 .dataTables_filter { position: relative; clear: both; float: unset !important; }
 #directory_filter > label { float: right; }
@@ -14,7 +106,6 @@ span.dir { font-weight: bold; color: #00A1CB; }
 span.git { font-weight: bold; color: #00BA88; }
 span.annex { font-weight: bold; color: #EC6C20; }
 span.gittag { font-size: 70%; font-weight: normal;  vertical-align: super;}
-
 td.dir { font-weight: bold; color: #00A1CB; cursor: pointer;}
 td.git { font-weight: bold; color: #00BA88; cursor: pointer;}
 td.uninitialized { font-weight: bold; color: #00BA88; text-decoration: line-through; }
