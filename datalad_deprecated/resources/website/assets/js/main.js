@@ -672,6 +672,12 @@ function directory(jQuery, md5) {
       jQuery('#directory_filter').prepend('<span class="breadcrumb">' +
                                           crumbs.join(' / ') +
                                           '</span>');
+      
+      var crumbNames = crumbs.map(function(el) {
+        return $($(el).html()).html();
+      });
+
+      document.title = document.title + ': '+crumbNames.join('/');
     }
   });
   localStorage['ntCache'] = JSON.stringify(ntCache);
