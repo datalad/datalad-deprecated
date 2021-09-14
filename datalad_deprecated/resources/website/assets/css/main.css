@@ -14,17 +14,12 @@
     margin: 0;
 }
 
-tr:hover .context-button {
-    visibility: visible;
-}
-
 tr:hover .context-button:hover {
     visibility: visible;
     color: black;
 }
 
 .context-button {
-    visibility: hidden;
     background-color: transparent;
     border: none;
     font-size: 1.3em;
