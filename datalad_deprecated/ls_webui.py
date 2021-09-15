@@ -27,6 +27,11 @@ from datalad.support.network import is_datalad_compat_ri
 from datalad_deprecated.utils import safe_print
 from datalad.utils import with_pathsep
 from datalad.utils import Path
+import datalad.api as dl
+
+#remove the below 2 lines when NEEDS_CONTENT is already made false
+import datalad.metadata.extractors.datalad_core as dc
+dc.MetadataExtractor.NEEDS_CONTENT = False
 
 # A string to use to depict unknown size of the annexed dataset, e.g.
 # whenever all the keys are "relaxed" urls
@@ -194,7 +199,8 @@ def fs_traverse(path, repo, parent=None,
                 render=True,
                 recurse_datasets=False,
                 recurse_directories=False,
-                json=None, basepath=None):
+                json=None, basepath=None,
+                file_metadata=None):
     """Traverse path through its nodes and returns a dictionary of relevant
     attributes attached to each node
 
@@ -293,6 +299,8 @@ def fs_traverse(path, repo, parent=None,
                         subdir = fs_extract(nodepath,
                                             repo,
                                             basepath=basepath or path)
+                if nodepath in file_metadata:
+                    subdir['external_urls'] = file_metadata[nodepath]
                 # append child metadata to list
                 children.extend([subdir])
 
@@ -347,6 +355,18 @@ def ds_traverse(rootds, parent=None, json=None,
     fsparent = fs_extract(parent.path, parent.repo, basepath=rootds.path) \
         if parent else None
 
+    # from my understanding, this constructs a file metadata map that maps file path to external urls found 
+    # (the map is passed to fs_traverse)
+    metadata_raw = dl.extract_metadata(types=["datalad_core"], dataset=rootds)
+    metadata_map = {}
+    
+    for file_metadata in metadata_raw:
+        if file_metadata['type'] == 'file':
+            try:
+                metadata_map[file_metadata['path']] = file_metadata['metadata']['datalad_core']['url']
+            except ValueError:
+                continue
+
     # (recursively) traverse file tree of current dataset
     fs = fs_traverse(
         rootds.path, rootds.repo,
@@ -356,7 +376,8 @@ def ds_traverse(rootds, parent=None, json=None,
         # XXX note that here I kinda flipped the notions!
         recurse_datasets=recurse_datasets,
         recurse_directories=recurse_directories,
-        json=json
+        json=json,
+        file_metadata=metadata_map
     )
 
     # BUT if we are recurse_datasets but not recurse_directories
