@@ -217,6 +217,9 @@ def fs_traverse(path, repo, parent=None,
     render: bool
        To render from within function or not. Set to false if results to be
        manipulated before final render
+    file_metadata: dict
+       Extracted metadata of all files in the dataset being traversed in.
+       This will be used to attach external urls to files if they have them.
 
     Returns
     -------
@@ -361,11 +364,8 @@ def ds_traverse(rootds, parent=None, json=None,
     metadata_map = {}
     
     for file_metadata in metadata_raw:
-        if file_metadata['type'] == 'file':
-            try:
-                metadata_map[file_metadata['path']] = file_metadata['metadata']['datalad_core']['url']
-            except ValueError:
-                continue
+        if file_metadata['type'] == 'file' and 'datalad_core' in file_metadata['metadata'] and 'url' in file_metadata['metadata']['datalad_core']:
+            metadata_map[file_metadata['path']] = file_metadata['metadata']['datalad_core']['url']
 
     # (recursively) traverse file tree of current dataset
     fs = fs_traverse(
