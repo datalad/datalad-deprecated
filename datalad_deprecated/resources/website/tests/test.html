@@ -12,6 +12,7 @@
     <script src="../assets/js/jquery-2.2.4.js"></script>
     <script src="../assets/js/jquery.dataTables-1.10.12.js"></script>
     <script src="../assets/js/md5-2.3.0.js"></script>
+    <script src="../assets/js/showdown-1.8.5-33-g0c6ce94.js"></script>
     <script src="../assets/js/main.js"></script>
     <script src="qunit/sinon-1.17.5.js"></script>
     <script src="qunit/sinon-qunit-1.0.0.js"></script>
@@ -261,6 +262,24 @@
           assert.deepEqual(clickHandler({name: 'childfile', type: 'file'}), {next: '/firstdir/prevdir/curdir/childfile', type: 'assign'}, 'get link to child file');  
       });
 
+      
+      QUnit.test("Context Menu External Services", function(assert) {
+        var filename = "testnwb.nwb";
+        var link = document.createElement("a");
+        link.href = filename;
+        link.protocol = "https";
+        assert.deepEqual(getExternalServices(filename), [{"name": "MetaCell/NWBExplorer", "url": "http://nwbexplorer.opensourcebrain.org/nwbfile="+link.href}])
+        
+        filename = "testnii.nii";
+        link.href = filename;
+        link.protocol = "https";
+        assert.deepEqual(getExternalServices(filename), [{"name": "Bioimagesuite/Viewer", "url": "https://bioimagesuiteweb.github.io/webapp/viewer.html?image="+link.href}, {"name": "Bioimagesuite/DualViewer", "url": "https://bioimagesuiteweb.github.io/webapp/dualviewer.html?image="+link.href}])
+
+        filename = "testniigz.nii.gz";
+        link.href = filename;
+        link.protocol = "https";
+        assert.deepEqual(getExternalServices(filename), [{"name": "Bioimagesuite/Viewer", "url": "https://bioimagesuiteweb.github.io/webapp/viewer.html?image="+link.href}, {"name": "Bioimagesuite/DualViewer", "url": "https://bioimagesuiteweb.github.io/webapp/dualviewer.html?image="+link.href}])
+      });      
 
     </script>
   </body>
