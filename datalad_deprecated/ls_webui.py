@@ -31,7 +31,9 @@ import datalad.api as dl
 
 #remove the below 2 lines when NEEDS_CONTENT is already made false
 import datalad.metadata.extractors.datalad_core as dc
-dc.MetadataExtractor.NEEDS_CONTENT = False
+from datalad.support.external_versions import external_versions
+if external_versions['datalad'] < '0.15.0':
+    dc.MetadataExtractor.NEEDS_CONTENT = False
 
 # A string to use to depict unknown size of the annexed dataset, e.g.
 # whenever all the keys are "relaxed" urls
