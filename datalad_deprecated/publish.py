@@ -16,7 +16,7 @@ from collections import OrderedDict
 from os.path import join as opj
 
 from datalad import ssh_manager
-from datalad.interface.annotate_paths import (
+from datalad_deprecated.annotate_paths import (
     AnnotatePaths,
     annotated2content_by_ds
 )
