@@ -20,7 +20,7 @@ from datalad.cmd import (
 )
 from datalad.distribution.dataset import Dataset
 from datalad.api import diff
-from datalad.interface.diff import _parse_git_diff
+from datalad_deprecated.diff import _parse_git_diff
 from datalad.consts import PRE_INIT_COMMIT_SHA
 from datalad.tests.utils import (
     known_failure_windows,
