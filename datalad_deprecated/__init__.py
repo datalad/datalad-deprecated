@@ -18,6 +18,10 @@ command_suite = (
             'datalad_deprecated.publish',
             'Publish',
         ),
+        (
+            'datalad_deprecated.annotate_paths',
+            'AnnotatePaths',
+        ),
     ]
 )
 
