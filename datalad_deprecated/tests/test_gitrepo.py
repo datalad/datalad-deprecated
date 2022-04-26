@@ -157,7 +157,7 @@ def test_update_submodules_sub_on_unborn_branch(path=None):
     subrepo.checkout("other", options=["--orphan"])
     with assert_raises(ValueError) as cme:
         repo.update_submodule(path="sub")
-    assert_in("unborn branch", str(cme.exception))
+    assert_in("unborn branch", str(cme.value))
 
 
 @with_tempfile
