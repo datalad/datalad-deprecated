@@ -54,7 +54,7 @@ def test_machinesize():
 @with_tree(
     tree={'dir': {'file1.txt': '123', 'file2.txt': '456'},
           '.hidden': {'.hidden_file': '121'}})
-def test_ignored(topdir):
+def test_ignored(topdir=None):
     # create annex, git repos
     AnnexRepo(opj(topdir, 'annexdir'), create=True)
     GitRepo(opj(topdir, 'gitdir'), create=True)
@@ -74,7 +74,7 @@ def test_ignored(topdir):
                   'subgit': {'fgit.txt': '123'}},
           'topfile.txt': '123',
           '.hidden': {'.hidden_file': '123'}})
-def test_fs_traverse(topdir):
+def test_fs_traverse(topdir=None):
     # setup temp directory tree for testing
     annex = AnnexRepo(topdir)
     AnnexRepo(opj(topdir, 'annexdir'), create=True)
@@ -160,7 +160,7 @@ def test_fs_traverse(topdir):
                   'subds2': {'file': '124'}},
           '.hidden': {'.hidden_file': '123'}})
 @serve_path_via_http
-def test_ls_json(topdir, topurl):
+def test_ls_json(topdir=None, topurl):
     annex = AnnexRepo(topdir, create=True)
     ds = Dataset(topdir)
     # create some file and commit it

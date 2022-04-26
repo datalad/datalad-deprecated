@@ -39,7 +39,7 @@ from datalad.support.exceptions import (
 @with_tempfile
 @with_tempfile
 @with_tempfile
-def test_submodule_deinit(src, subsrc, path):
+def test_submodule_deinit(src=None, subsrc, path):
     src = GitRepo(src)
     subsrc = GitRepo(subsrc)
     for repo in (src, subsrc):
@@ -82,7 +82,7 @@ def test_submodule_deinit(src, subsrc, path):
 
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_GitRepo_add_submodule(source_path, path):
+def test_GitRepo_add_submodule(source_path=None, path):
     source = GitRepo(source_path, create=True)
     with open(op.join(source_path, 'some.txt'), 'w') as f:
         f.write("New text file.")
@@ -148,7 +148,7 @@ def test_GitRepo_update_submodule_init_adjust_branch():
 
 
 @with_tempfile
-def test_update_submodules_sub_on_unborn_branch(path):
+def test_update_submodules_sub_on_unborn_branch(path=None):
     repo = GitRepo(path, create=True)
     repo.commit(msg="c0", options=["--allow-empty"])
     subrepo = GitRepo(op.join(path, "sub"), create=True)
@@ -161,7 +161,7 @@ def test_update_submodules_sub_on_unborn_branch(path):
 
 
 @with_tempfile
-def test_GitRepo_get_submodules(path):
+def test_GitRepo_get_submodules(path=None):
     repo = GitRepo(path, create=True)
 
     s_abc = GitRepo(op.join(path, "s_abc"), create=True)
@@ -178,7 +178,7 @@ def test_GitRepo_get_submodules(path):
 
 
 @with_tempfile
-def test_get_submodules_parent_on_unborn_branch(path):
+def test_get_submodules_parent_on_unborn_branch(path=None):
     repo = GitRepo(path, create=True)
     subrepo = GitRepo(op.join(path, "sub"), create=True)
     subrepo.commit(msg="s", options=["--allow-empty"])

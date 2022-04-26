@@ -52,7 +52,7 @@ except ImportError:
 # https://github.com/datalad/datalad/pull/3975/checks?check_run_id=369789030#step:8:398
 @known_failure_windows
 @with_testrepos('basic_annex', flavors=['clone'])
-def test_proxying_open_testrepobased(repo):
+def test_proxying_open_testrepobased(repo=None):
     TEST_CONTENT = "content to be annex-addurl'd"
     fname = 'test-annex.dat'
     fpath = opj(repo, fname)

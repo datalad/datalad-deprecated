@@ -58,7 +58,7 @@ def test_magic_number():
 @known_failure_githubci_win
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_diff(path, norepo):
+def test_diff(path=None, norepo):
     ds = Dataset(path).create()
     assert_repo_status(ds.path)
     # reports stupid revision input
@@ -147,7 +147,7 @@ def test_diff(path, norepo):
 
 @known_failure_githubci_win
 @with_tempfile(mkdir=True)
-def test_diff_recursive(path):
+def test_diff_recursive(path=None):
     ds = Dataset(path).create()
     sub = ds.create('sub')
     # look at the last change, and confirm a dataset was added
@@ -203,7 +203,7 @@ def test_diff_recursive(path):
     'modified': 'original_content',
     'untracked': 'dirt',
 })
-def test_diff_helper(path):
+def test_diff_helper(path=None):
     # make test dataset components of interesting states
     ds = Dataset.create(path, force=True)
     # detached dataset, not a submodule

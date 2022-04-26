@@ -76,7 +76,7 @@ demo_hierarchy = {
 
 
 @with_tempfile(mkdir=True)
-def test_invalid_call(path):
+def test_invalid_call(path=None):
     # inter-option dependencies
     assert_raises(
         ValueError,
@@ -91,7 +91,7 @@ def test_invalid_call(path):
 @slow  # 15.3509s
 @with_tree(demo_hierarchy)
 @with_tempfile(mkdir=True)
-def test_annotate_paths(dspath, nodspath):
+def test_annotate_paths(dspath=None, nodspath):
     # this test doesn't use API`remove` to avoid circularities
     ds = make_demo_hierarchy_datasets(dspath, demo_hierarchy)
     ds.save(recursive=True)
@@ -243,7 +243,7 @@ def test_annotate_paths(dspath, nodspath):
 @known_failure_githubci_win
 @slow  # 11.0891s
 @with_tree(demo_hierarchy['b'])
-def test_get_modified_subpaths(path):
+def test_get_modified_subpaths(path=None):
     ds = Dataset(path).create(force=True)
     suba = ds.create('ba', force=True)
     subb = ds.create('bb', force=True)
@@ -348,7 +348,7 @@ def test_get_modified_subpaths(path):
 @slow  # 41.5367s
 @with_tree(demo_hierarchy)
 @with_tempfile(mkdir=True)
-def test_recurseinto(dspath, dest):
+def test_recurseinto(dspath=None, dest):
     # make fresh dataset hierarchy
     ds = make_demo_hierarchy_datasets(dspath, demo_hierarchy)
     ds.save(recursive=True)
@@ -392,7 +392,7 @@ def test_recurseinto(dspath, dest):
 
 @assert_cwd_unchanged
 @with_tempfile(mkdir=True)
-def test_resolve_path(somedir):
+def test_resolve_path(somedir=None):
 
     abs_path = abspath(somedir)  # just to be sure
     rel_path = "some"

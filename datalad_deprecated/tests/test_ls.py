@@ -54,7 +54,7 @@ test_ls_s3.tags = ['network']
 
 
 @with_tempfile
-def test_ls_repos(toppath):
+def test_ls_repos(toppath=None):
     # smoke test pretty much
     GitRepo(toppath + '1', create=True)
     AnnexRepo(toppath + '2', create=True)
@@ -82,7 +82,7 @@ def test_ls_repos(toppath):
 
 
 @with_tempfile
-def test_ls_uninstalled(path):
+def test_ls_uninstalled(path=None):
     ds = Dataset(path)
     ds.create()
     ds.create('sub')
@@ -93,7 +93,7 @@ def test_ls_uninstalled(path):
 
 
 @with_tempfile
-def test_ls_noarg(toppath):
+def test_ls_noarg(toppath=None):
     # smoke test pretty much
     AnnexRepo(toppath, create=True)
 

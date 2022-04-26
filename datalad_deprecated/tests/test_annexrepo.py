@@ -25,7 +25,7 @@ from datalad.tests.utils import (
 @skip_if_adjusted_branch
 @with_tempfile
 @with_tempfile
-def test_AnnexRepo_add_submodule(source_path, path):
+def test_AnnexRepo_add_submodule(source_path=None, path):
     source = AnnexRepo(source_path, create=True)
     (source.pathobj / 'test-annex.dat').write_text("content")
     source.save('some')
