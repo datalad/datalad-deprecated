@@ -551,11 +551,11 @@ def test_publish_with_data(origin=None, src_path=None, dst_path=None, sub1_pub=N
 @with_tempfile()
 @with_tempfile()
 def test_publish_depends(
-        origin,
-        src_path,
-        target1_path,
-        target2_path,
-        target3_path):
+        origin=None,
+        src_path=None,
+        target1_path=None,
+        target2_path=None,
+        target3_path=None):
     # prepare src
     source = install(src_path, source=origin, recursive=True)
     source.repo.get('test-annex.dat')
