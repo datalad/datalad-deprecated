@@ -14,6 +14,8 @@ import logging
 
 import os.path as op
 
+import pytest
+
 from datalad.tests.utils import (
     assert_false,
     assert_in,
@@ -103,8 +105,9 @@ def test_GitRepo_update_submodule():
     raise SkipTest("TODO")
 
 
+@pytest.mark.parametrize("is_ancestor", [False, True])
 @with_tempfile(mkdir=True)
-def check_update_submodule_init_adjust_branch(is_ancestor, path):
+def test_update_submodule_init_adjust_branch(path=None, *, is_ancestor):
     src = GitRepo(op.join(path, "src"), create=True)
     src_sub = GitRepo(op.join(src.path, "sub"), create=True)
     src_sub.commit(msg="c0", options=["--allow-empty"])
@@ -140,11 +143,6 @@ def check_update_submodule_init_adjust_branch(is_ancestor, path):
         eq_(clone_sub.get_active_branch(), DEFAULT_BRANCH)
     else:
         assert_false(clone_sub.get_active_branch())
-
-
-def test_GitRepo_update_submodule_init_adjust_branch():
-    yield check_update_submodule_init_adjust_branch, True
-    yield check_update_submodule_init_adjust_branch, False
 
 
 @with_tempfile
