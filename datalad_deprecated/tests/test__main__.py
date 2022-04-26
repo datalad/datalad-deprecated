@@ -24,7 +24,7 @@ from ..auto import AutomagicIO
 @skip_if_on_windows
 @patch.object(AutomagicIO, 'activate')
 @patch('sys.stdout', new_callable=StringIO)
-def test_main_run_a_script(stdout=None, mock_activate):
+def test_main_run_a_script(stdout=None, mock_activate=None):
     try:
         from datalad.auto import AutomagicIO
         raise SkipTest(

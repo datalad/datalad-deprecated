@@ -160,7 +160,7 @@ def test_fs_traverse(topdir=None):
                   'subds2': {'file': '124'}},
           '.hidden': {'.hidden_file': '123'}})
 @serve_path_via_http
-def test_ls_json(topdir=None, topurl):
+def test_ls_json(topdir=None, topurl=None):
     annex = AnnexRepo(topdir, create=True)
     ds = Dataset(topdir)
     # create some file and commit it

@@ -58,7 +58,7 @@ def test_magic_number():
 @known_failure_githubci_win
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_diff(path=None, norepo):
+def test_diff(path=None, norepo=None):
     ds = Dataset(path).create()
     assert_repo_status(ds.path)
     # reports stupid revision input

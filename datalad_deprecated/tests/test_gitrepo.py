@@ -39,7 +39,7 @@ from datalad.support.exceptions import (
 @with_tempfile
 @with_tempfile
 @with_tempfile
-def test_submodule_deinit(src=None, subsrc, path):
+def test_submodule_deinit(src=None, subsrc, path=None):
     src = GitRepo(src)
     subsrc = GitRepo(subsrc)
     for repo in (src, subsrc):
@@ -82,7 +82,7 @@ def test_submodule_deinit(src=None, subsrc, path):
 
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_GitRepo_add_submodule(source_path=None, path):
+def test_GitRepo_add_submodule(source_path=None, path=None):
     source = GitRepo(source_path, create=True)
     with open(op.join(source_path, 'some.txt'), 'w') as f:
         f.write("New text file.")

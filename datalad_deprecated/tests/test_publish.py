@@ -79,7 +79,7 @@ def filter_fsck_error_msg(dicts):
 
 @with_testrepos('submodule_annex', flavors=['local'])
 @with_tempfile(mkdir=True)
-def test_invalid_call(origin=None, tdir):
+def test_invalid_call(origin=None, tdir=None):
     ds = Dataset(origin)
     ds.uninstall('subm 1', check=False)
     # nothing
@@ -109,7 +109,7 @@ def test_invalid_call(origin=None, tdir):
 @known_failure_windows
 @with_tempfile
 @with_tempfile
-def test_since_empty_and_unsupported(p1=None, p2):
+def test_since_empty_and_unsupported(p1=None, p2=None):
     source = Dataset(p1).create()
     source.create_sibling(p2, name='target1')
     # see https://github.com/datalad/datalad/pull/4448#issuecomment-620847327
@@ -164,7 +164,7 @@ def test_assert_git_annex_branch_published(path=None):
 @with_testrepos('submodule_annex', flavors=['local'])  #TODO: Use all repos after fixing them
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_publish_simple(origin=None, src_path, dst_path):
+def test_publish_simple(origin=None, src_path, dst_path=None):
 
     # prepare src
     source = install(src_path, source=origin, recursive=True)
@@ -222,7 +222,7 @@ def test_publish_simple(origin=None, src_path, dst_path):
 @with_testrepos('basic_git', flavors=['local'])
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_publish_plain_git(origin=None, src_path, dst_path):
+def test_publish_plain_git(origin=None, src_path, dst_path=None):
     # TODO: Since it's mostly the same, melt with test_publish_simple
 
     # prepare src
@@ -287,7 +287,7 @@ def test_publish_plain_git(origin=None, src_path, dst_path):
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_publish_recursive(pristine_origin=None, origin_path, src_path, dst_path, sub1_pub, sub2_pub):
+def test_publish_recursive(pristine_origin=None, origin_path, src_path, dst_path, sub1_pub, sub2_pub=None):
 
     # we will be publishing back to origin, so to not alter testrepo
     # we will first clone it
@@ -458,7 +458,7 @@ def test_publish_recursive(pristine_origin=None, origin_path, src_path, dst_path
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
 @with_tempfile
-def test_publish_with_data(origin=None, src_path, dst_path, sub1_pub, sub2_pub, dst_clone_path):
+def test_publish_with_data(origin=None, src_path, dst_path, sub1_pub, sub2_pub, dst_clone_path=None):
 
     # prepare src
     source = install(src_path, source=origin, recursive=True)
@@ -631,7 +631,7 @@ def test_publish_depends(
 @known_failure_windows
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_gh1426(origin_path=None, target_path):
+def test_gh1426(origin_path=None, target_path=None):
     # set up a pair of repos, one the published copy of the other
     origin = create(origin_path)
     target = AnnexRepo(target_path, create=True)
@@ -660,7 +660,7 @@ def test_gh1426(origin_path=None, target_path):
 @with_testrepos('submodule_annex', flavors=['local'])  #TODO: Use all repos after fixing them
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_publish_gh1691(origin=None, src_path, dst_path):
+def test_publish_gh1691(origin=None, src_path, dst_path=None):
 
     # prepare src; no subdatasets installed, but mount points present
     source = install(src_path, source=origin, recursive=False)
@@ -692,7 +692,7 @@ def test_publish_gh1691(origin=None, src_path, dst_path):
 @with_tree(tree={'1': '123'})
 @with_tempfile(mkdir=True)
 @serve_path_via_http
-def test_publish_target_url(src=None, desttop, desturl):
+def test_publish_target_url(src=None, desttop, desturl=None):
     # https://github.com/datalad/datalad/issues/1762
     ds = Dataset(src).create(force=True)
     ds.save('1')
@@ -710,7 +710,7 @@ def test_publish_target_url(src=None, desttop, desturl):
 @with_tempfile(mkdir=True)
 @with_tempfile()
 @with_tempfile()
-def test_gh1763(src=None, target1, target2):
+def test_gh1763(src=None, target1, target2=None):
     # this test is very similar to test_publish_depends, but more
     # comprehensible, and directly tests issue 1763
     src = Dataset(src).create(force=True)
@@ -736,7 +736,7 @@ def test_gh1763(src=None, target1, target2):
 
 @with_tempfile()
 @with_tempfile()
-def test_gh1811(srcpath=None, clonepath):
+def test_gh1811(srcpath=None, clonepath=None):
     orig = Dataset(srcpath).create()
     (orig.pathobj / 'some').write_text('some')
     orig.save()

@@ -91,7 +91,7 @@ def test_invalid_call(path=None):
 @slow  # 15.3509s
 @with_tree(demo_hierarchy)
 @with_tempfile(mkdir=True)
-def test_annotate_paths(dspath=None, nodspath):
+def test_annotate_paths(dspath=None, nodspath=None):
     # this test doesn't use API`remove` to avoid circularities
     ds = make_demo_hierarchy_datasets(dspath, demo_hierarchy)
     ds.save(recursive=True)
@@ -348,7 +348,7 @@ def test_get_modified_subpaths(path=None):
 @slow  # 41.5367s
 @with_tree(demo_hierarchy)
 @with_tempfile(mkdir=True)
-def test_recurseinto(dspath=None, dest):
+def test_recurseinto(dspath=None, dest=None):
     # make fresh dataset hierarchy
     ds = make_demo_hierarchy_datasets(dspath, demo_hierarchy)
     ds.save(recursive=True)
