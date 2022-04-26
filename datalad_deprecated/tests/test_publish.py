@@ -287,7 +287,7 @@ def test_publish_plain_git(origin=None, src_path=None, dst_path=None):
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_publish_recursive(pristine_origin=None, origin_path, src_path, dst_path, sub1_pub=None, sub2_pub=None):
+def test_publish_recursive(pristine_origin=None, origin_path, src_path, dst_path=None, sub1_pub=None, sub2_pub=None):
 
     # we will be publishing back to origin, so to not alter testrepo
     # we will first clone it
@@ -458,7 +458,7 @@ def test_publish_recursive(pristine_origin=None, origin_path, src_path, dst_path
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
 @with_tempfile
-def test_publish_with_data(origin=None, src_path, dst_path, sub1_pub, sub2_pub=None, dst_clone_path=None):
+def test_publish_with_data(origin=None, src_path, dst_path, sub1_pub=None, sub2_pub=None, dst_clone_path=None):
 
     # prepare src
     source = install(src_path, source=origin, recursive=True)
