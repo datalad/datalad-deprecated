@@ -11,7 +11,7 @@ import hashlib
 import json as js
 import logging
 from genericpath import exists
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_equal,
     assert_false,
     assert_in,

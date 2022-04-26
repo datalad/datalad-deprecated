@@ -14,7 +14,7 @@ from os.path import join as opj
 
 from datalad.support.annexrepo import AnnexRepo
 
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_repo_status,
     eq_,
     skip_if_adjusted_branch,

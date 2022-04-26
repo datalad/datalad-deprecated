@@ -23,12 +23,12 @@ from datalad.support.annexrepo import AnnexRepo
 from datalad.distribution.dataset import Dataset
 from datalad.api import ls
 from datalad.utils import swallow_outputs, chpwd
-from datalad.tests.utils import assert_equal
-from datalad.tests.utils import assert_in
-from datalad.tests.utils import DEFAULT_BRANCH
-from datalad.tests.utils import use_cassette
-from datalad.tests.utils import with_tempfile
-from datalad.tests.utils import skip_if_no_network
+from datalad.tests.utils_pytest import assert_equal
+from datalad.tests.utils_pytest import assert_in
+from datalad.tests.utils_pytest import DEFAULT_BRANCH
+from datalad.tests.utils_pytest import use_cassette
+from datalad.tests.utils_pytest import with_tempfile
+from datalad.tests.utils_pytest import skip_if_no_network
 from ..ls import LsFormatter
 from os.path import relpath
 from os import mkdir

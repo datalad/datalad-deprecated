@@ -10,7 +10,7 @@
 from unittest.mock import patch
 from io import StringIO
 from tempfile import NamedTemporaryFile
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_equal,
     skip_if_on_windows,
     SkipTest,

@@ -22,7 +22,7 @@ from os.path import (
     normpath,
     abspath,
 )
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     with_tree,
     with_tempfile,
     eq_,

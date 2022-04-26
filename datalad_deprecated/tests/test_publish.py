@@ -37,7 +37,7 @@ from datalad.utils import (
     _path_,
 )
 from datalad.cmd import GitWitlessRunner
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_false as nok_,
     assert_false,
     assert_in,

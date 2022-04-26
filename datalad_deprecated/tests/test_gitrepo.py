@@ -16,7 +16,7 @@ import os.path as op
 
 import pytest
 
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_false,
     assert_in,
     assert_raises,

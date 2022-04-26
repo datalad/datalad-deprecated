@@ -20,7 +20,7 @@ from io import StringIO
 from ..auto import AutomagicIO
 from datalad.support.annexrepo import AnnexRepo
 from datalad.support.json_py import LZMAFile
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_false,
     assert_raises,
     assert_true,
