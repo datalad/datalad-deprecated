@@ -39,7 +39,7 @@ from datalad.support.exceptions import (
 @with_tempfile
 @with_tempfile
 @with_tempfile
-def test_submodule_deinit(src=None, subsrc, path=None):
+def test_submodule_deinit(src=None, subsrc=None, path=None):
     src = GitRepo(src)
     subsrc = GitRepo(subsrc)
     for repo in (src, subsrc):
