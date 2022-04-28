@@ -11,6 +11,7 @@ In addition, this extension provides the `AutomagicIO` feature that patches Pyth
 `open()` function to automatically obtain file content, if needed.
 
 It also provides the web user interface that is used at http://datasets.datalad.org
+(yet to be migrated to https://github.com/datalad/datalad-webui fully).
 
 
 ## Acknowledgements
