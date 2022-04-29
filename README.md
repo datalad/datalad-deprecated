@@ -4,7 +4,11 @@
 
 Command(s) provided by this extension
 
+- `annotate-paths` -- analyze and act upon input paths
+- `diff` -- old'ish implementation for differences between two states 
 - `ls` -- list summary information about URLs and datasets
+   of a dataset (hierarchy)
+- `publish` -- original implementation, replaced by `push` in core
 
 
 In addition, this extension provides the `AutomagicIO` feature that patches Python's
