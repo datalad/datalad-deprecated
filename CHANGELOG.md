@@ -1,3 +1,15 @@
+# 0.2.1 (Fri Apr 29 2022)
+
+#### 📝 Documentation
+
+- Add other added commands (diff, annotate-paths, publish) to README.md [#55](https://github.com/datalad/datalad-deprecated/pull/55) ([@yarikoptic](https://github.com/yarikoptic))
+
+#### Authors: 1
+
+- Yaroslav Halchenko ([@yarikoptic](https://github.com/yarikoptic))
+
+---
+
 # 0.2.0 (Fri Apr 29 2022)
 
 #### 🚀 Enhancement
