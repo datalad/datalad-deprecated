@@ -1,4 +1,4 @@
-# (Fri Apr 29 2022)
+# 0.2.0 (Fri Apr 29 2022)
 
 #### 🚀 Enhancement
 
