@@ -583,6 +583,24 @@ function directory(jQuery, md5) {
         menu +=  '<li class="context-option external"><a href="' + data.url + '">Open External Link</a></li>';
       }
 
+      // add in external urls for any files that have them
+      if (data.external_urls) {
+        if (data.external_urls.length == 1) {
+            menu +=  '<li class="context-option external"><a href="' + data.external_urls[0] + '">' + 'Open External URL' + '</a></li>';
+        }
+        // if there are multiple external urls, list at most 5 (currently just gets the first 5)
+        else if (data.external_urls.length > 1) {
+            menu +=  '<li class="context-option separator">External URLs</li>';
+            for (var i = 0; i < Math.min(5, data.external_urls.length); i++) {
+              var link = document.createElement("a");
+              link.href = data.external_urls[i];
+              link.protocol = "https";
+              menu +=  '<li class="context-option service"><a href="' + data.external_urls[i] + '">' + link.hostname + '</a></li>';
+            }
+        }
+        
+      }
+
       if (data.type === 'dir' || data.type === 'git' || data.type === 'annex') {
         var folderUrl = traverse.next
         if (folderUrl.indexOf("?dir=") > -1){
