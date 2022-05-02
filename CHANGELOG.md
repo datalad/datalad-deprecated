@@ -1,3 +1,15 @@
+# 0.2.2 (Mon May 02 2022)
+
+#### 🏠 Internal
+
+- Update build setup to include needed files [#57](https://github.com/datalad/datalad-deprecated/pull/57) ([@yarikoptic](https://github.com/yarikoptic))
+
+#### Authors: 1
+
+- Yaroslav Halchenko ([@yarikoptic](https://github.com/yarikoptic))
+
+---
+
 # 0.2.1 (Fri Apr 29 2022)
 
 #### 📝 Documentation
