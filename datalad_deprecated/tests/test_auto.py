@@ -20,7 +20,7 @@ from io import StringIO
 from ..auto import AutomagicIO
 from datalad.support.annexrepo import AnnexRepo
 from datalad.support.json_py import LZMAFile
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_false,
     assert_raises,
     assert_true,
@@ -52,7 +52,7 @@ except ImportError:
 # https://github.com/datalad/datalad/pull/3975/checks?check_run_id=369789030#step:8:398
 @known_failure_windows
 @with_testrepos('basic_annex', flavors=['clone'])
-def test_proxying_open_testrepobased(repo):
+def test_proxying_open_testrepobased(repo=None):
     TEST_CONTENT = "content to be annex-addurl'd"
     fname = 'test-annex.dat'
     fpath = opj(repo, fname)
@@ -196,7 +196,7 @@ def test_proxying_open_h5py():
 
     if not h5py:
         raise SkipTest("No h5py found")
-    yield _test_proxying_open, generate_hdf5, verify_hdf5
+    _test_proxying_open(generate_hdf5, verify_hdf5)
 
 
 @known_failure_windows
@@ -209,7 +209,7 @@ def test_proxying_open_regular():
         with open(f, mode) as f:
             eq_(f.read(), "123")
 
-    yield _test_proxying_open, generate_dat, verify_dat
+    _test_proxying_open(generate_dat, verify_dat)
 
 
 @known_failure_windows
@@ -223,7 +223,7 @@ def test_proxying_io_open_regular():
         with io.open(f, mode, encoding='utf-8') as f:
             eq_(f.read(), u"123")
 
-    yield _test_proxying_open, generate_dat, verify_dat
+    _test_proxying_open(generate_dat, verify_dat)
 
 
 @known_failure_windows
@@ -236,7 +236,7 @@ def test_proxying_lzma_LZMAFile():
         with LZMAFile(f, mode) as f:
             eq_(f.read().decode('utf-8'), "123")
 
-    yield _test_proxying_open, generate_dat, verify_dat
+    _test_proxying_open(generate_dat, verify_dat)
 
 
 @known_failure_windows
@@ -258,7 +258,7 @@ def test_proxying_open_nibabel():
         ni = nib.load(f)
         assert_array_equal(ni.get_data(), d)
 
-    yield _test_proxying_open, generate_nii, verify_nii
+    _test_proxying_open(generate_nii, verify_nii)
 
 
 @known_failure_windows
@@ -271,4 +271,4 @@ def test_proxying_os_stat():
     def verify_dat(f, mode="r"):
         assert os.stat(f).st_size == 3
 
-    yield _test_proxying_open, generate_dat, verify_dat
+    _test_proxying_open(generate_dat, verify_dat)

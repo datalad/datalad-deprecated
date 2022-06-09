@@ -10,3 +10,6 @@ docs/build
 docs/source/generated
 build/
 dist/
+venvs/
+fixtures/
+.idea

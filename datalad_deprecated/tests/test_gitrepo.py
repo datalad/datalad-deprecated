@@ -14,7 +14,9 @@ import logging
 
 import os.path as op
 
-from datalad.tests.utils import (
+import pytest
+
+from datalad.tests.utils_pytest import (
     assert_false,
     assert_in,
     assert_raises,
@@ -39,7 +41,7 @@ from datalad.support.exceptions import (
 @with_tempfile
 @with_tempfile
 @with_tempfile
-def test_submodule_deinit(src, subsrc, path):
+def test_submodule_deinit(src=None, subsrc=None, path=None):
     src = GitRepo(src)
     subsrc = GitRepo(subsrc)
     for repo in (src, subsrc):
@@ -82,7 +84,7 @@ def test_submodule_deinit(src, subsrc, path):
 
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_GitRepo_add_submodule(source_path, path):
+def test_GitRepo_add_submodule(source_path=None, path=None):
     source = GitRepo(source_path, create=True)
     with open(op.join(source_path, 'some.txt'), 'w') as f:
         f.write("New text file.")
@@ -103,8 +105,9 @@ def test_GitRepo_update_submodule():
     raise SkipTest("TODO")
 
 
+@pytest.mark.parametrize("is_ancestor", [False, True])
 @with_tempfile(mkdir=True)
-def check_update_submodule_init_adjust_branch(is_ancestor, path):
+def test_update_submodule_init_adjust_branch(path=None, *, is_ancestor):
     src = GitRepo(op.join(path, "src"), create=True)
     src_sub = GitRepo(op.join(src.path, "sub"), create=True)
     src_sub.commit(msg="c0", options=["--allow-empty"])
@@ -142,13 +145,8 @@ def check_update_submodule_init_adjust_branch(is_ancestor, path):
         assert_false(clone_sub.get_active_branch())
 
 
-def test_GitRepo_update_submodule_init_adjust_branch():
-    yield check_update_submodule_init_adjust_branch, True
-    yield check_update_submodule_init_adjust_branch, False
-
-
 @with_tempfile
-def test_update_submodules_sub_on_unborn_branch(path):
+def test_update_submodules_sub_on_unborn_branch(path=None):
     repo = GitRepo(path, create=True)
     repo.commit(msg="c0", options=["--allow-empty"])
     subrepo = GitRepo(op.join(path, "sub"), create=True)
@@ -157,11 +155,11 @@ def test_update_submodules_sub_on_unborn_branch(path):
     subrepo.checkout("other", options=["--orphan"])
     with assert_raises(ValueError) as cme:
         repo.update_submodule(path="sub")
-    assert_in("unborn branch", str(cme.exception))
+    assert_in("unborn branch", str(cme.value))
 
 
 @with_tempfile
-def test_GitRepo_get_submodules(path):
+def test_GitRepo_get_submodules(path=None):
     repo = GitRepo(path, create=True)
 
     s_abc = GitRepo(op.join(path, "s_abc"), create=True)
@@ -178,7 +176,7 @@ def test_GitRepo_get_submodules(path):
 
 
 @with_tempfile
-def test_get_submodules_parent_on_unborn_branch(path):
+def test_get_submodules_parent_on_unborn_branch(path=None):
     repo = GitRepo(path, create=True)
     subrepo = GitRepo(op.join(path, "sub"), create=True)
     subrepo.commit(msg="s", options=["--allow-empty"])

@@ -17,7 +17,7 @@ from os.path import (
 from datalad.utils import (
     _path_,
 )
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_false,
     assert_not_in,
     ok_exists,

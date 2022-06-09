@@ -23,12 +23,12 @@ from datalad.support.annexrepo import AnnexRepo
 from datalad.distribution.dataset import Dataset
 from datalad.api import ls
 from datalad.utils import swallow_outputs, chpwd
-from datalad.tests.utils import assert_equal
-from datalad.tests.utils import assert_in
-from datalad.tests.utils import DEFAULT_BRANCH
-from datalad.tests.utils import use_cassette
-from datalad.tests.utils import with_tempfile
-from datalad.tests.utils import skip_if_no_network
+from datalad.tests.utils_pytest import assert_equal
+from datalad.tests.utils_pytest import assert_in
+from datalad.tests.utils_pytest import DEFAULT_BRANCH
+from datalad.tests.utils_pytest import use_cassette
+from datalad.tests.utils_pytest import with_tempfile
+from datalad.tests.utils_pytest import skip_if_no_network
 from ..ls import LsFormatter
 from os.path import relpath
 from os import mkdir
@@ -54,7 +54,7 @@ test_ls_s3.tags = ['network']
 
 
 @with_tempfile
-def test_ls_repos(toppath):
+def test_ls_repos(toppath=None):
     # smoke test pretty much
     GitRepo(toppath + '1', create=True)
     AnnexRepo(toppath + '2', create=True)
@@ -82,7 +82,7 @@ def test_ls_repos(toppath):
 
 
 @with_tempfile
-def test_ls_uninstalled(path):
+def test_ls_uninstalled(path=None):
     ds = Dataset(path)
     ds.create()
     ds.create('sub')
@@ -93,7 +93,7 @@ def test_ls_uninstalled(path):
 
 
 @with_tempfile
-def test_ls_noarg(toppath):
+def test_ls_noarg(toppath=None):
     # smoke test pretty much
     AnnexRepo(toppath, create=True)
 

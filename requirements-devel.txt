@@ -1,5 +1,5 @@
 # requirements for a development environment
-nose
+-e .[devel]
 coverage
 sphinx
 sphinx_rtd_theme
@@ -8,5 +8,5 @@ sphinx_rtd_theme
 nibabel
 h5py
 
-# for web UI transition
-git+https://github.com/datalad/datalad#egg=datalad
+# pytest RFing PR -- yet to be released
+git+https://github.com/jwodder/datalad@gh-6225#egg=datalad
