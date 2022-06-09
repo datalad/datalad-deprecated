@@ -7,6 +7,3 @@ sphinx_rtd_theme
 # for automagicio tests
 nibabel
 h5py
-
-# for web UI transition
-git+https://github.com/datalad/datalad#egg=datalad
