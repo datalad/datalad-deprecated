@@ -8,6 +8,8 @@
 # ## ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ##
 """Test XMP extractor"""
 
+from unittest import SkipTest
+
 import pytest
 
 from datalad.tests.utils_pytest import (
@@ -16,14 +18,13 @@ from datalad.tests.utils_pytest import (
     assert_result_count,
     assert_status,
     eq_,
-    skip_if_no_module,
     with_tempfile,
 )
 
 try:
     import libxmp
 except Exception as e:
-    pytestmark = pytest.mark.skip(reason=f"Module 'libxmp' failed to load: {e}")
+    raise SkipTest(f"Module 'libxmp' failed to load: {e}")
 
 from os.path import dirname
 from os.path import join as opj

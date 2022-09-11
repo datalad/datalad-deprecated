@@ -12,6 +12,12 @@
 from os.path import dirname
 from os.path import join as opj
 from shutil import copy
+from unittest import SkipTest
+
+try:
+    import libxmp
+except Exception as e:
+    raise SkipTest(f"Module 'libxmp' failed to load: {e}")
 
 from datalad.api import extract_metadata
 from datalad.coreapi import Dataset
@@ -21,7 +27,6 @@ from datalad.tests.utils_pytest import (
     assert_repo_status,
     assert_result_count,
     known_failure_githubci_win,
-    skip_if_no_module,
     with_tempfile,
 )
 from datalad.utils import chpwd
@@ -39,8 +44,6 @@ def test_error(path=None):
 @known_failure_githubci_win
 @with_tempfile(mkdir=True)
 def test_ds_extraction(path=None):
-    skip_if_no_module('libxmp')
-
     ds = Dataset(path).create()
     copy(testpath, path)
     ds.save()
@@ -75,8 +78,6 @@ def test_ds_extraction(path=None):
 @known_failure_githubci_win
 @with_tempfile(mkdir=True)
 def test_file_extraction(path=None):
-    skip_if_no_module('libxmp')
-
     # go into virgin dir to avoid detection of any dataset
     with chpwd(path):
         res = extract_metadata(
