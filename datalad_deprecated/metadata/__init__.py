@@ -16,6 +16,12 @@ from datalad.support.constraints import (
 )
 
 
+# Keep this around until datalad-deprecated tests are moved to pytest
+def skip_if_on_windows():
+    from unittest import SkipTest
+    raise SkipTest
+
+
 # We have to add the metadata specific default
 # to the general config definitions to support
 # metadata commands that ask for this config.

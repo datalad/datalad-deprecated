@@ -8,14 +8,17 @@
 # ## ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ##
 """Test audio extractor"""
 
+from unittest import SkipTest
+
 from datalad.tests.utils_pytest import (
-    SkipTest,
+    #SkipTest,
     assert_in,
     assert_not_in,
     assert_repo_status,
     assert_result_count,
     assert_status,
     eq_,
+    #skip_if_on_windows,
     with_tempfile,
 )
 
@@ -29,6 +32,9 @@ from os.path import join as opj
 from shutil import copy
 
 from datalad.api import Dataset
+
+from ... import skip_if_on_windows
+
 
 target = {
     "format": "mime:audio/mp3",
@@ -46,6 +52,7 @@ target = {
 
 @with_tempfile(mkdir=True)
 def test_audio(path=None):
+    skip_if_on_windows()
     ds = Dataset(path).create()
     ds.config.add('datalad.metadata.nativetype', 'audio', scope='branch')
     copy(

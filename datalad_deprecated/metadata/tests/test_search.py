@@ -19,7 +19,7 @@ from shutil import copy
 from uuid import UUID
 from pkg_resources import EntryPoint
 
-import pytest
+from unittest import SkipTest
 from unittest.mock import (
     MagicMock,
     patch,
@@ -31,7 +31,7 @@ from datalad.api import (
 )
 from datalad.support.exceptions import NoDatasetFound
 from datalad.tests.utils_pytest import (
-    SkipTest,
+    #SkipTest,
     assert_equal,
     assert_in,
     assert_is_generator,
@@ -63,10 +63,13 @@ from ..search import (
     _meta2autofield_dict,
 )
 
+from .. import skip_if_on_windows
+
 
 @with_testsui(interactive=False)
 @with_tempfile(mkdir=True)
 def test_search_outside1_noninteractive_ui(tdir=None):
+    skip_if_on_windows()
     # we should raise an informative exception
     with chpwd(tdir):
         with assert_raises(NoDatasetFound) as cme:
@@ -77,6 +80,7 @@ def test_search_outside1_noninteractive_ui(tdir=None):
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
 def test_search_outside1(tdir=None, newhome=None):
+    skip_if_on_windows()
     with chpwd(tdir):
         # should fail since directory exists, but not a dataset
         # should not even waste our response ;)
@@ -94,6 +98,7 @@ def test_search_outside1(tdir=None, newhome=None):
 @with_tempfile(mkdir=True)
 @with_tempfile()
 def test_search_outside1_install_default_ds(tdir=None, default_dspath=None):
+    skip_if_on_windows()
     with chpwd(tdir):
         # let's mock out even actual install/search calls
         with \
@@ -166,6 +171,7 @@ def _check_mocked_install(default_dspath, mock_install):
 
 @with_tempfile
 def test_search_non_dataset(tdir=None):
+    skip_if_on_windows()
     from datalad.support.gitrepo import GitRepo
     GitRepo(tdir, create=True)
     with assert_raises(NoDatasetFound) as cme:
@@ -177,6 +183,7 @@ def test_search_non_dataset(tdir=None):
 @known_failure_githubci_win
 @with_tempfile(mkdir=True)
 def test_within_ds_file_search(path=None):
+    skip_if_on_windows()
     try:
         import mutagen
     except ImportError:
@@ -357,6 +364,7 @@ type
 
 
 def test_listdict2dictlist():
+    skip_if_on_windows()
     f = _listdict2dictlist
     l1 = [1, 3, [1, 'a']]
     assert f(l1) is l1, "we return it as is if no emb dict"
@@ -366,6 +374,7 @@ def test_listdict2dictlist():
 
 
 def test_meta2autofield_dict():
+    skip_if_on_windows()
     # Just a test that we would obtain the value stored for that extractor
     # instead of what unique values it already had (whatever that means)
     eq_(
@@ -379,6 +388,7 @@ def test_meta2autofield_dict():
 
 def test_external_indexer():
     """ check that external indexer are called """
+    skip_if_on_windows()
     class MockedIndexer(MetadataIndexer):
         def __init__(self, metadata_format_name: str):
             super().__init__(metadata_format_name)
@@ -423,6 +433,7 @@ def test_external_indexer():
 
 def test_faulty_external_indexer():
     """ check that generic indexer is called on external indexer faults """
+    skip_if_on_windows()
     class MockedEntryPoint(EntryPoint):
         def __init__(self):
             self.name = 'MockedEntryPoint'
@@ -458,6 +469,7 @@ def test_faulty_external_indexer():
 
 def test_multiple_entry_points():
     """ check that generic indexer is called if multiple indexers exist for the same name """
+    skip_if_on_windows()
     class MockedEntryPoint(EntryPoint):
         def __init__(self):
             self.name = 'MockedEntryPoint'
@@ -493,6 +505,7 @@ def test_multiple_entry_points():
 
 
 def test_gen4_query_aggregated_metadata():
+    skip_if_on_windows()
     class DatasetMock:
         def __init__(self, path: str):
             self.path = path
@@ -607,6 +620,7 @@ def test_gen4_query_aggregated_metadata():
 
 @with_tempfile(mkdir=True)
 def test_metadata_source_handling(temp_dir=None):
+    skip_if_on_windows()
     import datalad_deprecated.metadata.metadata as metadata_module
 
     temp_ds = Dataset(temp_dir).create()

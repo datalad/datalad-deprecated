@@ -27,15 +27,20 @@ from datalad.tests.utils_pytest import (
     assert_repo_status,
     assert_result_count,
     known_failure_githubci_win,
+    #skip_if_on_windows,
     with_tempfile,
 )
 from datalad.utils import chpwd
+
+from .. import skip_if_on_windows
+
 
 testpath = opj(dirname(dirname(dirname(__file__))), 'metadata', 'tests', 'data', 'xmp.pdf')
 
 
 @with_tempfile(mkdir=True)
 def test_error(path=None):
+    skip_if_on_windows()
     # go into virgin dir to avoid detection of any dataset
     with chpwd(path):
         assert_raises(ValueError, extract_metadata, types=['bogus__'], files=[testpath])
@@ -44,6 +49,7 @@ def test_error(path=None):
 @known_failure_githubci_win
 @with_tempfile(mkdir=True)
 def test_ds_extraction(path=None):
+    skip_if_on_windows()
     ds = Dataset(path).create()
     copy(testpath, path)
     ds.save()
@@ -78,6 +84,7 @@ def test_ds_extraction(path=None):
 @known_failure_githubci_win
 @with_tempfile(mkdir=True)
 def test_file_extraction(path=None):
+    skip_if_on_windows()
     # go into virgin dir to avoid detection of any dataset
     with chpwd(path):
         res = extract_metadata(

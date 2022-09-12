@@ -8,8 +8,9 @@
 # ## ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ##
 """Test image extractor"""
 
+from unittest import SkipTest
+
 from datalad.tests.utils_pytest import (
-    SkipTest,
     assert_in,
     assert_repo_status,
     assert_result_count,
@@ -30,6 +31,9 @@ from shutil import copy
 
 from datalad.api import Dataset
 
+from ... import skip_if_on_windows
+
+
 target = {
     "dcterms:SizeOrDuration": [4, 3],
     "color_mode": "3x8-bit pixels, true color",
@@ -41,6 +45,7 @@ target = {
 
 @with_tempfile(mkdir=True)
 def test_image(path=None):
+    skip_if_on_windows()
     ds = Dataset(path).create()
     ds.config.add('datalad.metadata.nativetype', 'image', scope='branch')
     copy(

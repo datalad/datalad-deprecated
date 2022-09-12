@@ -20,9 +20,12 @@ from datalad.tests.utils_pytest import (
     with_tree,
 )
 
+from ... import skip_if_on_windows
+
 
 @with_tree(tree={'file.dat': ''})
 def check_api(annex, path):
+    skip_if_on_windows()
     ds = Dataset(path).create(force=True, annex=annex)
     ds.save()
     assert_repo_status(ds.path)
