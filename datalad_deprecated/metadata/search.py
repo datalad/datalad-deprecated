@@ -54,9 +54,9 @@ from datalad.utils import (
     shortened_repr,
 )
 
-from .consts import SEARCH_INDEX_DOTGITDIR
-from .metadata import query_aggregated_metadata
-from .utils import (
+from datalad_deprecated.metadata.consts import SEARCH_INDEX_DOTGITDIR
+from datalad_deprecated.metadata.metadata import query_aggregated_metadata
+from datalad_deprecated.metadata.utils import (
     as_unicode,
     unicode_srctypes,
 )

@@ -13,6 +13,10 @@ High-level API commands
 
    ls
    publish
+   metadata
+   search
+   extract-metadata
+   aggregate-metadata
 
 
 Command line reference
@@ -23,6 +27,9 @@ Command line reference
 
    generated/man/datalad-ls
    generated/man/datalad-publish
+   generated/man/datalad-metadata
+   generated/man/datalad-extract-metadata
+   generated/man/datalad-aggregate-metadata
 
 
 Miscellaneous functionality

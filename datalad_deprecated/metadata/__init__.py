@@ -90,7 +90,7 @@ config_module.definitions['datalad.metadata.store-aggregate-content'] = {
     'default': True,
 }
 
-config_module.definitions['atalad.metadata.create-aggregate-annex-limit'] = {
+config_module.definitions['datalad.metadata.create-aggregate-annex-limit'] = {
     'ui': (
         'question', {
             'title': 'Limit configuration annexing aggregated metadata in new dataset',

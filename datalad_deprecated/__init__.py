@@ -33,11 +33,14 @@ command_suite = (
         (
             'datalad_deprecated.metadata.extract_metadata',
             'ExtractMetadata',
+            'extract-metadata',
+            'extract_metadata',
         ),
         (
             'datalad_deprecated.metadata.aggregate',
-            'AggregateMetaData', 'aggregate-metadata',
-            'aggregate_metadata'
+            'AggregateMetaData',
+            'aggregate-metadata',
+            'aggregate_metadata',
         ),
     ]
 )
