@@ -30,6 +30,7 @@ Command line reference
    generated/man/datalad-metadata
    generated/man/datalad-extract-metadata
    generated/man/datalad-aggregate-metadata
+   generated/man/datalad-search
 
 
 Miscellaneous functionality
