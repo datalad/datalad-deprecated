@@ -55,6 +55,7 @@ from datalad.tests.utils import (
     neq_,
     ok_,
     ok_file_has_content,
+    on_windows,
     serve_path_via_http,
     skip_if_on_windows,
     skip_ssh,
@@ -67,7 +68,8 @@ from datalad.tests.utils import (
 
 # we are running this test from -core, which is mostly about create_sibling
 # but requires publish()
-from datalad.distribution.tests.test_create_sibling import test_target_ssh_inherit
+if not on_windows:
+    from datalad.distribution.tests.test_create_sibling import test_target_ssh_inherit
 
 
 def filter_fsck_error_msg(dicts):
