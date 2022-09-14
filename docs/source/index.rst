@@ -15,8 +15,8 @@ High-level API commands
    publish
    metadata
    search
-   extract-metadata
-   aggregate-metadata
+   extract_metadata
+   aggregate_metadata
 
 
 Command line reference
