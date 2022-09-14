@@ -3,6 +3,8 @@ nose
 coverage
 sphinx
 sphinx_rtd_theme
+pytest
+pytest-cov
 
 # for automagicio tests
 nibabel
