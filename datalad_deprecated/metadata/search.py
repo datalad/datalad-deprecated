@@ -25,6 +25,7 @@ import sys
 from time import time
 
 from datalad import cfg
+from datalad.consts import SEARCH_INDEX_DOTGITDIR
 from datalad.distribution.dataset import Dataset
 from datalad.distribution.dataset import (
     datasetmethod,
@@ -54,7 +55,6 @@ from datalad.utils import (
     shortened_repr,
 )
 
-from datalad_deprecated.metadata.consts import SEARCH_INDEX_DOTGITDIR
 from datalad_deprecated.metadata.metadata import query_aggregated_metadata
 from datalad_deprecated.metadata.utils import (
     as_unicode,

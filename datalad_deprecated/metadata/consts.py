@@ -14,5 +14,3 @@ METADATA_DIR = join(DATALAD_DOTDIR, 'metadata')
 WEB_META_DIR = join(DATALAD_GIT_DIR, 'metadata')
 
 DATASET_METADATA_FILE = join(METADATA_DIR, 'dataset.json')
-
-SEARCH_INDEX_DOTGITDIR = join('datalad', 'search_index')
