@@ -15,8 +15,9 @@ lgr = logging.getLogger('datalad.metadata.extractors.audio')
 from datalad.log import log_progress
 
 from mutagen import File as audiofile
-from datalad.metadata.definitions import vocabulary_id
-from datalad.metadata.extractors.base import BaseMetadataExtractor
+
+from ..definitions import vocabulary_id
+from .base import BaseMetadataExtractor
 
 
 # how properties reported by mutagen map onto our vocabulary
