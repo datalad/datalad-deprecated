@@ -22,6 +22,26 @@ command_suite = (
             'datalad_deprecated.annotate_paths',
             'AnnotatePaths',
         ),
+        (
+            'datalad_deprecated.metadata.search',
+            'Search',
+        ),
+        (
+            'datalad_deprecated.metadata.metadata',
+            'Metadata',
+        ),
+        (
+            'datalad_deprecated.metadata.extract_metadata',
+            'ExtractMetadata',
+            'extract-metadata',
+            'extract_metadata',
+        ),
+        (
+            'datalad_deprecated.metadata.aggregate',
+            'AggregateMetaData',
+            'aggregate-metadata',
+            'aggregate_metadata',
+        ),
     ]
 )
 

@@ -1,6 +1,7 @@
 # requirements for a development environment
 nose
 coverage
+pytest
 sphinx
 sphinx_rtd_theme
 pytest
