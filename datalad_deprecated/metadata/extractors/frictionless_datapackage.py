@@ -14,7 +14,8 @@ import logging
 lgr = logging.getLogger('datalad.metadata.extractors.frictionless_datapackage')
 from os.path import join as opj, exists
 from datalad.support.json_py import load as jsonload
-from datalad.metadata.extractors.base import BaseMetadataExtractor
+
+from .base import BaseMetadataExtractor
 
 
 def _compact_author(obj):

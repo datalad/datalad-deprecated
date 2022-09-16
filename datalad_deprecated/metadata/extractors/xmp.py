@@ -18,9 +18,10 @@ lgr = logging.getLogger('datalad.metadata.extractors.xmp')
 from datalad.log import log_progress
 
 from libxmp.utils import file_to_dict
-from datalad.metadata.definitions import vocabulary_id
-from datalad.metadata.extractors.base import BaseMetadataExtractor
 from datalad.utils import ensure_unicode
+
+from ..definitions import vocabulary_id
+from .base import BaseMetadataExtractor
 
 
 xmp_field_re = re.compile(r'^([^\[\]]+)(\[\d+\]|)(/?.*|)')

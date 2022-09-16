@@ -11,15 +11,13 @@
 import json
 
 from datalad.api import Dataset
-from datalad.metadata.extractors.frictionless_datapackage import (
-    MetadataExtractor,
-)
 from datalad.tests.utils_pytest import (
     assert_equal,
     with_tree,
 )
 
 from ... import skip_if_on_windows
+from ..frictionless_datapackage import MetadataExtractor
 
 
 # bits from examples and the specs

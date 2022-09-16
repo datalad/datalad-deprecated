@@ -14,8 +14,9 @@ lgr = logging.getLogger('datalad.metadata.extractors.exif')
 from datalad.log import log_progress
 
 from exifread import process_file
-from datalad.metadata.definitions import vocabulary_id
-from datalad.metadata.extractors.base import BaseMetadataExtractor
+
+from ..definitions import vocabulary_id
+from .base import BaseMetadataExtractor
 
 
 def _return_as_appropriate_dtype(val):

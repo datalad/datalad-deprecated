@@ -14,8 +14,10 @@ lgr = logging.getLogger('datalad.metadata.extractors.image')
 from datalad.log import log_progress
 
 from PIL import Image
-from datalad.metadata.extractors.base import BaseMetadataExtractor
 from datalad.support.exceptions import CapturedException
+
+from .base import BaseMetadataExtractor
+
 
 vocabulary = {
     "spatial_resolution(dpi)": {

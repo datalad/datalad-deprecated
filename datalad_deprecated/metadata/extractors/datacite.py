@@ -20,7 +20,7 @@ try:
 except ImportError:
     import xml.etree.ElementTree as ET
 
-from datalad.metadata.extractors.base import BaseMetadataExtractor
+from .base import BaseMetadataExtractor
 
 
 def _merge(iterable):

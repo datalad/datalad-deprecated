@@ -8,8 +8,6 @@
 # ## ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ##
 """Metadata extractor for DataLad's own core storage"""
 
-from datalad.metadata.extractors.base import BaseMetadataExtractor
-
 import logging
 lgr = logging.getLogger('datalad.metadata.extractors.datalad_core')
 from datalad.log import log_progress
@@ -22,6 +20,7 @@ from datalad.support.json_py import load as jsonload
 from datalad.support.annexrepo import AnnexRepo
 from datalad.coreapi import subdatasets
 
+from .base import BaseMetadataExtractor
 from ..consts import (
     DATASET_METADATA_FILE,
     DATALAD_DOTDIR,

@@ -11,13 +11,13 @@
 import json
 
 from datalad.distribution.dataset import Dataset
-from datalad.metadata.extractors.datalad_rfc822 import MetadataExtractor
 from datalad.tests.utils_pytest import (
     assert_equal,
     with_tree,
 )
 
 from ... import skip_if_on_windows
+from ..datalad_rfc822 import MetadataExtractor
 
 
 @with_tree(tree={'.datalad': {'meta.rfc822': """\

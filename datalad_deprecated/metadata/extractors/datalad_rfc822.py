@@ -23,8 +23,9 @@ from os.path import exists
 import email
 import email.parser  # necessary on Python 2.7.6 (trusty)
 from os.path import join as opj
-from datalad.metadata.extractors.base import BaseMetadataExtractor
 from datalad.interface.base import dedent_docstring
+
+from .base import BaseMetadataExtractor
 
 
 def _split_list_field(content):
