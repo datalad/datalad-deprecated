@@ -52,4 +52,4 @@ jobs:
         echo "== mount >>"
         mount
         echo "<< mount =="
-        python -m pytest -c ../tox.ini -s -v --doctest-modules --cov=datalad_deprecated --pyargs datalad_deprecated
+        python -m pytest -c ../tox.ini -s -v --doctest-modules --doctest-ignore-import-errors --cov=datalad_deprecated --pyargs datalad_deprecated
