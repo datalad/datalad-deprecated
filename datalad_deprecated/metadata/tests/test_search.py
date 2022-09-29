@@ -40,7 +40,7 @@ from datalad.tests.utils_pytest import (
     assert_repo_status,
     assert_result_count,
     eq_,
-    known_failure_githubci_win,
+    skip_if_adjusted_branch,
     ok_file_under_git,
     patch_config,
     with_tempfile,
@@ -175,7 +175,7 @@ def test_search_non_dataset(tdir=None):
     assert_in("datalad create --force", str(cme.value))
 
 
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tempfile(mkdir=True)
 def test_within_ds_file_search(path=None):
     try:

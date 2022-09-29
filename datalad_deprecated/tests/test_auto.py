@@ -26,7 +26,7 @@ from datalad.tests.utils_pytest import (
     assert_true,
     chpwd,
     eq_,
-    known_failure_githubci_win,
+    skip_if_adjusted_branch,
     known_failure_windows,
     ok_,
     SkipTest,

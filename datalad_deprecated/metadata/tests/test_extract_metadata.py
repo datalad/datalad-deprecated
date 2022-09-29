@@ -26,7 +26,7 @@ from datalad.tests.utils_pytest import (
     assert_raises,
     assert_repo_status,
     assert_result_count,
-    known_failure_githubci_win,
+    skip_if_adjusted_branch,
     #skip_if_on_windows,
     with_tempfile,
 )
@@ -44,7 +44,7 @@ def test_error(path=None):
         assert_raises(ValueError, extract_metadata, types=['bogus__'], files=[testpath])
 
 
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tempfile(mkdir=True)
 def test_ds_extraction(path=None):
     ds = Dataset(path).create()
@@ -78,7 +78,7 @@ def test_ds_extraction(path=None):
         assert_in('xmp', r['metadata'])
 
 
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tempfile(mkdir=True)
 def test_file_extraction(path=None):
     # go into virgin dir to avoid detection of any dataset

@@ -32,7 +32,7 @@ from datalad.tests.utils_pytest import (
     assert_status,
     assert_repo_status,
     assert_result_count,
-    known_failure_githubci_win,
+    skip_if_adjusted_branch,
     SkipTest,
 )
 from datalad.utils import on_windows
@@ -55,7 +55,7 @@ def test_magic_number():
     eq_(out['stdout'].strip(), PRE_INIT_COMMIT_SHA)
 
 
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
 def test_diff(path=None, norepo=None):
@@ -145,7 +145,7 @@ def test_diff(path=None, norepo=None):
         res, 1, state='added', path=opj(ds.path, 'deep', 'down2'), type='file')
 
 
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tempfile(mkdir=True)
 def test_diff_recursive(path=None):
     ds = Dataset(path).create()

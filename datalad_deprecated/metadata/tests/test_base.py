@@ -38,7 +38,7 @@ from datalad.tests.utils_pytest import (
     assert_status,
     assert_true,
     eq_,
-    known_failure_githubci_win,
+    skip_if_adjusted_branch,
     #skip_if_on_windows,
     slow,
     swallow_logs,
@@ -112,7 +112,7 @@ def _compare_metadata_helper(origres, compds):
                 eq_(ores[i], cres[i])
 
 
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @slow  # ~16s
 @with_tree(tree=_dataset_hierarchy_template)
 def test_aggregation(path=None):
@@ -265,7 +265,7 @@ def test_bf2458(src=None, dst=None):
     eq_(clone.repo.whereis('dummy'), [ds.config.get('annex.uuid')])
 
 
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 def test_get_containingds_from_agginfo():
     eq_(None, _get_containingds_from_agginfo({}, 'any'))
     # direct hit returns itself

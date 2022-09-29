@@ -34,7 +34,7 @@ from datalad.tests.utils_pytest import (
     create_tree,
     slow,
     swallow_logs,
-    known_failure_githubci_win,
+    skip_if_adjusted_branch,
     assert_cwd_unchanged,
     SkipTest,
 )
@@ -240,7 +240,7 @@ def test_annotate_paths(dspath=None, nodspath=None):
     eq_(orig_res, res_recursion_again)
 
 
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @slow  # 11.0891s
 @with_tree(demo_hierarchy['b'])
 def test_get_modified_subpaths(path=None):

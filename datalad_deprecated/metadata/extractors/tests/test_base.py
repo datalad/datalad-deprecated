@@ -16,7 +16,7 @@ from datalad.tests.utils_pytest import (
     SkipTest,
     assert_equal,
     assert_repo_status,
-    known_failure_githubci_win,
+    skip_if_adjusted_branch,
     with_tree,
 )
 
@@ -75,12 +75,12 @@ def check_api(annex, path):
             " to load:\n%s" % ("\n".join(skipped_extractors)))
 
 
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 def test_api_git():
     # should tolerate both pure git and annex repos
     check_api(False)
 
 
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 def test_api_annex():
     check_api(True)

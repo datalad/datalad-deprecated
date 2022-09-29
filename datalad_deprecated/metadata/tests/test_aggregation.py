@@ -24,7 +24,7 @@ from datalad.tests.utils_pytest import (
     assert_status,
     assert_true,
     eq_,
-    known_failure_githubci_win,
+    skip_if_adjusted_branch,
     skip_if_on_windows,
     skip_ssh,
     slow,
@@ -61,7 +61,7 @@ _dataset_hierarchy_template = {
 # underlying code cannot deal with adjusted branches
 # https://github.com/datalad/datalad/pull/3817
 @slow  # 20sec on Yarik's laptop
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tree(tree=_dataset_hierarchy_template)
 def test_basic_aggregate(path=None):
     # TODO give datasets some more metadata to actually aggregate stuff
@@ -100,7 +100,7 @@ def test_basic_aggregate(path=None):
 
 
 # tree puts aggregate metadata structures on two levels inside a dataset
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tree(tree={
     '.datalad': {
         'metadata': {
@@ -146,7 +146,7 @@ def test_aggregate_query(path=None):
 
 # this is for gh-1971
 @slow  # 23sec on Yarik's laptop
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tree(tree=_dataset_hierarchy_template)
 def test_reaggregate_with_unavailable_objects(path=None):
     base = Dataset(opj(path, 'origin')).create(force=True)
@@ -181,7 +181,7 @@ def test_reaggregate_with_unavailable_objects(path=None):
 
 
 @slow  # 26sec on Yarik's laptop
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tree(tree=_dataset_hierarchy_template)
 @with_tempfile(mkdir=True)
 def test_aggregate_with_unavailable_objects_from_subds(path=None, target=None):
@@ -271,7 +271,7 @@ def _get_referenced_objs(ds):
                 for f in ('content_info', 'dataset_info')])
 
 
-@known_failure_githubci_win  # fails since upgrade to 8.20200226-g2d3ef2c07
+@skip_if_adjusted_branch  # fails since upgrade to 8.20200226-g2d3ef2c07
 @with_tree(tree=_dataset_hierarchy_template)
 def test_aggregate_removal(path=None):
     base = Dataset(opj(path, 'origin')).create(force=True)
@@ -310,7 +310,7 @@ def test_aggregate_removal(path=None):
 # underlying code cannot deal with adjusted branches
 # https://github.com/datalad/datalad/pull/3817
 @slow  # 22sec on Yarik's laptop
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tree(tree=_dataset_hierarchy_template)
 def test_update_strategy(path=None):
     base = Dataset(opj(path, 'origin')).create(force=True)
@@ -367,7 +367,7 @@ def test_update_strategy(path=None):
 
 
 @slow  # 14sec on Yarik's laptop
-@known_failure_githubci_win  # fails since upgrade to 8.20200226-g2d3ef2c07
+@skip_if_adjusted_branch  # fails since upgrade to 8.20200226-g2d3ef2c07
 @with_tree({
     'this': 'that',
     'sub1': {'here': 'there'},
