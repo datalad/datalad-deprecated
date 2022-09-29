@@ -56,7 +56,9 @@ def test_proxying_open_testrepobased(repo=None):
     TEST_CONTENT = "content to be annex-addurl'd"
     fname = 'test-annex.dat'
     fpath = opj(repo, fname)
-    assert_raises(IOError, open, fpath)
+    annex = AnnexRepo(repo, create=False)
+    if not annex.is_managed_branch():
+        assert_raises(IOError, open, fpath)
 
     aio = AutomagicIO(activate=True)
     try:
@@ -72,7 +74,6 @@ def test_proxying_open_testrepobased(repo=None):
     with open(fpath) as f:
         eq_(f.read(), TEST_CONTENT)
 
-    annex = AnnexRepo(repo, create=False)
     # Let's create another file deeper under the directory with the same content
     # so it would point to the same key, which we would drop and repeat the drill
     fpath2 = opj(repo, 'd1', 'd2', 'test2.dat')
@@ -82,7 +83,8 @@ def test_proxying_open_testrepobased(repo=None):
     annex.add(fpath2)
     annex.drop(fpath2)
     annex.commit("added and dropped")
-    assert_raises(IOError, open, fpath2)
+    if not annex.is_managed_branch():
+        assert_raises(IOError, open, fpath2)
 
     # Let's use context manager form
     with AutomagicIO() as aio:
@@ -99,7 +101,9 @@ def test_proxying_open_testrepobased(repo=None):
             eq_(content, TEST_CONTENT)
 
     annex.drop(fpath2)
-    assert_raises(IOError, open, fpath2)
+    if not annex.is_managed_branch():
+        assert_raises(IOError, open, fpath2)
+
 
     # Let's use relative path
     with chpwd(opj(repo, 'd1')):
@@ -135,7 +139,12 @@ def _test_proxying_open(generate_load, verify_load, repo):
     fpath2_2 = fpath2.replace(repo, repo2)
 
     EXPECTED_EXCEPTIONS = (IOError, OSError)
-    assert_raises(EXPECTED_EXCEPTIONS, verify_load, fpath1_2)
+    if not annex2.is_managed_branch():
+        assert_raises(EXPECTED_EXCEPTIONS, verify_load, fpath1_2)
+    else:
+        # if managed - file load could fail or not various ways since no checks of any kind
+        # and we end up with a link file
+        pass
 
     with AutomagicIO():
         # verify that it doesn't even try to get files which do not exist
@@ -163,7 +172,7 @@ def _test_proxying_open(generate_load, verify_load, repo):
         assert_true(annex2.file_has_content(fpath2_2))
         annex2.drop(fpath2_2)
         assert_false(annex2.file_has_content(fpath2_2))
-        assert_false(os.path.isfile(fpath2_2))
+        (assert_false if not annex2.is_managed_branch() else assert_true)(os.path.isfile(fpath2_2))
 
 
     # if we override stdout with something not supporting fileno, like tornado
