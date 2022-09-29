@@ -147,8 +147,6 @@ def test_fs_traverse(topdir=None):
             assert_equal(brokenlink['size']['total'], '3 Bytes')
 
 
-# underlying code cannot deal with adjusted branches
-# https://github.com/datalad/datalad/pull/3817
 @slow  # 9sec on Yarik's laptop
 @known_failure_windows
 @with_tree(
@@ -230,7 +228,8 @@ def test_ls_json(topdir=None, topurl=None):
                     all_=all_,
                     recursive=recursive
                 )
-                ok_startswith(dsj['tags'], '1-')
+                if not ds.repo.is_managed_branch():
+                    ok_startswith(dsj['tags'], '1-')
 
                 exists_post = exists(subds_metapath)
                 # print("%s %s -> %s" % (state, exists_prior, exists_post))
