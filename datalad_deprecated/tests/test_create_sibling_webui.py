@@ -68,21 +68,17 @@ def assert_publish_with_ui(target_path, rootds=False, flat=True):
 # many tests for the webui scope, but that functionality is not cleanly
 # separated in the tests -- but run too many than too few.
 
-
-# The following tests fail on windows, presumably due to pytest usage. Remove
-# the condition, if datalad-deprecated moved to pytest.
-if not on_windows:
-    from datalad.distribution.tests.test_create_sibling import (
-        test_invalid_call,
-        test_target_ssh_recursive,
-        test_target_ssh_since,
-        test_replace_and_relative_sshpath,
-        test_target_ssh_inherit,
-        test_local_path_target_dir,
-        test_local_relpath,
-        test_non_master_branch,
-        test_target_ssh_simple,
-        test_failon_no_permissions,
-        test_preserve_attrs,
-        test_check_exists_interactive,
-    )
+from datalad.distribution.tests.test_create_sibling import (
+    test_invalid_call,
+    test_target_ssh_recursive,
+    test_target_ssh_since,
+    test_replace_and_relative_sshpath,
+    test_target_ssh_inherit,
+    test_local_path_target_dir,
+    test_local_relpath,
+    test_non_master_branch,
+    test_target_ssh_simple,
+    test_failon_no_permissions,
+    test_preserve_attrs,
+    test_check_exists_interactive,
+)
