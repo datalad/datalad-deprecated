@@ -25,8 +25,6 @@ from datalad.tests.utils_pytest import (
     ok_file_has_content,
 )
 
-from ..metadata import skip_if_on_windows
-
 
 def assert_publish_with_ui(target_path, rootds=False, flat=True):
     paths = [_path_(".git/hooks/post-update")]     # hooks enabled in all datasets

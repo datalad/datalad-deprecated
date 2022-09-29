@@ -57,7 +57,7 @@ from datalad.tests.utils_pytest import (
     ok_file_has_content,
     on_windows,
     serve_path_via_http,
-    #skip_if_on_windows,
+    skip_if_on_windows,
     skip_ssh,
     slow,
     swallow_logs,
@@ -66,7 +66,6 @@ from datalad.tests.utils_pytest import (
     with_tree,
 )
 
-from ..metadata import skip_if_on_windows
 
 # we are running this test from -core, which is mostly about create_sibling
 # but requires publish()
@@ -547,6 +546,7 @@ def test_publish_with_data(origin=None, src_path=None, dst_path=None, sub1_pub=N
 
 
 @slow  # 10sec on travis
+@skip_if_on_windows  # create_sibling incompatible with win servers
 @skip_ssh
 @with_testrepos('submodule_annex', flavors=['local'])
 @with_tempfile(mkdir=True)
@@ -559,7 +559,6 @@ def test_publish_depends(
         target1_path=None,
         target2_path=None,
         target3_path=None):
-    skip_if_on_windows()
     # prepare src
     source = install(src_path, source=origin, recursive=True)
     source.repo.get('test-annex.dat')
@@ -659,12 +658,12 @@ def test_gh1426(origin_path=None, target_path=None):
     eq_(origin.repo.get_hexsha(), target.get_hexsha())
 
 
+@skip_if_on_windows  # create_sibling incompatible with win servers
 @skip_ssh
 @with_testrepos('submodule_annex', flavors=['local'])  #TODO: Use all repos after fixing them
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
 def test_publish_gh1691(origin=None, src_path=None, dst_path=None):
-    skip_if_on_windows()
     # prepare src; no subdatasets installed, but mount points present
     source = install(src_path, source=origin, recursive=False)
     ok_(exists(opj(src_path, "subm 1")))
@@ -690,12 +689,12 @@ def test_publish_gh1691(origin=None, src_path=None, dst_path=None):
     assert_result_count(results, 1, status='impossible', type='dataset', action='publish')
 
 
+@skip_if_on_windows  # create_sibling incompatible with win servers
 @skip_ssh
 @with_tree(tree={'1': '123'})
 @with_tempfile(mkdir=True)
 @serve_path_via_http
 def test_publish_target_url(src=None, desttop=None, desturl=None):
-    skip_if_on_windows()
     # https://github.com/datalad/datalad/issues/1762
     ds = Dataset(src).create(force=True)
     ds.save('1')
@@ -708,12 +707,12 @@ def test_publish_target_url(src=None, desttop=None, desturl=None):
 
 
 @slow  # 11sec on Yarik's laptop
+@skip_if_on_windows  # create_sibling incompatible with win servers
 @skip_ssh
 @with_tempfile(mkdir=True)
 @with_tempfile()
 @with_tempfile()
 def test_gh1763(src=None, target1=None, target2=None):
-    skip_if_on_windows()
     # this test is very similar to test_publish_depends, but more
     # comprehensible, and directly tests issue 1763
     src = Dataset(src).create(force=True)

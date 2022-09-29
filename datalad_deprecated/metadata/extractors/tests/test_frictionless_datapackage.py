@@ -16,7 +16,6 @@ from datalad.tests.utils_pytest import (
     with_tree,
 )
 
-from ... import skip_if_on_windows
 from ..frictionless_datapackage import MetadataExtractor
 
 
@@ -44,7 +43,6 @@ from ..frictionless_datapackage import MetadataExtractor
 }
 """})
 def test_get_metadata(path=None):
-    skip_if_on_windows()
     ds = Dataset(path).create(force=True)
     p = MetadataExtractor(ds, [])
     meta = p._get_dataset_metadata()

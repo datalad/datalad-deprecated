@@ -30,7 +30,6 @@ from shutil import copy
 
 from datalad.api import Dataset
 
-from ... import skip_if_on_windows
 
 
 target = {
@@ -50,7 +49,6 @@ target = {
 
 @with_tempfile(mkdir=True)
 def test_xmp(path=None):
-    skip_if_on_windows()
     ds = Dataset(path).create()
     ds.config.add('datalad.metadata.nativetype', 'xmp', scope='branch')
     copy(

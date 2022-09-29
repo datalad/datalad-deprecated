@@ -31,7 +31,6 @@ from shutil import copy
 
 from datalad.api import Dataset
 
-from ... import skip_if_on_windows
 
 
 target = {
@@ -84,7 +83,6 @@ target = {
 
 @with_tempfile(mkdir=True)
 def test_exif(path=None):
-    skip_if_on_windows()
     ds = Dataset(path).create()
     ds.config.add('datalad.metadata.nativetype', 'exif', scope='branch')
     copy(

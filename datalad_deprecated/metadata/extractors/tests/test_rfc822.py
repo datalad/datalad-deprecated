@@ -16,7 +16,6 @@ from datalad.tests.utils_pytest import (
     with_tree,
 )
 
-from ... import skip_if_on_windows
 from ..datalad_rfc822 import MetadataExtractor
 
 
@@ -45,7 +44,6 @@ DOI: 10.5281/zenodo.48421
 
 """}})
 def test_get_metadata(path=None):
-    skip_if_on_windows()
     ds = Dataset(path).create(force=True)
     ds.save()
     meta = MetadataExtractor(ds, [])._get_dataset_metadata()
