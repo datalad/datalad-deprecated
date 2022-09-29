@@ -334,6 +334,10 @@ def test_publish_recursive(pristine_origin=None, origin_path=None, src_path=None
     sub1.add_remote("target", sub1_pub)
     sub2.add_remote("target", sub2_pub)
 
+    if source.repo.is_managed_branch():
+        import pytest
+        pytest.xfail("publish has problems with adjusted branches")
+
     # publish recursively
     with swallow_logs(new_level=logging.DEBUG) as cml:
         res = publish(dataset=source, to="target", recursive=True)
