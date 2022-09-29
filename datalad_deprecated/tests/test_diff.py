@@ -195,6 +195,7 @@ def test_diff_recursive(path=None):
     assert_result_count(res, 1, action='diff', state='modified', path=sub.path, type='dataset')
 
 
+@skip_if_adjusted_branch
 @with_tree(tree={
     'sub_clean': {},
     'sub_modified': {'modified': 'original'},

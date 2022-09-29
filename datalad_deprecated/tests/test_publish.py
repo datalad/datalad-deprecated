@@ -57,6 +57,7 @@ from datalad.tests.utils_pytest import (
     ok_file_has_content,
     on_windows,
     serve_path_via_http,
+    skip_if_adjusted_branch,
     skip_if_on_windows,
     skip_ssh,
     slow,
@@ -109,7 +110,7 @@ def test_invalid_call(origin=None, tdir=None):
         type='dataset')
 
 
-@known_failure_windows
+@skip_if_adjusted_branch
 @with_tempfile
 @with_tempfile
 def test_since_empty_and_unsupported(p1=None, p2=None):
@@ -163,7 +164,7 @@ def test_assert_git_annex_branch_published(path=None):
 
 
 # https://github.com/datalad/datalad/pull/3975/checks?check_run_id=369789022#step:8:571
-@known_failure_windows
+@skip_if_adjusted_branch
 @with_testrepos('submodule_annex', flavors=['local'])  #TODO: Use all repos after fixing them
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
@@ -458,7 +459,7 @@ def test_publish_recursive(pristine_origin=None, origin_path=None, src_path=None
 
 # https://github.com/datalad/datalad/pull/3975/checks?check_run_id=369789022#step:8:452
 @slow  # 10sec on Yarik's laptop
-@known_failure_windows
+@skip_if_adjusted_branch
 @with_testrepos('submodule_annex', flavors=['local'])  #TODO: Use all repos after fixing them
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
@@ -635,7 +636,7 @@ def test_publish_depends(
         ok_file_has_content(opj(p, 'probe1'), 'probe1')
 
 
-@known_failure_windows
+@skip_if_adjusted_branch
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
 def test_gh1426(origin_path=None, target_path=None):

@@ -23,6 +23,7 @@ from datalad.tests.utils_pytest import (
     on_windows,
     ok_exists,
     ok_file_has_content,
+    skip_if_adjusted_branch,
 )
 
 
@@ -82,3 +83,8 @@ from datalad.distribution.tests.test_create_sibling import (
     test_preserve_attrs,
     test_check_exists_interactive,
 )
+
+
+# DataLad core does not run crippled tests across the entire test suite
+test_target_ssh_recursive = skip_if_adjusted_branch(test_target_ssh_recursive)
+test_preserve_attrs = skip_if_adjusted_branch(test_preserve_attrs)
