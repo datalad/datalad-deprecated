@@ -1,12 +1,10 @@
 # requirements for a development environment
 -e .[devel]
 coverage
+pytest
 sphinx
 sphinx_rtd_theme
 
 # for automagicio tests
 nibabel
 h5py
-
-# pytest RFing PR -- yet to be released
-git+https://github.com/jwodder/datalad@gh-6225#egg=datalad
