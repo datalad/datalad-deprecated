@@ -1,3 +1,30 @@
+# 0.2.3 (Fri Sep 30 2022)
+
+#### 🐛 Bug Fix
+
+- Remove last traces of `datalad.metadata` [#65](https://github.com/datalad/datalad-deprecated/pull/65) ([@christian-monch](https://github.com/christian-monch))
+- Add metadata code that is removed from core [#63](https://github.com/datalad/datalad-deprecated/pull/63) ([@christian-monch](https://github.com/christian-monch) [@mih](https://github.com/mih))
+- BF: do not install devel datalad (pytest-ed now) for devel -- released is ok now [#60](https://github.com/datalad/datalad-deprecated/pull/60) ([@yarikoptic](https://github.com/yarikoptic))
+
+#### ⚠️ Pushed to `master`
+
+- DOC: Set language in Sphinx config to en ([@adswa](https://github.com/adswa))
+
+#### 🧪 Tests
+
+- RF: migrate from using nose for testing to pytest [#51](https://github.com/datalad/datalad-deprecated/pull/51) ([@yarikoptic](https://github.com/yarikoptic))
+- Update Appveyor config to use new codecov uploader [#58](https://github.com/datalad/datalad-deprecated/pull/58) ([@jwodder](https://github.com/jwodder))
+
+#### Authors: 5
+
+- Adina Wagner ([@adswa](https://github.com/adswa))
+- Christian Mönch ([@christian-monch](https://github.com/christian-monch))
+- John T. Wodder II ([@jwodder](https://github.com/jwodder))
+- Michael Hanke ([@mih](https://github.com/mih))
+- Yaroslav Halchenko ([@yarikoptic](https://github.com/yarikoptic))
+
+---
+
 # 0.2.2 (Mon May 02 2022)
 
 #### 🏠 Internal
