@@ -10,7 +10,7 @@
 from unittest.mock import patch
 from io import StringIO
 from tempfile import NamedTemporaryFile
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_equal,
     skip_if_on_windows,
     SkipTest,
@@ -24,7 +24,7 @@ from ..auto import AutomagicIO
 @skip_if_on_windows
 @patch.object(AutomagicIO, 'activate')
 @patch('sys.stdout', new_callable=StringIO)
-def test_main_run_a_script(stdout, mock_activate):
+def test_main_run_a_script(stdout=None, mock_activate=None):
     try:
         from datalad.auto import AutomagicIO
         raise SkipTest(

@@ -11,7 +11,7 @@ import hashlib
 import json as js
 import logging
 from genericpath import exists
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_equal,
     assert_false,
     assert_in,
@@ -54,7 +54,7 @@ def test_machinesize():
 @with_tree(
     tree={'dir': {'file1.txt': '123', 'file2.txt': '456'},
           '.hidden': {'.hidden_file': '121'}})
-def test_ignored(topdir):
+def test_ignored(topdir=None):
     # create annex, git repos
     AnnexRepo(opj(topdir, 'annexdir'), create=True)
     GitRepo(opj(topdir, 'gitdir'), create=True)
@@ -74,7 +74,7 @@ def test_ignored(topdir):
                   'subgit': {'fgit.txt': '123'}},
           'topfile.txt': '123',
           '.hidden': {'.hidden_file': '123'}})
-def test_fs_traverse(topdir):
+def test_fs_traverse(topdir=None):
     # setup temp directory tree for testing
     annex = AnnexRepo(topdir)
     AnnexRepo(opj(topdir, 'annexdir'), create=True)
@@ -147,8 +147,6 @@ def test_fs_traverse(topdir):
             assert_equal(brokenlink['size']['total'], '3 Bytes')
 
 
-# underlying code cannot deal with adjusted branches
-# https://github.com/datalad/datalad/pull/3817
 @slow  # 9sec on Yarik's laptop
 @known_failure_windows
 @with_tree(
@@ -160,7 +158,7 @@ def test_fs_traverse(topdir):
                   'subds2': {'file': '124'}},
           '.hidden': {'.hidden_file': '123'}})
 @serve_path_via_http
-def test_ls_json(topdir, topurl):
+def test_ls_json(topdir=None, topurl=None):
     annex = AnnexRepo(topdir, create=True)
     ds = Dataset(topdir)
     # create some file and commit it
@@ -230,7 +228,8 @@ def test_ls_json(topdir, topurl):
                     all_=all_,
                     recursive=recursive
                 )
-                ok_startswith(dsj['tags'], '1-')
+                if not ds.repo.is_managed_branch():
+                    ok_startswith(dsj['tags'], '1-')
 
                 exists_post = exists(subds_metapath)
                 # print("%s %s -> %s" % (state, exists_prior, exists_post))

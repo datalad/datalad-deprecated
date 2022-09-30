@@ -37,7 +37,7 @@ from datalad.utils import (
     _path_,
 )
 from datalad.cmd import GitWitlessRunner
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_false as nok_,
     assert_false,
     assert_in,
@@ -57,7 +57,8 @@ from datalad.tests.utils import (
     ok_file_has_content,
     on_windows,
     serve_path_via_http,
-    #skip_if_on_windows,
+    skip_if_adjusted_branch,
+    skip_if_on_windows,
     skip_ssh,
     slow,
     swallow_logs,
@@ -66,7 +67,6 @@ from datalad.tests.utils import (
     with_tree,
 )
 
-from ..metadata import skip_if_on_windows
 
 # we are running this test from -core, which is mostly about create_sibling
 # but requires publish()
@@ -83,7 +83,7 @@ def filter_fsck_error_msg(dicts):
 
 @with_testrepos('submodule_annex', flavors=['local'])
 @with_tempfile(mkdir=True)
-def test_invalid_call(origin, tdir):
+def test_invalid_call(origin=None, tdir=None):
     ds = Dataset(origin)
     ds.uninstall('subm 1', check=False)
     # nothing
@@ -110,10 +110,10 @@ def test_invalid_call(origin, tdir):
         type='dataset')
 
 
-@known_failure_windows
+@skip_if_adjusted_branch
 @with_tempfile
 @with_tempfile
-def test_since_empty_and_unsupported(p1, p2):
+def test_since_empty_and_unsupported(p1=None, p2=None):
     source = Dataset(p1).create()
     source.create_sibling(p2, name='target1')
     # see https://github.com/datalad/datalad/pull/4448#issuecomment-620847327
@@ -156,7 +156,7 @@ def assert_git_annex_branch_published(source, target):
 
 
 @with_tempfile(mkdir=True)
-def test_assert_git_annex_branch_published(path):
+def test_assert_git_annex_branch_published(path=None):
     repo_a = AnnexRepo(opj(path, "a"), create=True)
     repo_b = AnnexRepo(opj(path, "b"), create=True)
     with assert_raises(AssertionError):
@@ -164,11 +164,11 @@ def test_assert_git_annex_branch_published(path):
 
 
 # https://github.com/datalad/datalad/pull/3975/checks?check_run_id=369789022#step:8:571
-@known_failure_windows
+@skip_if_adjusted_branch
 @with_testrepos('submodule_annex', flavors=['local'])  #TODO: Use all repos after fixing them
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_publish_simple(origin, src_path, dst_path):
+def test_publish_simple(origin=None, src_path=None, dst_path=None):
 
     # prepare src
     source = install(src_path, source=origin, recursive=True)
@@ -226,7 +226,7 @@ def test_publish_simple(origin, src_path, dst_path):
 @with_testrepos('basic_git', flavors=['local'])
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_publish_plain_git(origin, src_path, dst_path):
+def test_publish_plain_git(origin=None, src_path=None, dst_path=None):
     # TODO: Since it's mostly the same, melt with test_publish_simple
 
     # prepare src
@@ -291,7 +291,7 @@ def test_publish_plain_git(origin, src_path, dst_path):
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_publish_recursive(pristine_origin, origin_path, src_path, dst_path, sub1_pub, sub2_pub):
+def test_publish_recursive(pristine_origin=None, origin_path=None, src_path=None, dst_path=None, sub1_pub=None, sub2_pub=None):
 
     # we will be publishing back to origin, so to not alter testrepo
     # we will first clone it
@@ -334,6 +334,10 @@ def test_publish_recursive(pristine_origin, origin_path, src_path, dst_path, sub
     sub2 = GitRepo(opj(src_path, '2'), create=False)
     sub1.add_remote("target", sub1_pub)
     sub2.add_remote("target", sub2_pub)
+
+    if source.repo.is_managed_branch():
+        import pytest
+        pytest.xfail("publish has problems with adjusted branches")
 
     # publish recursively
     with swallow_logs(new_level=logging.DEBUG) as cml:
@@ -455,14 +459,14 @@ def test_publish_recursive(pristine_origin, origin_path, src_path, dst_path, sub
 
 # https://github.com/datalad/datalad/pull/3975/checks?check_run_id=369789022#step:8:452
 @slow  # 10sec on Yarik's laptop
-@known_failure_windows
+@skip_if_adjusted_branch
 @with_testrepos('submodule_annex', flavors=['local'])  #TODO: Use all repos after fixing them
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
 @with_tempfile
-def test_publish_with_data(origin, src_path, dst_path, sub1_pub, sub2_pub, dst_clone_path):
+def test_publish_with_data(origin=None, src_path=None, dst_path=None, sub1_pub=None, sub2_pub=None, dst_clone_path=None):
 
     # prepare src
     source = install(src_path, source=origin, recursive=True)
@@ -547,6 +551,7 @@ def test_publish_with_data(origin, src_path, dst_path, sub1_pub, sub2_pub, dst_c
 
 
 @slow  # 10sec on travis
+@skip_if_on_windows  # create_sibling incompatible with win servers
 @skip_ssh
 @with_testrepos('submodule_annex', flavors=['local'])
 @with_tempfile(mkdir=True)
@@ -554,12 +559,11 @@ def test_publish_with_data(origin, src_path, dst_path, sub1_pub, sub2_pub, dst_c
 @with_tempfile()
 @with_tempfile()
 def test_publish_depends(
-        origin,
-        src_path,
-        target1_path,
-        target2_path,
-        target3_path):
-    skip_if_on_windows()
+        origin=None,
+        src_path=None,
+        target1_path=None,
+        target2_path=None,
+        target3_path=None):
     # prepare src
     source = install(src_path, source=origin, recursive=True)
     source.repo.get('test-annex.dat')
@@ -632,10 +636,10 @@ def test_publish_depends(
         ok_file_has_content(opj(p, 'probe1'), 'probe1')
 
 
-@known_failure_windows
+@skip_if_adjusted_branch
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_gh1426(origin_path, target_path):
+def test_gh1426(origin_path=None, target_path=None):
     # set up a pair of repos, one the published copy of the other
     origin = create(origin_path)
     target = AnnexRepo(target_path, create=True)
@@ -659,12 +663,12 @@ def test_gh1426(origin_path, target_path):
     eq_(origin.repo.get_hexsha(), target.get_hexsha())
 
 
+@skip_if_on_windows  # create_sibling incompatible with win servers
 @skip_ssh
 @with_testrepos('submodule_annex', flavors=['local'])  #TODO: Use all repos after fixing them
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_publish_gh1691(origin, src_path, dst_path):
-    skip_if_on_windows()
+def test_publish_gh1691(origin=None, src_path=None, dst_path=None):
     # prepare src; no subdatasets installed, but mount points present
     source = install(src_path, source=origin, recursive=False)
     ok_(exists(opj(src_path, "subm 1")))
@@ -690,12 +694,12 @@ def test_publish_gh1691(origin, src_path, dst_path):
     assert_result_count(results, 1, status='impossible', type='dataset', action='publish')
 
 
+@skip_if_on_windows  # create_sibling incompatible with win servers
 @skip_ssh
 @with_tree(tree={'1': '123'})
 @with_tempfile(mkdir=True)
 @serve_path_via_http
-def test_publish_target_url(src, desttop, desturl):
-    skip_if_on_windows()
+def test_publish_target_url(src=None, desttop=None, desturl=None):
     # https://github.com/datalad/datalad/issues/1762
     ds = Dataset(src).create(force=True)
     ds.save('1')
@@ -708,12 +712,12 @@ def test_publish_target_url(src, desttop, desturl):
 
 
 @slow  # 11sec on Yarik's laptop
+@skip_if_on_windows  # create_sibling incompatible with win servers
 @skip_ssh
 @with_tempfile(mkdir=True)
 @with_tempfile()
 @with_tempfile()
-def test_gh1763(src, target1, target2):
-    skip_if_on_windows()
+def test_gh1763(src=None, target1=None, target2=None):
     # this test is very similar to test_publish_depends, but more
     # comprehensible, and directly tests issue 1763
     src = Dataset(src).create(force=True)
@@ -739,7 +743,7 @@ def test_gh1763(src, target1, target2):
 
 @with_tempfile()
 @with_tempfile()
-def test_gh1811(srcpath, clonepath):
+def test_gh1811(srcpath=None, clonepath=None):
     orig = Dataset(srcpath).create()
     (orig.pathobj / 'some').write_text('some')
     orig.save()
@@ -757,7 +761,7 @@ def test_gh1811(srcpath, clonepath):
 
 
 @with_tempfile(mkdir=True)
-def test_publish_no_fetch_refspec_configured(path):
+def test_publish_no_fetch_refspec_configured(path=None):
 
     path = Path(path)
     GitWitlessRunner(cwd=str(path)).run(
@@ -775,7 +779,7 @@ def test_publish_no_fetch_refspec_configured(path):
 @slow  # 14sec on Yarik's laptop
 @skip_ssh
 @with_tempfile(mkdir=True)
-def test_publish_fetch_do_not_recurse_submodules(path):
+def test_publish_fetch_do_not_recurse_submodules(path=None):
     # This sets up a situation where git (2.26.2 at the time of writing) will
     # fail trying to fetch a non-existent 'origin' remote if
     # --no-recurse-submodules is not set during the fetch.

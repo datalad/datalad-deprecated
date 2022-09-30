@@ -17,15 +17,14 @@ from os.path import (
 from datalad.utils import (
     _path_,
 )
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_false,
     assert_not_in,
     on_windows,
     ok_exists,
     ok_file_has_content,
+    skip_if_adjusted_branch,
 )
-
-from ..metadata import skip_if_on_windows
 
 
 def assert_publish_with_ui(target_path, rootds=False, flat=True):
@@ -70,21 +69,22 @@ def assert_publish_with_ui(target_path, rootds=False, flat=True):
 # many tests for the webui scope, but that functionality is not cleanly
 # separated in the tests -- but run too many than too few.
 
+from datalad.distribution.tests.test_create_sibling import (
+    test_invalid_call,
+    test_target_ssh_recursive,
+    test_target_ssh_since,
+    test_replace_and_relative_sshpath,
+    test_target_ssh_inherit,
+    test_local_path_target_dir,
+    test_local_relpath,
+    test_non_master_branch,
+    test_target_ssh_simple,
+    test_failon_no_permissions,
+    test_preserve_attrs,
+    test_check_exists_interactive,
+)
 
-# The following tests fail on windows, presumably due to pytest usage. Remove
-# the condition, if datalad-deprecated moved to pytest.
-if not on_windows:
-    from datalad.distribution.tests.test_create_sibling import (
-        test_invalid_call,
-        test_target_ssh_recursive,
-        test_target_ssh_since,
-        test_replace_and_relative_sshpath,
-        test_target_ssh_inherit,
-        test_local_path_target_dir,
-        test_local_relpath,
-        test_non_master_branch,
-        test_target_ssh_simple,
-        test_failon_no_permissions,
-        test_preserve_attrs,
-        test_check_exists_interactive,
-    )
+
+# DataLad core does not run crippled tests across the entire test suite
+test_target_ssh_recursive = skip_if_adjusted_branch(test_target_ssh_recursive)
+test_preserve_attrs = skip_if_adjusted_branch(test_preserve_attrs)

@@ -17,7 +17,6 @@ from datalad.tests.utils_pytest import (
 )
 
 from ..datacite import MetadataExtractor
-from ... import skip_if_on_windows
 from ...metadata import _get_metadatarelevant_paths
 
 

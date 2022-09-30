@@ -22,7 +22,7 @@ from datalad.distribution.dataset import Dataset
 from datalad.api import diff
 from datalad_deprecated.diff import _parse_git_diff
 from datalad.consts import PRE_INIT_COMMIT_SHA
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     known_failure_windows,
     with_tempfile,
     with_tree,
@@ -32,7 +32,7 @@ from datalad.tests.utils import (
     assert_status,
     assert_repo_status,
     assert_result_count,
-    known_failure_githubci_win,
+    skip_if_adjusted_branch,
     SkipTest,
 )
 from datalad.utils import on_windows
@@ -55,10 +55,10 @@ def test_magic_number():
     eq_(out['stdout'].strip(), PRE_INIT_COMMIT_SHA)
 
 
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tempfile(mkdir=True)
 @with_tempfile(mkdir=True)
-def test_diff(path, norepo):
+def test_diff(path=None, norepo=None):
     ds = Dataset(path).create()
     assert_repo_status(ds.path)
     # reports stupid revision input
@@ -145,9 +145,9 @@ def test_diff(path, norepo):
         res, 1, state='added', path=opj(ds.path, 'deep', 'down2'), type='file')
 
 
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tempfile(mkdir=True)
-def test_diff_recursive(path):
+def test_diff_recursive(path=None):
     ds = Dataset(path).create()
     sub = ds.create('sub')
     # look at the last change, and confirm a dataset was added
@@ -195,6 +195,7 @@ def test_diff_recursive(path):
     assert_result_count(res, 1, action='diff', state='modified', path=sub.path, type='dataset')
 
 
+@skip_if_adjusted_branch
 @with_tree(tree={
     'sub_clean': {},
     'sub_modified': {'modified': 'original'},
@@ -203,7 +204,7 @@ def test_diff_recursive(path):
     'modified': 'original_content',
     'untracked': 'dirt',
 })
-def test_diff_helper(path):
+def test_diff_helper(path=None):
     # make test dataset components of interesting states
     ds = Dataset.create(path, force=True)
     # detached dataset, not a submodule

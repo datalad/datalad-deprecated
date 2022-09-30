@@ -24,15 +24,13 @@ from datalad.tests.utils_pytest import (
     assert_status,
     assert_true,
     eq_,
-    known_failure_githubci_win,
-    #skip_if_on_windows,
+    skip_if_adjusted_branch,
+    skip_if_on_windows,
     skip_ssh,
     slow,
     with_tempfile,
     with_tree,
 )
-
-from .. import skip_if_on_windows
 
 
 def _assert_metadata_empty(meta):
@@ -63,10 +61,9 @@ _dataset_hierarchy_template = {
 # underlying code cannot deal with adjusted branches
 # https://github.com/datalad/datalad/pull/3817
 @slow  # 20sec on Yarik's laptop
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tree(tree=_dataset_hierarchy_template)
 def test_basic_aggregate(path=None):
-    skip_if_on_windows()
     # TODO give datasets some more metadata to actually aggregate stuff
     base = Dataset(opj(path, 'origin')).create(force=True)
     sub = base.create('sub', force=True)
@@ -103,7 +100,7 @@ def test_basic_aggregate(path=None):
 
 
 # tree puts aggregate metadata structures on two levels inside a dataset
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tree(tree={
     '.datalad': {
         'metadata': {
@@ -130,7 +127,6 @@ def test_basic_aggregate(path=None):
 """}}},
 })
 def test_aggregate_query(path=None):
-    skip_if_on_windows()
     ds = Dataset(path).create(force=True)
     # no magic change to actual dataset metadata due to presence of
     # aggregated metadata
@@ -150,10 +146,9 @@ def test_aggregate_query(path=None):
 
 # this is for gh-1971
 @slow  # 23sec on Yarik's laptop
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tree(tree=_dataset_hierarchy_template)
 def test_reaggregate_with_unavailable_objects(path=None):
-    skip_if_on_windows()
     base = Dataset(opj(path, 'origin')).create(force=True)
     # force all metadata objects into the annex
     with open(opj(base.path, '.datalad', '.gitattributes'), 'w') as f:
@@ -186,11 +181,10 @@ def test_reaggregate_with_unavailable_objects(path=None):
 
 
 @slow  # 26sec on Yarik's laptop
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tree(tree=_dataset_hierarchy_template)
 @with_tempfile(mkdir=True)
 def test_aggregate_with_unavailable_objects_from_subds(path=None, target=None):
-    skip_if_on_windows()
     base = Dataset(opj(path, 'origin')).create(force=True)
     # force all metadata objects into the annex
     with open(opj(base.path, '.datalad', '.gitattributes'), 'w') as f:
@@ -226,10 +220,10 @@ def test_aggregate_with_unavailable_objects_from_subds(path=None, target=None):
 
 # this is for gh-1987
 @slow  # 23sec on Yarik's laptop
+@skip_if_on_windows  # create_sibling incompatible with win servers
 @skip_ssh
 @with_tree(tree=_dataset_hierarchy_template)
 def test_publish_aggregated(path=None):
-    skip_if_on_windows()
     base = Dataset(opj(path, 'origin')).create(force=True)
     # force all metadata objects into the annex
     with open(opj(base.path, '.datalad', '.gitattributes'), 'w') as f:
@@ -277,10 +271,9 @@ def _get_referenced_objs(ds):
                 for f in ('content_info', 'dataset_info')])
 
 
-@known_failure_githubci_win  # fails since upgrade to 8.20200226-g2d3ef2c07
+@skip_if_adjusted_branch  # fails since upgrade to 8.20200226-g2d3ef2c07
 @with_tree(tree=_dataset_hierarchy_template)
 def test_aggregate_removal(path=None):
-    skip_if_on_windows()
     base = Dataset(opj(path, 'origin')).create(force=True)
     # force all metadata objects into the annex
     with open(opj(base.path, '.datalad', '.gitattributes'), 'w') as f:
@@ -317,10 +310,9 @@ def test_aggregate_removal(path=None):
 # underlying code cannot deal with adjusted branches
 # https://github.com/datalad/datalad/pull/3817
 @slow  # 22sec on Yarik's laptop
-@known_failure_githubci_win
+@skip_if_adjusted_branch
 @with_tree(tree=_dataset_hierarchy_template)
 def test_update_strategy(path=None):
-    skip_if_on_windows()
     base = Dataset(opj(path, 'origin')).create(force=True)
     # force all metadata objects into the annex
     with open(opj(base.path, '.datalad', '.gitattributes'), 'w') as f:
@@ -375,13 +367,12 @@ def test_update_strategy(path=None):
 
 
 @slow  # 14sec on Yarik's laptop
-@known_failure_githubci_win  # fails since upgrade to 8.20200226-g2d3ef2c07
+@skip_if_adjusted_branch  # fails since upgrade to 8.20200226-g2d3ef2c07
 @with_tree({
     'this': 'that',
     'sub1': {'here': 'there'},
     'sub2': {'down': 'under'}})
 def test_partial_aggregation(path=None):
-    skip_if_on_windows()
     ds = Dataset(path).create(force=True)
     sub1 = ds.create('sub1', force=True)
     sub2 = ds.create('sub2', force=True)

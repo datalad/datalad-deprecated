@@ -17,7 +17,12 @@ import logging
 lgr = logging.getLogger('datalad.metadata.extractors.xmp')
 from datalad.log import log_progress
 
-from libxmp.utils import file_to_dict
+try:
+    from libxmp.utils import file_to_dict
+except Exception as exc:
+    lgr.debug("Caught exception while importing libxmp.utils", exception=exc)
+    raise ImportError(f"libxmp is not usable due to {exc}")
+
 from datalad.utils import ensure_unicode
 
 from ..definitions import vocabulary_id
