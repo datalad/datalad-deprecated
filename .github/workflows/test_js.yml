@@ -9,9 +9,9 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Set up node 
-      uses: actions/setup-node@v2
+      uses: actions/checkout@v3
+    - name: Set up node
+      uses: actions/setup-node@v3
       with:
         node_version: 10
     - name: Install grunt
@@ -19,5 +19,5 @@ jobs:
         npm install grunt-cli
         npm install grunt
         npm install grunt-contrib-qunit@^4.0.0
-    - name: Run tests 
+    - name: Run tests
       run: grunt test --verbose
