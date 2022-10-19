@@ -1,3 +1,20 @@
+# 0.2.4 (Wed Oct 19 2022)
+
+#### 🏠 Internal
+
+- Update GitHub Actions action versions [#67](https://github.com/datalad/datalad-deprecated/pull/67) ([@jwodder](https://github.com/jwodder))
+
+#### 🧪 Tests
+
+- "Fix" one failing test and improve their "infrastructure" [#70](https://github.com/datalad/datalad-deprecated/pull/70) ([@yarikoptic](https://github.com/yarikoptic))
+
+#### Authors: 2
+
+- John T. Wodder II ([@jwodder](https://github.com/jwodder))
+- Yaroslav Halchenko ([@yarikoptic](https://github.com/yarikoptic))
+
+---
+
 # 0.2.3 (Fri Sep 30 2022)
 
 #### 🐛 Bug Fix
