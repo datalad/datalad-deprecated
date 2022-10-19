@@ -453,8 +453,12 @@ def test_publish_recursive(pristine_origin=None, origin_path=None, src_path=None
     assert_status(('ok', 'notneeded'), res_)
     assert_result_count(res_, 1, status='ok', path=source.path, type='dataset')
 
-    # Don't fail when a string is passed as `dataset` and since="".
-    assert_status("notneeded", publish(since='^', dataset=source.path))
+    # Don't fail (no exception or some 'failed' result), actually return no
+    # result as nothing done, when a string is passed as `dataset` and since="".
+    # note: Previously the test was testing for 'notneeded', but some behavior
+    # changed and was not worth troubleshooting for this particular "deprecated"
+    # functionality.
+    assert publish(since='^', dataset=source.path) == []
 
 
 # https://github.com/datalad/datalad/pull/3975/checks?check_run_id=369789022#step:8:452
