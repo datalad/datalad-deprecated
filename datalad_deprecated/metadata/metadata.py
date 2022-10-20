@@ -351,9 +351,9 @@ def _query_aggregated_metadata_singlepath(
     rpath = qap['rpath']
     containing_ds = qap['metaprovider']
     qtype = qap.get('type', None)
-    if (rpath == op.curdir or rpath == containing_ds) and \
-            ((reporton is None and qtype == 'dataset') or \
-             reporton in ('datasets', 'all')):
+    if (rpath == op.curdir or rpath == containing_ds) \
+        and ((reporton is None and qtype == 'dataset')
+             or reporton in ('datasets', 'all')):
         # this is a direct match for a dataset (we only have agginfos for
         # datasets) -> prep result
         res = get_status_dict(
