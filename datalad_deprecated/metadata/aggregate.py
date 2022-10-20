@@ -23,7 +23,7 @@ import shutil
 
 import datalad
 from datalad.consts import DATASET_CONFIG_FILE
-
+from datalad.interface.annotate_paths import _minimal_annotate_paths
 from datalad.interface.base import Interface
 from datalad.interface.utils import (
     eval_results,
@@ -61,18 +61,18 @@ from datalad.utils import (
 )
 from datalad.core.local.status import get_paths_by_ds
 
-from .annotate_paths import _minimal_annotate_paths
-from .consts import DATASET_METADATA_FILE
 from .metadata import (
-    exclude_from_metadata,
     get_ds_aggregate_db_locations,
-    get_metadata_type,
     load_ds_aggregate_db,
-    location_keys,
+    exclude_from_metadata,
+    get_metadata_type,
     _get_metadata,
     _get_metadatarelevant_paths,
     _get_containingds_from_agginfo,
+    location_keys,
 )
+
+from .consts import DATASET_METADATA_FILE
 from .utils import all_same
 
 

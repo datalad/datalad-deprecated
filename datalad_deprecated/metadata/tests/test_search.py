@@ -19,7 +19,6 @@ from shutil import copy
 from uuid import UUID
 from pkg_resources import EntryPoint
 
-from unittest import SkipTest
 from unittest.mock import (
     MagicMock,
     patch,
@@ -31,7 +30,7 @@ from datalad.api import (
 )
 from datalad.support.exceptions import NoDatasetFound
 from datalad.tests.utils_pytest import (
-    #SkipTest,
+    SkipTest,
     assert_equal,
     assert_in,
     assert_is_generator,
@@ -40,7 +39,7 @@ from datalad.tests.utils_pytest import (
     assert_repo_status,
     assert_result_count,
     eq_,
-    skip_if_adjusted_branch,
+    known_failure_githubci_win,
     ok_file_under_git,
     patch_config,
     with_tempfile,
@@ -62,7 +61,6 @@ from ..search import (
     _listdict2dictlist,
     _meta2autofield_dict,
 )
-
 
 
 @with_testsui(interactive=False)
@@ -175,7 +173,7 @@ def test_search_non_dataset(tdir=None):
     assert_in("datalad create --force", str(cme.value))
 
 
-@skip_if_adjusted_branch
+@known_failure_githubci_win
 @with_tempfile(mkdir=True)
 def test_within_ds_file_search(path=None):
     try:
@@ -581,14 +579,12 @@ def test_gen4_query_aggregated_metadata():
                 reporton='all',
                 ds=DatasetMock('ds'),
                 aps=mocked_annotated_paths,
+                metadata_source='gen4'
             )
             if metadata_result['status'] == 'ok'
         ]
-        assert_equal(len(result), 1)
-        assert_equal(
-            result[0]['metadata'],
-            {extractor_name: extracted_metadata}
-        )
+        assert len(result) == 1
+        assert result[0]['metadata'] == {extractor_name: extracted_metadata}
 
         # check no metadata found-handling
         dump_mock.reset_mock()
@@ -600,6 +596,7 @@ def test_gen4_query_aggregated_metadata():
                 reporton='all',
                 ds=DatasetMock('ds'),
                 aps=mocked_annotated_paths,
+                metadata_source='all',
             )
             if metadata_result['status'] == 'impossible'
         ]
@@ -636,7 +633,7 @@ def test_metadata_source_handling(temp_dir=None):
         reset_mock(legacy_mock, legacy_result)
         r = tuple(
             result["metadata_source"]
-            for result in search(dataset=temp_ds, query="v1")
+            for result in search(dataset=temp_ds, query="v1", metadata_source='all')
         )
         assert_equal(r, ("legacy", "gen4"))
 
