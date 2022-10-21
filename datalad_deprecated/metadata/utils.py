@@ -1,3 +1,4 @@
+from datalad.support.json_py import load_stream
 from datalad.utils import ensure_unicode
 
 
@@ -51,3 +52,7 @@ def as_unicode(val, cast_types=object):
         raise TypeError(
             "Value %r is not of any of known or provided %s types"
             % (val, cast_types))
+
+
+def load_xzstream(fname):
+    yield from load_stream(fname, compressed=True)
