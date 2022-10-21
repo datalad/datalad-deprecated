@@ -1,3 +1,20 @@
+# 0.2.5 (Fri Oct 21 2022)
+
+#### 🐛 Bug Fix
+
+- Crossport core-located metadata bug-fixes [#71](https://github.com/datalad/datalad-deprecated/pull/71) ([@christian-monch](https://github.com/christian-monch))
+
+#### 🏠 Internal
+
+- Configure Dependabot to update GitHub Actions action versions [#68](https://github.com/datalad/datalad-deprecated/pull/68) ([@jwodder](https://github.com/jwodder))
+
+#### Authors: 2
+
+- Christian Mönch ([@christian-monch](https://github.com/christian-monch))
+- John T. Wodder II ([@jwodder](https://github.com/jwodder))
+
+---
+
 # 0.2.4 (Wed Oct 19 2022)
 
 #### 🏠 Internal
