@@ -247,7 +247,7 @@ type
     # test default behavior while limiting set of keys reported
     with swallow_outputs() as cmo:
         ds.search([r'\.id', 'artist$'], show_keys='short')
-        out_lines = [l for l in cmo.out.split(os.linesep) if l]
+        out_lines = [l for l in cmo.out.splitlines() if l]
         # test that only the ones matching were returned
         assert_equal(
             [l for l in out_lines if not l.startswith(' ')],
