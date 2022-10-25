@@ -26,7 +26,6 @@ from typing import (
 )
 
 from datalad import cfg
-from datalad.interface.annotate_paths import _minimal_annotate_paths
 from datalad.interface.base import Interface
 from datalad.interface.results import get_status_dict
 from datalad.interface.utils import (
@@ -64,6 +63,7 @@ from datalad.dochelpers import single_or_plural
 from datalad.log import log_progress
 from datalad.core.local.status import get_paths_by_ds
 
+from .annotate_paths import _minimal_annotate_paths
 from .common_opts import reporton_opt
 from .consts import (
     OLDMETADATA_DIR,
