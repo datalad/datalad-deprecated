@@ -26,7 +26,6 @@ from typing import (
 )
 
 from datalad import cfg
-from datalad.interface.annotate_paths import _minimal_annotate_paths
 from datalad.interface.base import Interface
 from datalad.interface.results import get_status_dict
 from datalad.interface.utils import (
