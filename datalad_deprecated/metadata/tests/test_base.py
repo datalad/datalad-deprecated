@@ -16,9 +16,7 @@ from os.path import relpath
 
 from datalad.api import (
     Dataset,
-    aggregate_metadata,
     install,
-    metadata,
 )
 from datalad.support.annexrepo import AnnexRepo
 from datalad.support.exceptions import (
@@ -50,12 +48,18 @@ from datalad.utils import (
     ensure_unicode,
 )
 
-from ...metadata.metadata import (
+
+from datalad_deprecated.metadata.aggregate import AggregateMetaData
+from datalad_deprecated.metadata.metadata import (
     _get_containingds_from_agginfo,
     get_metadata_type,
     query_aggregated_metadata,
+    Metadata
 )
 
+
+metadata = Metadata.__call__
+aggregate_metadata = AggregateMetaData.__call__
 
 
 _dataset_hierarchy_template = {

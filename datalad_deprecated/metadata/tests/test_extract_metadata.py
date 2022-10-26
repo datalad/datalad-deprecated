@@ -19,7 +19,6 @@ try:
 except Exception as e:
     raise SkipTest(f"Module 'libxmp' failed to load: {e}")
 
-from datalad.api import extract_metadata
 from datalad.coreapi import Dataset
 from datalad.tests.utils_pytest import (
     assert_in,
@@ -31,9 +30,9 @@ from datalad.tests.utils_pytest import (
     with_tempfile,
 )
 from datalad.utils import chpwd
+from datalad_deprecated.metadata.extract_metadata import ExtractMetadata
 
-
-
+extract_metadata = ExtractMetadata.__call__
 testpath = opj(dirname(dirname(dirname(__file__))), 'metadata', 'tests', 'data', 'xmp.pdf')
 
 

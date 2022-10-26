@@ -13,7 +13,6 @@
 import os.path as op
 from os.path import join as opj
 
-from datalad.api import metadata
 from datalad.distribution.dataset import Dataset
 from datalad.tests.utils_pytest import (
     assert_dict_equal,
@@ -31,6 +30,11 @@ from datalad.tests.utils_pytest import (
     with_tempfile,
     with_tree,
 )
+
+
+from datalad_deprecated.metadata.metadata import Metadata
+
+metadata = Metadata.__call__
 
 
 def _assert_metadata_empty(meta):

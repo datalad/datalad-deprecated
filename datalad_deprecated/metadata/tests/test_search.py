@@ -26,7 +26,6 @@ from unittest.mock import (
 
 from datalad.api import (
     Dataset,
-    search,
 )
 from datalad.support.exceptions import NoDatasetFound
 from datalad.tests.utils_pytest import (
@@ -60,7 +59,10 @@ from ..metadata import (
 from ..search import (
     _listdict2dictlist,
     _meta2autofield_dict,
+    Search
 )
+
+search = Search.__call__
 
 
 @with_testsui(interactive=False)
