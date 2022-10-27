@@ -1,3 +1,16 @@
+# 0.2.6 (Thu Oct 27 2022)
+
+#### 🐛 Bug Fix
+
+- BF: Adjust imports for metadata move [#73](https://github.com/datalad/datalad-deprecated/pull/73) ([@bpoldrack](https://github.com/bpoldrack))
+- BF: Fix annotate path imports [#72](https://github.com/datalad/datalad-deprecated/pull/72) ([@bpoldrack](https://github.com/bpoldrack))
+
+#### Authors: 1
+
+- Benjamin Poldrack ([@bpoldrack](https://github.com/bpoldrack))
+
+---
+
 # 0.2.5 (Fri Oct 21 2022)
 
 #### 🐛 Bug Fix
