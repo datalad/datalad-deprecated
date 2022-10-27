@@ -9,6 +9,9 @@ Command(s) provided by this extension
 - `ls` -- list summary information about URLs and datasets
    of a dataset (hierarchy)
 - `publish` -- original implementation, replaced by `push` in core
+- metadata commands `search`, `metadata`, `extract-metadata` and
+  `aggregate-metadata`; moved out of core in favor of the `datalad-metalad`
+  extension
 
 
 In addition, this extension provides the `AutomagicIO` feature that patches Python's

@@ -33,7 +33,6 @@ from datalad.interface.utils import (
     generic_result_renderer,
 )
 from datalad.interface.base import build_doc
-from datalad.metadata.definitions import version as vocabulary_version
 from datalad.support.collections import ReadOnlyDict, _val2hashable
 from datalad.support.constraints import (
     EnsureNone,
@@ -62,7 +61,7 @@ from datalad.ui import ui
 from datalad.dochelpers import single_or_plural
 from datalad.log import log_progress
 from datalad.core.local.status import get_paths_by_ds
-
+from .definitions import version as vocabulary_version
 from .annotate_paths import _minimal_annotate_paths
 from .common_opts import reporton_opt
 from .consts import (
