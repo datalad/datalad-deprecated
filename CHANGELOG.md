@@ -1,3 +1,15 @@
+# 0.2.7 (Fri Oct 28 2022)
+
+#### 🐛 Bug Fix
+
+- Add deprecated metadata config procedure from datalad core [#78](https://github.com/datalad/datalad-deprecated/pull/78) ([@bpoldrack](https://github.com/bpoldrack))
+
+#### Authors: 1
+
+- Benjamin Poldrack ([@bpoldrack](https://github.com/bpoldrack))
+
+---
+
 # 0.2.6 (Thu Oct 27 2022)
 
 #### 🐛 Bug Fix
