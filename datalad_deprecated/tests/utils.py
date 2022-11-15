@@ -19,7 +19,7 @@ from datalad.utils import (
     is_explicit_path,
     get_tempfile_kwargs,
 )
-from datalad.tests.utils import (
+from datalad.utils import (
     rmtemp,
 )
 from datalad.tests.utils_pytest import (
@@ -70,7 +70,7 @@ def with_testrepos(t, regex='.*', flavors='auto', skip=False, count=None):
     Examples
     --------
 
-    >>> from datalad_deprecated.tests.utils_pytest import with_testrepos
+    >>> from datalad_deprecated.tests.utils import with_testrepos
     >>> @with_testrepos('basic_annex')
     ... def test_write(repo):
     ...    assert(os.path.exists(os.path.join(repo, '.git', 'annex')))
