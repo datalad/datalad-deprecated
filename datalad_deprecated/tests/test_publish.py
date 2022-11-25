@@ -63,10 +63,9 @@ from datalad.tests.utils_pytest import (
     slow,
     swallow_logs,
     with_tempfile,
-    with_testrepos,
     with_tree,
 )
-
+from datalad_deprecated.tests.utils import with_testrepos
 
 # we are running this test from -core, which is mostly about create_sibling
 # but requires publish()

@@ -32,8 +32,8 @@ from datalad.tests.utils_pytest import (
     SkipTest,
     swallow_outputs,
     with_tempfile,
-    with_testrepos,
 )
+from datalad_deprecated.tests.utils import with_testrepos
 
 try:
     import h5py
