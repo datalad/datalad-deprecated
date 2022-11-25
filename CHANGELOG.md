@@ -1,3 +1,15 @@
+# 0.2.8 (Fri Nov 25 2022)
+
+#### 🐛 Bug Fix
+
+- Move with_testrepos from core to deprecated [#80](https://github.com/datalad/datalad-deprecated/pull/80) ([@adswa](https://github.com/adswa))
+
+#### Authors: 1
+
+- Adina Wagner ([@adswa](https://github.com/adswa))
+
+---
+
 # 0.2.7 (Fri Oct 28 2022)
 
 #### 🐛 Bug Fix
