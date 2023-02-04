@@ -27,7 +27,7 @@ from os.path import normpath
 from datalad_deprecated.annotate_paths import AnnotatePaths
 from datalad_deprecated.annotate_paths import annotated2content_by_ds
 from datalad.interface.base import Interface
-from datalad.interface.utils import eval_results
+from datalad.interface.base import eval_results
 from datalad.interface.base import build_doc
 from datalad.support.constraints import EnsureNone
 from datalad.support.constraints import EnsureStr

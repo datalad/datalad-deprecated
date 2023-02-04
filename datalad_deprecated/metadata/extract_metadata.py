@@ -16,7 +16,7 @@ from os.path import join as opj
 from datalad.interface.base import Interface
 from datalad.interface.base import build_doc
 from datalad.interface.results import get_status_dict
-from datalad.interface.utils import eval_results
+from datalad.interface.base import eval_results
 from datalad.distribution.dataset import datasetmethod
 from datalad.distribution.dataset import EnsureDataset
 from datalad.distribution.dataset import require_dataset

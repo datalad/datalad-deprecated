@@ -24,7 +24,7 @@ from datalad.interface.base import (
     Interface,
     build_doc,
 )
-from datalad.interface.utils import eval_results
+from datalad.interface.base import eval_results
 from datalad.interface.results import get_status_dict
 from datalad.interface.common_opts import annex_copy_opts, recursion_flag, \
     recursion_limit, git_opts, annex_opts, jobs_opt
