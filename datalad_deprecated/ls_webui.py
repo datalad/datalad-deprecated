@@ -28,11 +28,7 @@ from datalad.utils import with_pathsep
 from datalad.utils import Path
 import datalad.api as dl
 
-#  remove the below 2 lines when NEEDS_CONTENT is already made false
 import datalad.metadata.extractors.datalad_core as dc
-from datalad.support.external_versions import external_versions
-if external_versions['datalad'] < '0.15.0':
-    dc.MetadataExtractor.NEEDS_CONTENT = False
 
 from datalad_deprecated.metadata.consts import (
     OLDMETADATA_DIR,
