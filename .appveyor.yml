@@ -64,9 +64,10 @@ environment:
     - ID: Ubu20
       DTS: datalad_deprecated
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
-      INSTALL_SYSPKGS: python3-virtualenv
+      INSTALL_SYSPKGS: python3-virtualenv exempi
       # system git-annex is way too old, use better one
       INSTALL_GITANNEX: git-annex -m deb-url --url http://snapshot.debian.org/archive/debian/20201228T023115Z/pool/main/g/git-annex/git-annex_8.20201127-1_amd64.deb
+      CODECOV_BINARY: https://uploader.codecov.io/latest/linux/codecov
     # Windows core tests
     - ID: WinP39core
       # ~35 min
@@ -80,8 +81,10 @@ environment:
       DTS: datalad_deprecated
       APPVEYOR_BUILD_WORKER_IMAGE: macOS
       PY: 3.8
+      INSTALL_SYSPKGS: exempi
       INSTALL_GITANNEX: git-annex
       DATALAD_LOCATIONS_SOCKETS: /Users/appveyor/DLTMP/sockets
+      CODECOV_BINARY: https://uploader.codecov.io/latest/macos/codecov
 
 matrix:
   allow_failures:
@@ -201,21 +204,17 @@ test_script:
   - cmd: md __testhome__
   - sh: mkdir __testhome__
   - cd __testhome__
-    # run test selecion (--traverse-namespace needed from Python 3.8 onwards)
-  - cmd: python -m nose --traverse-namespace -s -v -A "not (turtle)" --with-cov --cover-package datalad_deprecated %DTS%
-  - sh:  python -m nose --traverse-namespace -s -v -A "not (turtle)" --with-cov --cover-package datalad_deprecated ${DTS}
+  - cmd: python -m pytest -c ../tox.ini -s -v -m "not (turtle)" --doctest-modules --doctest-ignore-import-errors --cov=datalad_deprecated --pyargs %DTS%
+  - sh:  python -m pytest -c ../tox.ini -s -v -m "not (turtle)" --doctest-modules --doctest-ignore-import-errors --cov=datalad_deprecated --pyargs ${DTS}
 
 
 after_test:
-  # move coverage into the project dir to make default handling applicable
-  - cmd: move .coverage ..
-  - sh: mv .coverage ..
-  - cd ..
-  # use windows codecov uploader package
-  - cmd: choco install codecov
-  - cmd: python -m coverage xml
-  - cmd: codecov -f coverage.xml
-  - sh: bash <(curl -sfS https://codecov.io/bash)
+  - python -m coverage xml
+  - cmd: curl -fsSL -o codecov.exe "https://uploader.codecov.io/latest/windows/codecov.exe"
+  - cmd: .\codecov.exe -f "coverage.xml"
+  - sh: "curl -Os $CODECOV_BINARY"
+  - sh: chmod +x codecov
+  - sh: ./codecov
 
 
 #on_success:

@@ -20,20 +20,20 @@ from io import StringIO
 from ..auto import AutomagicIO
 from datalad.support.annexrepo import AnnexRepo
 from datalad.support.json_py import LZMAFile
-from datalad.tests.utils import (
+from datalad.tests.utils_pytest import (
     assert_false,
     assert_raises,
     assert_true,
     chpwd,
     eq_,
-    known_failure_githubci_win,
+    skip_if_adjusted_branch,
     known_failure_windows,
     ok_,
     SkipTest,
     swallow_outputs,
     with_tempfile,
-    with_testrepos,
 )
+from datalad_deprecated.tests.utils import with_testrepos
 
 try:
     import h5py
@@ -52,11 +52,13 @@ except ImportError:
 # https://github.com/datalad/datalad/pull/3975/checks?check_run_id=369789030#step:8:398
 @known_failure_windows
 @with_testrepos('basic_annex', flavors=['clone'])
-def test_proxying_open_testrepobased(repo):
+def test_proxying_open_testrepobased(repo=None):
     TEST_CONTENT = "content to be annex-addurl'd"
     fname = 'test-annex.dat'
     fpath = opj(repo, fname)
-    assert_raises(IOError, open, fpath)
+    annex = AnnexRepo(repo, create=False)
+    if not annex.is_managed_branch():
+        assert_raises(IOError, open, fpath)
 
     aio = AutomagicIO(activate=True)
     try:
@@ -72,7 +74,6 @@ def test_proxying_open_testrepobased(repo):
     with open(fpath) as f:
         eq_(f.read(), TEST_CONTENT)
 
-    annex = AnnexRepo(repo, create=False)
     # Let's create another file deeper under the directory with the same content
     # so it would point to the same key, which we would drop and repeat the drill
     fpath2 = opj(repo, 'd1', 'd2', 'test2.dat')
@@ -82,7 +83,8 @@ def test_proxying_open_testrepobased(repo):
     annex.add(fpath2)
     annex.drop(fpath2)
     annex.commit("added and dropped")
-    assert_raises(IOError, open, fpath2)
+    if not annex.is_managed_branch():
+        assert_raises(IOError, open, fpath2)
 
     # Let's use context manager form
     with AutomagicIO() as aio:
@@ -99,7 +101,9 @@ def test_proxying_open_testrepobased(repo):
             eq_(content, TEST_CONTENT)
 
     annex.drop(fpath2)
-    assert_raises(IOError, open, fpath2)
+    if not annex.is_managed_branch():
+        assert_raises(IOError, open, fpath2)
+
 
     # Let's use relative path
     with chpwd(opj(repo, 'd1')):
@@ -135,7 +139,12 @@ def _test_proxying_open(generate_load, verify_load, repo):
     fpath2_2 = fpath2.replace(repo, repo2)
 
     EXPECTED_EXCEPTIONS = (IOError, OSError)
-    assert_raises(EXPECTED_EXCEPTIONS, verify_load, fpath1_2)
+    if not annex2.is_managed_branch():
+        assert_raises(EXPECTED_EXCEPTIONS, verify_load, fpath1_2)
+    else:
+        # if managed - file load could fail or not various ways since no checks of any kind
+        # and we end up with a link file
+        pass
 
     with AutomagicIO():
         # verify that it doesn't even try to get files which do not exist
@@ -163,7 +172,7 @@ def _test_proxying_open(generate_load, verify_load, repo):
         assert_true(annex2.file_has_content(fpath2_2))
         annex2.drop(fpath2_2)
         assert_false(annex2.file_has_content(fpath2_2))
-        assert_false(os.path.isfile(fpath2_2))
+        (assert_false if not annex2.is_managed_branch() else assert_true)(os.path.isfile(fpath2_2))
 
 
     # if we override stdout with something not supporting fileno, like tornado
@@ -196,7 +205,7 @@ def test_proxying_open_h5py():
 
     if not h5py:
         raise SkipTest("No h5py found")
-    yield _test_proxying_open, generate_hdf5, verify_hdf5
+    _test_proxying_open(generate_hdf5, verify_hdf5)
 
 
 @known_failure_windows
@@ -209,7 +218,7 @@ def test_proxying_open_regular():
         with open(f, mode) as f:
             eq_(f.read(), "123")
 
-    yield _test_proxying_open, generate_dat, verify_dat
+    _test_proxying_open(generate_dat, verify_dat)
 
 
 @known_failure_windows
@@ -223,7 +232,7 @@ def test_proxying_io_open_regular():
         with io.open(f, mode, encoding='utf-8') as f:
             eq_(f.read(), u"123")
 
-    yield _test_proxying_open, generate_dat, verify_dat
+    _test_proxying_open(generate_dat, verify_dat)
 
 
 @known_failure_windows
@@ -236,7 +245,7 @@ def test_proxying_lzma_LZMAFile():
         with LZMAFile(f, mode) as f:
             eq_(f.read().decode('utf-8'), "123")
 
-    yield _test_proxying_open, generate_dat, verify_dat
+    _test_proxying_open(generate_dat, verify_dat)
 
 
 @known_failure_windows
@@ -258,7 +267,7 @@ def test_proxying_open_nibabel():
         ni = nib.load(f)
         assert_array_equal(ni.get_data(), d)
 
-    yield _test_proxying_open, generate_nii, verify_nii
+    _test_proxying_open(generate_nii, verify_nii)
 
 
 @known_failure_windows
@@ -271,4 +280,4 @@ def test_proxying_os_stat():
     def verify_dat(f, mode="r"):
         assert os.stat(f).st_size == 3
 
-    yield _test_proxying_open, generate_dat, verify_dat
+    _test_proxying_open(generate_dat, verify_dat)

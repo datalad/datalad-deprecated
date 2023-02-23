@@ -1,0 +1,16 @@
+{
+    "onlyPublishWithReleaseLabel": true,
+    "baseBranch": "master",
+    "author": "DataLad Bot <bot@datalad.org>",
+    "noVersionPrefix": true,
+    "plugins": [
+        "git-tag",
+        [
+            "exec",
+            {
+                "afterRelease": "python -m build && twine upload dist/*"
+            }
+        ],
+        "released"
+    ]
+}

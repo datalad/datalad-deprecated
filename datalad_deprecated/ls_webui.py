@@ -20,7 +20,6 @@ from os import makedirs, remove, listdir
 from os.path import join as opj, relpath, \
     isabs, dirname
 
-from datalad.consts import OLDMETADATA_DIR, OLDMETADATA_FILENAME
 from datalad.distribution.dataset import Dataset
 from datalad_deprecated.ls import FsModel, lgr, GitModel
 from datalad.support.network import is_datalad_compat_ri
@@ -34,6 +33,12 @@ import datalad.metadata.extractors.datalad_core as dc
 from datalad.support.external_versions import external_versions
 if external_versions['datalad'] < '0.15.0':
     dc.MetadataExtractor.NEEDS_CONTENT = False
+
+from datalad_deprecated.metadata.consts import (
+    OLDMETADATA_DIR,
+    OLDMETADATA_FILENAME,
+)
+
 
 # A string to use to depict unknown size of the annexed dataset, e.g.
 # whenever all the keys are "relaxed" urls

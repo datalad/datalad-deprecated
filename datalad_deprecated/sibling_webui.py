@@ -26,7 +26,7 @@ from datalad.utils import (
 )
 import datalad_deprecated
 
-lgr = logging.getLogger('datalad_deprecated.sibling_webui')
+lgr = logging.getLogger('datalad.deprecated.sibling_webui')
 
 
 WEB_HTML_DIR = opj(DATALAD_GIT_DIR, 'web')
