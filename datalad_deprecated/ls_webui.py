@@ -28,7 +28,7 @@ from datalad.utils import with_pathsep
 from datalad.utils import Path
 import datalad.api as dl
 
-import datalad.metadata.extractors.datalad_core as dc
+import datalad_deprecated.metadata.extractors.datalad_core as dc
 
 from datalad_deprecated.metadata.consts import (
     OLDMETADATA_DIR,
