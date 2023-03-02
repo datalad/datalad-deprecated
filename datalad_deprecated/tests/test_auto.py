@@ -265,7 +265,7 @@ def test_proxying_open_nibabel():
 
     def verify_nii(f, mode="r"):
         ni = nib.load(f)
-        assert_array_equal(ni.get_data(), d)
+        assert_array_equal(ni.get_fdata(), d)
 
     _test_proxying_open(generate_nii, verify_nii)
 
