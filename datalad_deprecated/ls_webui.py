@@ -305,7 +305,7 @@ def fs_traverse(path, repo, parent=None,
                         subdir = fs_extract(nodepath,
                                             repo,
                                             basepath=basepath or path)
-                if nodepath in file_metadata:
+                if file_metadata and nodepath in file_metadata:
                     subdir['external_urls'] = file_metadata[nodepath]
                 # append child metadata to list
                 children.extend([subdir])
