@@ -13,3 +13,4 @@ dist/
 venvs/
 fixtures/
 .idea
+.hypothesis

@@ -26,6 +26,9 @@ from datalad.support.network import is_datalad_compat_ri
 from datalad_deprecated.utils import safe_print
 from datalad.utils import with_pathsep
 from datalad.utils import Path
+import datalad.api as dl
+
+import datalad_deprecated.metadata.extractors.datalad_core as dc
 
 from datalad_deprecated.metadata.consts import (
     OLDMETADATA_DIR,
@@ -199,7 +202,8 @@ def fs_traverse(path, repo, parent=None,
                 render=True,
                 recurse_datasets=False,
                 recurse_directories=False,
-                json=None, basepath=None):
+                json=None, basepath=None,
+                file_metadata=None):
     """Traverse path through its nodes and returns a dictionary of relevant
     attributes attached to each node
 
@@ -216,6 +220,9 @@ def fs_traverse(path, repo, parent=None,
     render: bool
        To render from within function or not. Set to false if results to be
        manipulated before final render
+    file_metadata: dict
+       Extracted metadata of all files in the dataset being traversed in.
+       This will be used to attach external urls to files if they have them.
 
     Returns
     -------
@@ -298,6 +305,8 @@ def fs_traverse(path, repo, parent=None,
                         subdir = fs_extract(nodepath,
                                             repo,
                                             basepath=basepath or path)
+                if file_metadata and nodepath in file_metadata:
+                    subdir['external_urls'] = file_metadata[nodepath]
                 # append child metadata to list
                 children.extend([subdir])
 
@@ -352,6 +361,15 @@ def ds_traverse(rootds, parent=None, json=None,
     fsparent = fs_extract(parent.path, parent.repo, basepath=rootds.path) \
         if parent else None
 
+    # from my understanding, this constructs a file metadata map that maps file path to external urls found 
+    # (the map is passed to fs_traverse)
+    metadata_raw = dl.extract_metadata(types=["datalad_core"], dataset=rootds)
+    metadata_map = {}
+    
+    for file_metadata in metadata_raw:
+        if file_metadata['type'] == 'file' and 'datalad_core' in file_metadata['metadata'] and 'url' in file_metadata['metadata']['datalad_core']:
+            metadata_map[file_metadata['path']] = file_metadata['metadata']['datalad_core']['url']
+
     # (recursively) traverse file tree of current dataset
     fs = fs_traverse(
         rootds.path, rootds.repo,
@@ -361,7 +379,8 @@ def ds_traverse(rootds, parent=None, json=None,
         # XXX note that here I kinda flipped the notions!
         recurse_datasets=recurse_datasets,
         recurse_directories=recurse_directories,
-        json=json
+        json=json,
+        file_metadata=metadata_map
     )
 
     # BUT if we are recurse_datasets but not recurse_directories
