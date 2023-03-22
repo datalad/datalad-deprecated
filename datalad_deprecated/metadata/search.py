@@ -37,7 +37,7 @@ from datalad.interface.base import (
     Interface,
     build_doc,
 )
-from datalad.interface.utils import eval_results
+from datalad.interface.base import eval_results
 from datalad.support.constraints import (
     EnsureInt,
     EnsureNone,

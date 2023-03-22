@@ -1,4 +1,4 @@
-include CONTRIBUTORS LICENSE versioneer.py
+include CHANGELOG.md CONTRIBUTORS LICENSE versioneer.py Gruntfile.js
 graft _datalad_buildsupport
 graft datalad_deprecated
 graft docs
