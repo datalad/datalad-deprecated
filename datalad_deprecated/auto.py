@@ -300,7 +300,7 @@ class AutomagicIO(object):
             self._log_online = False
         if self.active:
             # this is not a warning, because there is nothing going
-            # wrong or being undesired. Nested invokation could happen
+            # wrong or being undesired. Nested invocation could happen
             # caused by independent pieces of code, e.g. user code
             # that invokes our own metadata handling.
             lgr.debug("%s already active. No action taken", self)

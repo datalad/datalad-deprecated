@@ -408,7 +408,7 @@ def _traverse_handle_subds(
         subds_rpath, rootds,
         recurse_datasets, recurse_directories, json):
     """A helper to deal with the subdataset node - recurse or just pick up
-    may be alrady collected in it web meta
+    may be already collected in it web meta
     """
     subds_path = opj(rootds.path, subds_rpath)
     subds = Dataset(subds_path)
