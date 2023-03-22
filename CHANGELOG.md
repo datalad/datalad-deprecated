@@ -1,3 +1,21 @@
+# 0.3.0 (Wed Mar 22 2023)
+
+#### 🚀 Enhancement
+
+- Add external links to files (if available) and display in context menu [#37](https://github.com/datalad/datalad-deprecated/pull/37) ([@dereklu888](https://github.com/dereklu888) [@yarikoptic](https://github.com/yarikoptic))
+
+#### 🏠 Internal
+
+- Account for @eval_results move, add CHANGELOG.md to source distribution [#81](https://github.com/datalad/datalad-deprecated/pull/81) ([@yarikoptic](https://github.com/yarikoptic))
+- Enh codespell: workflow, config + typo fixes [#82](https://github.com/datalad/datalad-deprecated/pull/82) ([@yarikoptic](https://github.com/yarikoptic))
+
+#### Authors: 2
+
+- Derek ([@dereklu888](https://github.com/dereklu888))
+- Yaroslav Halchenko ([@yarikoptic](https://github.com/yarikoptic))
+
+---
+
 # 0.2.8 (Fri Nov 25 2022)
 
 #### 🐛 Bug Fix
