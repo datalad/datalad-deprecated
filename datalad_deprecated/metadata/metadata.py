@@ -670,7 +670,7 @@ def _get_metadata(ds, types, global_meta=None, content_meta=None, paths=None):
             # important: we want to have a stable order regarding
             # the unique values (a list). we cannot guarantee the
             # same order of discovery, hence even when not using a
-            # set above we would still need sorting. the callenge
+            # set above we would still need sorting. the challenge
             # is that any value can be an arbitrarily complex nested
             # beast
             # we also want to have each unique value set always come
