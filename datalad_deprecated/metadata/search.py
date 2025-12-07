@@ -184,9 +184,10 @@ def _meta2autofield_dict(meta, val2str=True, schema=None, consider_ucn=True):
                 yield key, v
 
     def get_indexer(metadata_format_name: str) -> callable:
-        from pkg_resources import EntryPoint, iter_entry_points
+        from importlib.metadata import entry_points
 
-        all_indexers = tuple(iter_entry_points('datalad.metadata.indexers', metadata_format_name))
+        eps = entry_points(group='datalad.metadata.indexers')
+        all_indexers = [ep for ep in eps if ep.name == metadata_format_name]
         if all_indexers:
             if len(all_indexers) > 1:
                 # Check that there is only one indexer of the requested name.
@@ -203,16 +204,15 @@ def _meta2autofield_dict(meta, val2str=True, schema=None, consider_ucn=True):
                     metadata_format_name)
             else:
                 indexer = all_indexers[0]
-                if isinstance(indexer, EntryPoint):
-                    try:
-                        indexer_object = indexer.load()(metadata_format_name)
-                        return indexer_object.create_index
-                    except Exception as e:
-                        lgr.warning(
-                            'Failed to load indexer %s (%s): %s',
-                            indexer.name,
-                            str(indexer.dist),
-                            CapturedException(e))
+                try:
+                    indexer_object = indexer.load()(metadata_format_name)
+                    return indexer_object.create_index
+                except Exception as e:
+                    lgr.warning(
+                        'Failed to load indexer %s (%s): %s',
+                        indexer.name,
+                        str(indexer.dist),
+                        CapturedException(e))
         lgr.debug(
             'Falling back to standard indexer for metadata format: %s',
             metadata_format_name)
