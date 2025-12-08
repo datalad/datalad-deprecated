@@ -13,9 +13,9 @@ jobs:
     - name: Set up node
       uses: actions/setup-node@v4
       with:
-        node_version: 10
+        node-version: '18'
     - name: Install grunt
-      run:
+      run: |
         npm install grunt-cli
         npm install grunt
         npm install grunt-contrib-qunit@^4.0.0
