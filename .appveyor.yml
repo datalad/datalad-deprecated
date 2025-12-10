@@ -61,30 +61,31 @@ environment:
     # is a need for debugging
 
     # Ubuntu core tests
-    - ID: Ubu20
+    - ID: Ubu22
       DTS: datalad_deprecated
-      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
+      PY: "3.10"
       INSTALL_SYSPKGS: python3-virtualenv exempi
-      # system git-annex is way too old, use better one
-      INSTALL_GITANNEX: git-annex -m deb-url --url http://snapshot.debian.org/archive/debian/20201228T023115Z/pool/main/g/git-annex/git-annex_8.20201127-1_amd64.deb
       CODECOV_BINARY: https://uploader.codecov.io/latest/linux/codecov
+      # system git-annex is way too old, use better one
+      INSTALL_GITANNEX: git-annex -m datalad/packages
     # Windows core tests
     - ID: WinP39core
       # ~35 min
       DTS: datalad_deprecated
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
       # Python version specification is non-standard on windows
-      PY: 39-x64
+      PY: 310-x64
       INSTALL_GITANNEX: git-annex -m datalad/packages
     # MacOS core tests
-    - ID: MacP38core
+    - ID: MacP39core
       DTS: datalad_deprecated
-      APPVEYOR_BUILD_WORKER_IMAGE: macOS
-      PY: 3.8
+      APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
+      PY: "3.10"
       INSTALL_SYSPKGS: exempi
-      INSTALL_GITANNEX: git-annex
+      INSTALL_GITANNEX: git-annex -m datalad/packages
       DATALAD_LOCATIONS_SOCKETS: /Users/appveyor/DLTMP/sockets
-      CODECOV_BINARY: https://uploader.codecov.io/latest/macos/codecov
+      CODECOV_BINARY: https://cli.codecov.io/v0.7.4/macos/codecov
 
 matrix:
   allow_failures:
@@ -170,7 +171,7 @@ install:
       )
   - sh: python -m pip install datalad-installer${DATALAD_INSTALLER_VERSION:-}
   # Missing system software
-  - sh: "[ -n \"$INSTALL_SYSPKGS\" ] && ( [ \"x${APPVEYOR_BUILD_WORKER_IMAGE}\" = \"xmacOS\" ] && brew install -q ${INSTALL_SYSPKGS} || sudo apt-get install --no-install-recommends -y ${INSTALL_SYSPKGS} ) || true"
+  - sh: "[ -n \"$INSTALL_SYSPKGS\" ] && ( [ \"x${APPVEYOR_BUILD_WORKER_IMAGE}\" = \"xmacos-monterey\" ] && brew install -q ${INSTALL_SYSPKGS} ||  { sudo apt-get update -y && sudo apt-get install --no-install-recommends -y ${INSTALL_SYSPKGS}; } ) || true"
   # Install git-annex on windows, otherwise INSTALL_SYSPKGS can be used
   # deploy git-annex, if desired
   - cmd: IF DEFINED INSTALL_GITANNEX datalad-installer --sudo ok %INSTALL_GITANNEX%
