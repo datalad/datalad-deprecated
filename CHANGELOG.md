@@ -1,3 +1,33 @@
+# 1.0.0 (Wed Dec 10 2025)
+
+#### 💥 Breaking Change
+
+- [gh-actions](deps): Bump codespell-project/actions-codespell from 1 to 2 [#83](https://github.com/datalad/datalad-deprecated/pull/83) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### 🚀 Enhancement
+
+- Replace deprecated pkg_resources and distutils with modern alternatives [#89](https://github.com/datalad/datalad-deprecated/pull/89) ([@yarikoptic](https://github.com/yarikoptic))
+
+#### 🏠 Internal
+
+- [gh-actions](deps): Bump actions/setup-node from 4 to 6 [#92](https://github.com/datalad/datalad-deprecated/pull/92) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- [gh-actions](deps): Bump actions/checkout from 4 to 6 [#91](https://github.com/datalad/datalad-deprecated/pull/91) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- [gh-actions](deps): Bump actions/setup-python from 5 to 6 [#90](https://github.com/datalad/datalad-deprecated/pull/90) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- [gh-actions](deps): Bump actions/setup-node from 3 to 4 [#88](https://github.com/datalad/datalad-deprecated/pull/88) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- [gh-actions](deps): Bump actions/setup-python from 4 to 5 [#87](https://github.com/datalad/datalad-deprecated/pull/87) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- [gh-actions](deps): Bump actions/checkout from 3 to 4 [#86](https://github.com/datalad/datalad-deprecated/pull/86) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### 📝 Documentation
+
+- Fixup intersphinx_mapping for Python and add RTD config file; Fix typo along the way [#85](https://github.com/datalad/datalad-deprecated/pull/85) ([@yarikoptic](https://github.com/yarikoptic))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Yaroslav Halchenko ([@yarikoptic](https://github.com/yarikoptic))
+
+---
+
 # 0.3.0 (Wed Mar 22 2023)
 
 #### 🚀 Enhancement
