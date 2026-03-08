@@ -9,6 +9,8 @@
 
 """
 
+import pytest
+
 import logging
 from os.path import (
     exists,
@@ -67,6 +69,11 @@ from datalad.tests.utils_pytest import (
 )
 from datalad_deprecated.tests.utils import with_testrepos
 
+# All tests in this module exercise the deprecated publish command
+pytestmark = pytest.mark.filterwarnings(
+    "ignore:.*publish.*is deprecated:DeprecationWarning"
+)
+
 # we are running this test from -core, which is mostly about create_sibling
 # but requires publish()
 if not on_windows:
@@ -84,7 +91,7 @@ def filter_fsck_error_msg(dicts):
 @with_tempfile(mkdir=True)
 def test_invalid_call(origin=None, tdir=None):
     ds = Dataset(origin)
-    ds.uninstall('subm 1', check=False)
+    ds.drop('subm 1', reckless='availability')
     # nothing
     assert_status('error', publish('/notthere', on_failure='ignore'))
     # known, but not present
@@ -98,8 +105,8 @@ def test_invalid_call(origin=None, tdir=None):
     # new dataset, with unavailable subdataset
     dummy = Dataset(tdir).create()
     dummy_sub = dummy.create('sub')
-    dummy_sub.uninstall(check=False)
-    assert_in('sub', dummy.subdatasets(fulfilled=False, result_xfm='relpaths'))
+    dummy_sub.drop(reckless='availability')
+    assert_in('sub', dummy.subdatasets(state='absent', result_xfm='relpaths'))
     # now an explicit call to publish the unavailable subdataset
     assert_result_count(
         dummy.publish('sub', on_failure='ignore'),
@@ -304,7 +311,7 @@ def test_publish_recursive(pristine_origin=None, origin_path=None, src_path=None
     # we will be trying to push into this later on, need to give permissions...
     origin_sub2 = Dataset(opj(origin_path, '2'))
     origin_sub2.config.set(
-        'receive.denyCurrentBranch', 'updateInstead', where='local')
+        'receive.denyCurrentBranch', 'updateInstead', scope='local')
     ## TODO this manual fixup is needed due to gh-1548 -- needs proper solution
     #os.remove(opj(origin_sub2.path, '.git'))
     #os.rename(opj(origin_path, '.git', 'modules', '2'), opj(origin_sub2.path, '.git'))
@@ -328,7 +335,7 @@ def test_publish_recursive(pristine_origin=None, origin_path=None, src_path=None
     sub1_target.checkout("TMP", ["-b"])
     sub2_target = AnnexRepo(sub2_pub, create=True)
     # we will be testing presence of the file content, so let's make it progress
-    sub2_target.config.set('receive.denyCurrentBranch', 'updateInstead', where='local')
+    sub2_target.config.set('receive.denyCurrentBranch', 'updateInstead', scope='local')
     sub1 = GitRepo(opj(src_path, 'subm 1'), create=False)
     sub2 = GitRepo(opj(src_path, '2'), create=False)
     sub1.add_remote("target", sub1_pub)
@@ -443,7 +450,7 @@ def test_publish_recursive(pristine_origin=None, origin_path=None, src_path=None
     source.save(message="Changes in subm2")
     # and test if it could deduce the remote/branch to push to
     source.config.set('branch.{}.remote'.format(DEFAULT_BRANCH),
-                      'target', where='local')
+                      'target', scope='local')
     with chpwd(source.path):
         res_ = publish(since='^', recursive=True)
     # TODO: somehow test that there were no even attempt to diff within "subm 1"
@@ -572,7 +579,7 @@ def test_publish_depends(
     source.repo.get('test-annex.dat')
     # pollute config
     depvar = 'remote.target2.datalad-publish-depends'
-    source.config.add(depvar, 'stupid', where='local')
+    source.config.add(depvar, 'stupid', scope='local')
     eq_(source.config.get(depvar, None), 'stupid')
 
     # two remote sibling on two "different" hosts
@@ -647,7 +654,7 @@ def test_gh1426(origin_path=None, target_path=None):
     origin = create(origin_path)
     target = AnnexRepo(target_path, create=True)
     target.config.set(
-        'receive.denyCurrentBranch', 'updateInstead', where='local')
+        'receive.denyCurrentBranch', 'updateInstead', scope='local')
     origin.siblings('add', name='target', url=target_path)
     origin.publish(to='target')
     assert_repo_status(origin.path)
@@ -772,7 +779,7 @@ def test_publish_no_fetch_refspec_configured(path=None):
     ds = Dataset(path / "ds").create()
     ds.repo.add_remote(DEFAULT_REMOTE, str(ds.pathobj.parent / "empty-remote"))
     # Mimic a situation that can happen with an LFS remote. See gh-4199.
-    ds.repo.config.unset(f"remote.{DEFAULT_REMOTE}.fetch", where="local")
+    ds.repo.config.unset(f"remote.{DEFAULT_REMOTE}.fetch", scope="local")
     (ds.repo.pathobj / "foo").write_text("a")
     ds.save()
     ds.publish(to=DEFAULT_REMOTE)

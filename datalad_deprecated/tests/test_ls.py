@@ -86,7 +86,7 @@ def test_ls_uninstalled(path=None):
     ds = Dataset(path)
     ds.create()
     ds.create('sub')
-    ds.uninstall('sub', check=False)
+    ds.drop('sub', reckless='availability')
     with swallow_outputs() as cmo:
         ls([path], recursive=True)
         assert_in('not installed', cmo.out)

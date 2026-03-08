@@ -185,7 +185,7 @@ def test_ls_json(topdir=None, topurl=None):
     # annex.add doesn't add submodule, so using ds.add
     ds.save(opj('dir', 'subgit'))                   # add the non-dataset git repo to annex
     ds.save('dir')                                  # add to annex (links)
-    ds.drop(opj('dir', 'subdir', 'file2.txt'), check=False)  # broken-link
+    ds.drop(opj('dir', 'subdir', 'file2.txt'), reckless='availability')  # broken-link
 
     # register "external" submodule  by installing and uninstalling it
     ext_url = topurl + '/dir/subgit/.git'
@@ -193,7 +193,7 @@ def test_ls_json(topdir=None, topurl=None):
     WitlessRunner(cwd=opj(topdir, 'dir', 'subgit')).run(
         ['git', 'update-server-info'])
     ds.install(opj('dir', 'subgit_ext'), source=ext_url)
-    ds.uninstall(opj('dir', 'subgit_ext'))
+    ds.drop(opj('dir', 'subgit_ext'))
     meta_dir = opj('.git', 'datalad', 'metadata')
 
     def get_metahash(*path):

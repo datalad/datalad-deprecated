@@ -721,7 +721,7 @@ class AnnotatePaths(Interface):
                     subdss = subdss_cache[parent]
                 else:
                     subdss = containing_ds.subdatasets(
-                        fulfilled=None, recursive=False,
+                        recursive=False,
                         result_xfm=None, result_filter=None, return_type='list')
                     subdss_cache[parent] = subdss
                 if path in [s['path'] for s in subdss]:
@@ -829,7 +829,6 @@ def _minimal_annotate_paths(paths_by_ds, errors, action="annotate_path",
 
         subdatasets = Dataset(dpath).subdatasets(
             path=paths,
-            fulfilled=None,
             recursive=recursive,
             recursion_limit=recursion_limit,
             result_renderer='disabled',
