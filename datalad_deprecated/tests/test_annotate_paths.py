@@ -201,7 +201,7 @@ def test_annotate_paths(dspath=None, nodspath=None):
     before_res = ds.annotate_paths(subdspath, recursive=True,
                                    unavailable_path_status='error')
     assert_result_count(before_res, 3, status='', type='dataset')
-    uninstall_res = ds.drop(subdspath, recursive=True, reckless='availability')
+    uninstall_res = ds.drop(subdspath, recursive=True, reckless='availability', what='all')
     assert_in_results(uninstall_res, status='ok', type='dataset')
     # after
     after_res = ds.annotate_paths(subdspath,
@@ -377,7 +377,7 @@ def test_recurseinto(dspath=None, dest=None):
     assert(not Dataset(opj(dest, 'b', 'bb')).is_installed())
 
     # cleanup
-    Dataset(dest).remove(recursive=True)
+    Dataset(dest).remove()
     assert(not lexists(dest))
     # again but just clone the base, and then get content and grab 'bb'
     # explicitly -- must get it installed

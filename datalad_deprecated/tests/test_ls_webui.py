@@ -193,7 +193,7 @@ def test_ls_json(topdir=None, topurl=None):
     WitlessRunner(cwd=opj(topdir, 'dir', 'subgit')).run(
         ['git', 'update-server-info'])
     ds.install(opj('dir', 'subgit_ext'), source=ext_url)
-    ds.drop(opj('dir', 'subgit_ext'))
+    ds.drop(opj('dir', 'subgit_ext'), what='all')
     meta_dir = opj('.git', 'datalad', 'metadata')
 
     def get_metahash(*path):

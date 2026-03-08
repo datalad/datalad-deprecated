@@ -91,7 +91,7 @@ def filter_fsck_error_msg(dicts):
 @with_tempfile(mkdir=True)
 def test_invalid_call(origin=None, tdir=None):
     ds = Dataset(origin)
-    ds.drop('subm 1', reckless='availability')
+    ds.drop('subm 1', reckless='availability', what='all')
     # nothing
     assert_status('error', publish('/notthere', on_failure='ignore'))
     # known, but not present
@@ -105,7 +105,7 @@ def test_invalid_call(origin=None, tdir=None):
     # new dataset, with unavailable subdataset
     dummy = Dataset(tdir).create()
     dummy_sub = dummy.create('sub')
-    dummy_sub.drop(reckless='availability')
+    dummy_sub.drop(reckless='availability', what='all')
     assert_in('sub', dummy.subdatasets(state='absent', result_xfm='relpaths'))
     # now an explicit call to publish the unavailable subdataset
     assert_result_count(
