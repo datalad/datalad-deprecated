@@ -12,6 +12,8 @@ from inspect import isgenerator
 
 from datalad.api import Dataset
 from datalad.support.entrypoints import iter_entrypoints
+
+from datalad_deprecated.metadata.extractors.base import BaseMetadataExtractor
 from datalad.tests.utils_pytest import (
     SkipTest,
     assert_equal,
@@ -37,6 +39,10 @@ def check_api(annex, path):
         except Exception as exc:
             exc_ = str(exc)
             skipped_extractors += [exc_]
+            continue
+        if not issubclass(extractor_cls, BaseMetadataExtractor):
+            # only test legacy (generation 2) extractors here;
+            # newer-style extractors have incompatible APIs
             continue
         extractor = extractor_cls(
             ds, paths=['file.dat'])
