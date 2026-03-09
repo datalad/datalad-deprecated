@@ -25,10 +25,10 @@ from os.path import isabs
 from os.path import join as opj
 from datalad.support.exceptions import InvalidGitRepositoryError
 
-from datalad.utils import getpwd
+from datalad.utils import get_dataset_root, getpwd
 from datalad.dochelpers import exc_str
+from datalad.distribution.dataset import Dataset
 from datalad.support.annexrepo import AnnexRepo
-from datalad.cmdline.helpers import get_repo_instance
 from datalad.consts import DATALAD_DOTDIR
 
 # To be used for a quick detection of path being under .git/
@@ -249,7 +249,11 @@ class AutomagicIO(object):
                 # since there should be no file we are to get.  This should address
                 # circular call-in and causing a lockdown of https://github.com/datalad/datalad/issues/5379
                 self._getting_repo_instance = True
-                annex = get_repo_instance(filedir)
+                dsroot = get_dataset_root(filedir)
+                if not dsroot:
+                    raise RuntimeError(
+                        f"No repository found at {filedir}.")
+                annex = Dataset(dsroot).repo
                 lgr.log(2, "Got the repository %s id:%s containing %s", annex, id(annex), filedir)
             except (RuntimeError, InvalidGitRepositoryError) as e:
                 # must be not under annex etc

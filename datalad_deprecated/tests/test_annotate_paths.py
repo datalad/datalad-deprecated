@@ -187,7 +187,7 @@ def test_annotate_paths(dspath=None, nodspath=None):
         res, 1, orig_request=fpath, raw_input=True, type='file',
         path=opj(ds.path, fpath), parentds=opj(ds.path, 'a', 'aa'), status='')
     # now drop it
-    dropres = ds.drop(fpath, check=False)
+    dropres = ds.drop(fpath, reckless='availability')
     assert_result_count(dropres, 1, path=res[0]['path'], status='ok')
     # ask for same file again, use 'notneeded' for unavailable to try trigger
     # any difference
@@ -201,7 +201,7 @@ def test_annotate_paths(dspath=None, nodspath=None):
     before_res = ds.annotate_paths(subdspath, recursive=True,
                                    unavailable_path_status='error')
     assert_result_count(before_res, 3, status='', type='dataset')
-    uninstall_res = ds.uninstall(subdspath, recursive=True, check=False)
+    uninstall_res = ds.drop(subdspath, recursive=True, reckless='availability', what='all')
     assert_in_results(uninstall_res, status='ok', type='dataset')
     # after
     after_res = ds.annotate_paths(subdspath,
@@ -335,7 +335,7 @@ def test_get_modified_subpaths(path=None):
     assert_result_count(res, 0)
 
     # deal with removal (force insufiicient copies error)
-    ds.remove(suba.path, check=False)
+    ds.remove(suba.path, reckless='availability')
     assert_repo_status(path)
     res = list(get_modified_subpaths([dict(path=ds.path)], ds, 'HEAD~1..HEAD'))
     # removed submodule + .gitmodules update
@@ -373,11 +373,11 @@ def test_recurseinto(dspath=None, dest=None):
                         path=opj(dest, 'b', 'bb'))
     assert_not_in(
         opj(dest, 'b', 'bb'),
-        Dataset(dest).subdatasets(fulfilled=True, result_xfm='paths'))
+        Dataset(dest).subdatasets(state='present', result_xfm='paths'))
     assert(not Dataset(opj(dest, 'b', 'bb')).is_installed())
 
     # cleanup
-    Dataset(dest).remove(recursive=True)
+    Dataset(dest).remove()
     assert(not lexists(dest))
     # again but just clone the base, and then get content and grab 'bb'
     # explicitly -- must get it installed

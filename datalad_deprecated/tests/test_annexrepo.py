@@ -12,6 +12,8 @@
 
 from os.path import join as opj
 
+import pytest
+
 from datalad.support.annexrepo import AnnexRepo
 
 from datalad.tests.utils_pytest import (
@@ -22,6 +24,9 @@ from datalad.tests.utils_pytest import (
 )
 
 
+@pytest.mark.filterwarnings(
+    "ignore:.*add_submodule.*is deprecated:DeprecationWarning"
+)
 @skip_if_adjusted_branch
 @with_tempfile
 @with_tempfile

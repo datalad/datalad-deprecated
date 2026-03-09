@@ -28,10 +28,8 @@ from typing import (
 from datalad import cfg
 from datalad.interface.base import Interface
 from datalad.interface.results import get_status_dict
-from datalad.interface.utils import (
-    eval_results,
-    generic_result_renderer,
-)
+from datalad.interface.base import eval_results
+from datalad.interface.utils import generic_result_renderer
 from datalad.interface.base import build_doc
 from datalad.support.collections import ReadOnlyDict, _val2hashable
 from datalad.support.constraints import (

@@ -11,7 +11,6 @@
 """
 
 import logging
-
 import os.path as op
 
 import pytest
@@ -35,6 +34,12 @@ from datalad.tests.utils_pytest import (
 from datalad.support.gitrepo import GitRepo
 from datalad.support.exceptions import (
     CommandError,
+)
+
+# Tests in this module exercise the deprecated GitRepo.{add,deinit,update}_submodule()
+# methods defined in datalad_deprecated/gitrepo.py — suppress their expected warnings
+pytestmark = pytest.mark.filterwarnings(
+    "ignore:GitRepo\\..*_submodule\\(\\) is deprecated:DeprecationWarning"
 )
 
 

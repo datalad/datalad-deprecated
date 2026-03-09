@@ -24,10 +24,8 @@ import shutil
 import datalad
 from datalad.consts import DATASET_CONFIG_FILE
 from datalad.interface.base import Interface
-from datalad.interface.utils import (
-    eval_results,
-    discover_dataset_trace_to_targets,
-)
+from datalad.interface.base import eval_results
+from datalad.interface.utils import discover_dataset_trace_to_targets
 from datalad.core.local.save import Save
 from datalad.interface.base import build_doc
 from datalad.interface.common_opts import (

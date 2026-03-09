@@ -12,6 +12,7 @@
 
 import logging
 import re
+import warnings
 from collections import OrderedDict
 from os.path import join as opj
 
@@ -212,13 +213,18 @@ def _publish_data(ds, remote, paths, annex_copy_options, force, transfer_data, *
         annex_copy_options_ += ' --fast'
     # TODO this things needs to return JSON
     ncopied = 0
-    for r in ds.repo.copy_to(
+    # suppress copy_to deprecation — publish itself is already deprecated
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", message=".*copy_to.*deprecated",
+                                category=DeprecationWarning)
+        copy_to_iter = ds.repo.copy_to(
             files=[p for p in paths
                    # TODO we may have to check for any file in Git, but this one can
                    # easily happen with --since
                    if not p == opj(ds.path, '.gitmodules')],
             remote=remote,
-            options=annex_copy_options_):
+            options=annex_copy_options_)
+    for r in copy_to_iter:
         ncopied += 1
         # TODO RF to have copy_to() yield JSON and convert that one
         # at present only the "good" results come out
