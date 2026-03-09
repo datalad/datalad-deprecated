@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>DataLad WebUI Test</title>
-    <link rel="stylesheet" href="qunit/qunit-2.0.1.css">
+    <link rel="stylesheet" href="qunit/qunit-2.25.0.css">
   </head>
   <body>
     <div id="qunit"></div>
@@ -14,9 +14,8 @@
     <script src="../assets/js/md5-2.3.0.js"></script>
     <script src="../assets/js/showdown-1.8.5-33-g0c6ce94.js"></script>
     <script src="../assets/js/main.js"></script>
+    <script src="qunit/qunit-2.25.0.js"></script>
     <script src="qunit/sinon-1.17.5.js"></script>
-    <script src="qunit/sinon-qunit-1.0.0.js"></script>
-    <script src="qunit/qunit-2.0.1.js"></script>
     <script>
       QUnit.test("Parent URL", function(assert) {
           assert.equal(parentUrl('root/child'), 'root/');
