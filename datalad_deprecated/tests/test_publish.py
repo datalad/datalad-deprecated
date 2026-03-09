@@ -528,7 +528,7 @@ def test_publish_with_data(origin=None, src_path=None, dst_path=None, sub1_pub=N
     assert_result_count(res, 1, status='notneeded')
 
     import glob
-    res = publish(dataset=source, to="target", path=glob.glob1(source.path, '*'))
+    res = publish(dataset=source, to="target", path=glob.glob('*', root_dir=source.path))
     # Note: This leads to recursive publishing, since expansion of '*'
     #       contains the submodules themselves in this setup
 
