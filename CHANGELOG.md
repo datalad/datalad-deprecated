@@ -1,3 +1,15 @@
+# 1.0.1 (Mon Mar 09 2026)
+
+#### 🐛 Bug Fix
+
+- Fix deprecated API usage and versioneer.py for Python 3.12+ [#94](https://github.com/datalad/datalad-deprecated/pull/94) ([@yarikoptic](https://github.com/yarikoptic))
+
+#### Authors: 1
+
+- Yaroslav Halchenko ([@yarikoptic](https://github.com/yarikoptic))
+
+---
+
 # 1.0.0 (Wed Dec 10 2025)
 
 #### 💥 Breaking Change
